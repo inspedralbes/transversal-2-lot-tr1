@@ -15,10 +15,11 @@ return new class extends Migration
     {
         Schema::create('games', function (Blueprint $table) {
             $table->id();
+
             $table->date('data');
             $table->enum('difficulty', ['1', '2', '3']);
             $table->json('json');
-            $table->foreign('userCreator')->references('id')->on('user')->onDelete('cascade');
+            $table->foreignId('iduser')->references('id')->on('users');
             $table->timestamps();
         });
     }

@@ -14,16 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('challenge', function (Blueprint $table) {
-            $table->integer('idChallenger')->unsigned();
-            $table->integer('idChallenged')->unsigned();
-            $table->integer('idGame')->unsigned();
-
+            $table->biginteger('idChallenger')->unsigned()->index();
+            $table->biginteger('idChallenged')->unsigned();
+            $table->biginteger('idGame')->unsigned();
             $table->primary(['idChallenger','idChallenged','idGame']);
             $table->enum('seen',['0','1']);
             $table->integer('winner');
-            $table->foreign('idChallenger')->references('id')->on('user')->onDelete('cascade');
-            $table->foreign('idChallenged')->references('id')->on('user')->onDelete('cascade');
-            $table->foreign('idGame')->references('id')->on('game')->onDelete('cascade');
+            $table->foreign('idChallenger')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('idChallenged')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('idGame')->references('id')->on('games')->onDelete('cascade');
+            
             $table->timestamps();
         });
     
