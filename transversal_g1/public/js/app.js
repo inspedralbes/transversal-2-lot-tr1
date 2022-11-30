@@ -57,7 +57,7 @@ const home = Vue.component('home', {
     <button ><router-link to="/"> 🏠</router-link></button>
     <login></login>
     <h1>TRIVIAL</h1>
-    <button ><router-link to="/opcions">Jugar</router-link></button>
+    <button ><router-link to="/partida">Jugar</router-link></button>
     </div>`,
     data: function () {
         return {}
@@ -65,18 +65,20 @@ const home = Vue.component('home', {
     methods: {}
 })
 
-const opcions = Vue.component('opcions', {
+const partida = Vue.component('opcions', {
     data: function () {
         return {
-            categoria: '',
-            dificultat: '',
-            preguntesRespostes: []
-        }
+        categoria: '', 
+        dificultat: '', 
+        preguntesRespostes: [],
+        opcionsTriades: false,
+    }
     },
     template: `<div>
     <button ><router-link to="/"> 🏠 </router-link></button>
+    
+    <div v-show="!opcionsTriades">
     <h1>Tria les opcions del joc:</h1>
-
     <select v-model="dificultat">
         <option disabled value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
@@ -90,43 +92,49 @@ const opcions = Vue.component('opcions', {
         <option value="sport_and_leisure">Esports</option>
     </select>
     <br><br>
-    <router-link to="/partida"><button @click="buscarQuiz"> Comença </button></router-link>
-    
+    <button @click="buscarQuiz"> Comença </button>
+    </div>
+
+    <div v-show="opcionsTriades">
+    <a></a>
+    <b-col md="3" v-for="preg in preguntesRespostes"> 
+        <pregunta :infoPreguntas=preg></pregunta>
+    </b-col>
+    </div>
     </div>`,
     methods: {
-        buscarQuiz: function () {
-            fetch("https://the-trivia-api.com/api/questions?categories="+ this.categoria +"&limit=10&difficulty=" + this.dificultat).then(response => response.json()).then(data => {
-                console.log(data);
+        buscarQuiz: async function () {
+            await fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then(response => response.json()).then(data => {
+                this.preguntesRespostes = data;
             });
+            this.opcionsTriades = true;
         }
     }
 })
 
-const partida = Vue.component('partida', {
-    template: `<div>
-    <button ><router-link to="/"> 🏠 </router-link></button>
-    <preguntes></preguntes>
-    </div>`,
+Vue.component('pregunta', {
+    props: ['infoPreguntas'],
     data: function () {
-        return {}
+        return {
+            preguntasOrdenadas: [],
+            preguntasDesordenadas: [],
+        }
     },
-    methods: {}
-})
-
-Vue.component('preguntes', {
+    mounted() {
+        this.preguntasOrdenadas = [this.infoPreguntas.correctAnswer, this.infoPreguntas.incorrectAnswers[0], this.infoPreguntas.incorrectAnswers[1], this.infoPreguntas.incorrectAnswers[2]];
+        this.preguntasDesordenadas = preguntasOrdenadas.sort((a, b) => 0.5 - Math.random());
+    },
     template: `<div>
-    <h1>Pregunta</h1>
-    <button>Resposta 1</button>
-    <button>Resposta 2</button> <br>
-    <button>Resposta 3</button>
-    <button>Resposta 4</button>
+    <h1>{{ infoPreguntas.question }}</h1>
+    <button id="0" @click="respostaCorrecte">{{ preguntasDesordenadas[0] }}</button>
+    <button id="1" @click="respostaCorrecte">{{ preguntasDesordenadas[1] }}</button> <br>
+    <button id="2" @click="respostaCorrecte">{{ preguntasDesordenadas[2] }}</button>
+    <button id="3" @click="respostaCorrecte">{{ preguntasDesordenadas[3] }}</button>
     </div>`,
-    data: function () {
-        return {}
-    },
-    methods: {}
+    methods: {
+        
+    }
 })
-
 
 
 const routes = [
@@ -134,11 +142,8 @@ const routes = [
         path: '/',
         component: home
     }, {
-        path: '/opcions',
-        component: opcions
-    }, {
         path: '/partida',
-        component: partida
+        component: partida,
     }
 ]
 
