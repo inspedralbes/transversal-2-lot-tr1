@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('puntuacions', function (Blueprint $table) {
             $table->biginteger('idUser')->unsigned();
             $table->biginteger('idGame')->unsigned()->index();
+            $table->integer('puntuacio');
             $table->primary(['idGame','idUser']);
             $table->foreign('idUser')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('idGame')->references('id')->on('games')->onDelete('cascade');

@@ -10,11 +10,12 @@ class GameControlloer extends Controller
     {
         $game= new game;
 
-        $user->id=$request->id;
-        $user->data=$request->data;
+        $user->id;
+
         $user->difficulty=$request->difficulty;
+        $user->category=$request->category;
         $user->json=$request->json;
-        $user->iduser=$request->iduser;
+        $user->iduser=1;
         $user->store();
 
         //
