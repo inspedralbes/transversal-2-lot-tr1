@@ -14,7 +14,7 @@ class GameController extends Controller
 
         $game->id;
         $game->difficulty=$dadesFetch->difficulty;
-        $game->category=$dadesFetch->category;
+
         $game->json=$dadesFetch->json;
         $game->iduser=1;
         $game->save();
