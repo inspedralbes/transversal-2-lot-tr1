@@ -16,3 +16,4 @@ use Illuminate\Support\Facades\Route;
 Route::get('/store-game', function () {
     return view('welcome');
 });
+
