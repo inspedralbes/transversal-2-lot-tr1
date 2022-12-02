@@ -13,7 +13,5 @@ use App\Http\Controllers\GameController;
 |
 */
 
-Route::get('/store-game', function () {
-    return view('welcome');
-});
+
 
