@@ -178,7 +178,7 @@ Vue.component('pregunta', {
             enviar.append('category', this.infoPreguntas.category);
             enviar.append('json', this.infoPreguntas);
 
-            fetch('../transversal_g1/public/api/store-games', {
+            fetch('../transversal_g1/public/api/store-game', {
                 method: 'POST',
                 body: enviar
             });
