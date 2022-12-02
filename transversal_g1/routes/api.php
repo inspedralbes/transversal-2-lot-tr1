@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-//use App\Http\Controllers\GameController;
+use App\Http\Controllers\GameController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -18,4 +18,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('store-game', [GameController::class, 'store']);
+Route::post('/store-game', [GameController::class, 'store']);
