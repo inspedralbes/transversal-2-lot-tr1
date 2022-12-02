@@ -18,7 +18,7 @@ return new class extends Migration
 
 
             $table->enum('difficulty', ['1', '2', '3']);
-            $table->json('json');
+            $table->json('json')->;
             $table->string('categoria');
             $table->foreignId('iduser')->references('id')->on('users');
             $table->timestamps();
