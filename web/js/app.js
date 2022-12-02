@@ -75,7 +75,8 @@ const partida = Vue.component('opcions', {
             preguntaActual: 0,
             dadesPartida: {
                 punts: 0,
-                tempsPartida: 0
+                tempsPartida: 0,
+                acabada: false
             }
         }
     },
@@ -105,7 +106,10 @@ const partida = Vue.component('opcions', {
     <b-col md="3" v-for="(preg, index) in preguntesRespostes"> 
         <pregunta @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
-    <b-button @click="addGame"></b-button>
+    <div v-if="preguntaActual == 10">
+        <h1>Has encertat {{dadesPartida.punts}}/10</h1>
+        <b-button @click="addGame">Guardar partida</b-button>
+    </div>
     </div>
     </div>`,
     methods: {
@@ -134,7 +138,7 @@ const partida = Vue.component('opcions', {
                 method: 'POST',
                 body: enviar
             });
-        },
+        }
     }
 })
 
@@ -199,7 +203,6 @@ Vue.component('pregunta', {
                     this.$emit('next-question')
                 }, 2000)
             }
-            
 
 
         },
