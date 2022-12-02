@@ -103,7 +103,7 @@ const partida = Vue.component('opcions', {
 
     <div v-show="opcionsTriades">
     <a></a>
-    <b-col md="3" v-for="(preg, index) in preguntesRespostes"> 
+    <b-col v-for="(preg, index) in preguntesRespostes"> 
         <pregunta @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     <div v-if="preguntaActual == 10">
