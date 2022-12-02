@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\models\game;
+use App\Models\game;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
