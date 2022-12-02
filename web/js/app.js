@@ -126,8 +126,7 @@ const partida = Vue.component('opcions', {
                 case "hard": numDificultat = 3;
                     break;
             }
-
-            enviar.append('diffuculty', numDificultat);
+            enviar.append('difficulty', numDificultat);
             enviar.append('category', this.preguntesRespostes[0].category);
             enviar.append('json', JSON.stringify(this.preguntesRespostes));
 
