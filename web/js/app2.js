@@ -137,7 +137,7 @@ Vue.component('pregunta', {
     <b-button :variant="b1" @click="respostaCorrecte(1)">{{ respostesDesordenades[1] }}</b-button> <br>
     <b-button :variant="b2" @click="respostaCorrecte(2)">{{ respostesDesordenades[2] }}</b-button>
     <b-button :variant="b3" @click="respostaCorrecte(3)">{{ respostesDesordenades[3] }}</b-button>
-    <b-button @click="addgame()">pinga</b-button>
+    <b-button @click="addgame">pinga</b-button>
     </div>`,
     methods: {
         respostaCorrecte: function (nRes) {
