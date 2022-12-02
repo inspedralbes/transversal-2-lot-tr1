@@ -67,7 +67,17 @@ const home = Vue.component('home', {
 
 const partida = Vue.component('opcions', {
     data: function () {
-        return {categoria: '', dificultat: '', preguntesRespostes: [], opcionsTriades: false}
+        return {
+            categoria: '',
+            dificultat: '',
+            preguntesRespostes: [],
+            opcionsTriades: false,
+            preguntaActual: 0,
+            dadesPartida: {
+                punts: 0,
+                tempsPartida: 0
+            }
+        }
     },
     template: `<div>
     <button ><router-link to="/"> 🏠 </router-link></button>
@@ -92,9 +102,10 @@ const partida = Vue.component('opcions', {
 
     <div v-show="opcionsTriades">
     <a></a>
-    <b-col md="3" v-for="preg in preguntesRespostes"> 
-        <pregunta :infoPreguntas=preg></pregunta>
+    <b-col md="3" v-for="(preg, index) in preguntesRespostes"> 
+        <pregunta @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
+    <b-button @click="addGame"></b-button>
     </div>
     </div>`,
     methods: {
@@ -103,12 +114,35 @@ const partida = Vue.component('opcions', {
                 this.preguntesRespostes = data;
             });
             this.opcionsTriades = true;
-        }
+        },
+        addGame: function () {
+            const enviar = new FormData();
+            var numDificultat = 0;
+            switch (this.preguntesRespostes[0].difficulty) {
+                case "easy": numDificultat = 1;
+                    break;
+                case "medium": numDificultat = 2;
+                    break;
+                case "hard": numDificultat = 3;
+                    break;
+            }
+
+            enviar.append('diffuculty', numDificultat);
+            enviar.append('category', this.preguntesRespostes[0].category);
+            enviar.append('json', JSON.stringify(this.preguntesRespostes));
+
+            fetch('../transversal_g1/public/api/store-game', {
+                method: 'POST',
+                body: enviar
+            });
+        },
     }
 })
 
 Vue.component('pregunta', {
-    props: ['infoPreguntas'],
+    props: [
+        'infoPreguntes', 'index', 'estatP'
+    ],
     data: function () {
         return {
             respostesOrdenades: [],
@@ -116,12 +150,13 @@ Vue.component('pregunta', {
             b0: "",
             b1: "",
             b2: "",
-            b3: "",
-        
+            b3: ""
         }
     },
     mounted() {
-        this.respostesOrdenades = [this.infoPreguntas.correctAnswer, this.infoPreguntas.incorrectAnswers[0], this.infoPreguntas.incorrectAnswers[1], this.infoPreguntas.incorrectAnswers[2]];
+        this.respostesOrdenades = [
+            this.infoPreguntes.correctAnswer, this.infoPreguntes.incorrectAnswers[0], this.infoPreguntes.incorrectAnswers[1], this.infoPreguntes.incorrectAnswers[2]
+        ];
         this.respostesDesordenades = this.respostesOrdenades;
 
         for (let i = this.respostesDesordenades.length - 1; i > 0; i--) {
@@ -129,73 +164,60 @@ Vue.component('pregunta', {
             const temp = this.respostesDesordenades[i];
             this.respostesDesordenades[i] = this.respostesDesordenades[j];
             this.respostesDesordenades[j] = temp;
-          }
+        }
     },
     template: `<div>
-    <h1>{{ infoPreguntas.question }}</h1>
+  
+    <h1>{{ infoPreguntes.question }}</h1>
     <b-button :variant="b0" @click="respostaCorrecte(0)">{{ respostesDesordenades[0] }}</b-button>
     <b-button :variant="b1" @click="respostaCorrecte(1)">{{ respostesDesordenades[1] }}</b-button> <br>
     <b-button :variant="b2" @click="respostaCorrecte(2)">{{ respostesDesordenades[2] }}</b-button>
     <b-button :variant="b3" @click="respostaCorrecte(3)">{{ respostesDesordenades[3] }}</b-button>
-    </div>`,
+   </div>`,
     methods: {
         respostaCorrecte: function (nRes) {
-            
-            if (this.respostesDesordenades[nRes] == this.infoPreguntas.correctAnswer) {
+            if (this.respostesDesordenades[nRes] == this.infoPreguntes.correctAnswer) {
                 this.buttonColors("success", nRes);
+                setTimeout(() => {
+                    this.$emit('sumaPunts')
+                    this.$emit('next-question')
+                }, 2000)
                 for (let i = 0; i < 4; i++) {
-                    if(i != nRes) {
+                    if (i != nRes) {
                         this.buttonColors("danger", i);
                     }
                 }
             } else {
                 for (let i = 0; i < 4; i++) {
-                    if(this.respostesDesordenades[i] !=  this.infoPreguntas.correctAnswer) {
+                    if (this.respostesDesordenades[i] != this.infoPreguntes.correctAnswer) {
                         this.buttonColors("danger", i);
-                    }else{
+                    } else {
                         this.buttonColors("success", i);
+
                     }
                 }
+                setTimeout(() => {
+                    this.$emit('next-question')
+                }, 2000)
             }
-        },
-        addGame: function() {
-            const enviar = new FormData();
-            var numDificultat = 0;
-            switch (this.infoPreguntas.difficulty) {
-                case "easy":
-                    numDificultat = 1;
-                break;
-                case "medium":
-                    numDificultat = 2;
-                break;
-                case "hard":
-                    numDificultat = 3;
-                break;
-            }
+            
 
-            enviar.append('diffuculty', numDificultat);
-            enviar.append('category', this.infoPreguntas.category);
-            enviar.append('json', this.infoPreguntas);
 
-            fetch('../transversal_g1/public/api/store-games', {
-                method: 'POST',
-                body: enviar
-            });
         },
-        buttonColors: function(color, nRes) {
+        buttonColors: function (color, nRes) {
             switch (nRes) {
                 case 0:
                     this.b0 = color;
-                break;
+                    break;
                 case 1:
                     this.b1 = color;
-                break;
+                    break;
                 case 2:
                     this.b2 = color;
-                break;
+                    break;
                 case 3:
                     this.b3 = color;
-                break;
+                    break;
             }
         }
     }
