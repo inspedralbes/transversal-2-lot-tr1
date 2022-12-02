@@ -8,15 +8,16 @@ class GameControlloer extends Controller
 {
     public function store(Request $request)
     {
+        $dadesFetch=$request;
+        json_decode($dadesFetch);
         $game= new game;
 
-        $user->id;
-
-        $user->difficulty=$request->difficulty;
-        $user->category=$request->category;
-        $user->json=$request->json;
-        $user->iduser=1;
-        $user->store();
+        $game->id;
+        $game->difficulty=$dadesFetch->difficulty;
+        $game->category=$dadesFetch->category;
+        $game->json=$dadesFetch->json;
+        $game->iduser=1;
+        $game->store();
 
         //
     }
