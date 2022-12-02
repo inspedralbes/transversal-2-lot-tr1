@@ -174,7 +174,7 @@ Vue.component('pregunta', {
                 break;
             }
 
-            enviar.append('diffuculty', numDificultat);
+            enviar.append('difficulty', numDificultat);
             enviar.append('category', this.infoPreguntas.category);
             enviar.append('json', this.infoPreguntas);
 
