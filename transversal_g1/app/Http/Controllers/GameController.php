@@ -10,7 +10,7 @@ class GameController extends Controller
     {
         $dadesFetch=$request;
         json_decode($dadesFetch);
-        $game= new game();
+        $game=new game();
 
         $game->id;
         $game->difficulty=$dadesFetch->difficulty;
