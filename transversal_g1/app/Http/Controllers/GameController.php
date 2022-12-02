@@ -14,7 +14,7 @@ class GameController extends Controller
 
         $game->id;
         $game->difficulty=$request->difficulty;
-        $game->categoria="Literatura";
+        $game->categoria=$request->category;
         $game->json=json_encode($request->json);
         $game->iduser=1;
         $game->save();
