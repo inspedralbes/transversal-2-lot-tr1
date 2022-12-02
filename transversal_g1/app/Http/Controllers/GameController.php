@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\game;
 use Illuminate\Http\Request;
 
 class GameController extends Controller
@@ -10,7 +10,7 @@ class GameController extends Controller
     {
         $dadesFetch=$request;
         json_decode($dadesFetch);
-        $game=new game();
+        $game=new game;
 
         $game->id;
         $game->difficulty=$dadesFetch->difficulty;
