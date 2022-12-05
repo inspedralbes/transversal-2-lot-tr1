@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\ValidationException;
+
 class UserController extends Controller
 {
     public function store(Request $request)
@@ -25,7 +28,20 @@ class UserController extends Controller
     }
     public function login(Request $request)
     {
-        $user=new user;
-        
+        $request->validate([
+            'email' => ['required', 'email'],
+            'password' => ['required']
+        ]);
+
+        if (Auth::attempt($request->only('email', 'password'))){
+            return response()->json(Auth::user(), 200);
+        }
+        throw ValidationException::withMessages([
+            'email' =>['The provided credentials are incorect.']
+        ]);
+    }
+    public function logout()
+    {
+        Auth::logout();
     }
 }
