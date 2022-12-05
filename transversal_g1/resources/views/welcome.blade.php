@@ -27,7 +27,7 @@
 </head>
 
 <body>
-    <h1>´Hola guapo</h1>
+    <h1>Hola guapo</h1>
     <div id="app">
         <router-link to="/"></router-link>
 
