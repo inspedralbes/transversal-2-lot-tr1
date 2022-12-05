@@ -52,8 +52,49 @@ Vue.component('login', {
     }
 })
 
+Vue.component('navbar', {
+    template: `<div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./index.html"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">
+                            <button type="button" class="btn btn-outline-secondary">Home</button></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="jugar.html"><button type="button"
+                                class="btn btn-outline-secondary">Jugar</button></a></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ranking.html"><button type="button"
+                                class="btn btn-outline-secondary">Ranking</button></a></a>
+
+                    </li>
+
+                </ul>
+                <form class="d-flex"><a href="profile.html">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login/Signup</button></a>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>`,
+    data: function () {
+        return {}
+    },
+    methods: {}
+})
+
 const home = Vue.component('home', {
     template: `<div>
+    <navbar></navbar>
     <button ><router-link to="/"> 🏠</router-link></button>
     <login></login>
     <h1>TRIVIAL</h1>
