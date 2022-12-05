@@ -281,39 +281,12 @@ const routes = [
         component: partida
     }
 ]
-const userStore = Pinia.defineStore('usuario', {
-    state() {
-        return {
-            logged: false,
-            loginInfo: {
-                success: true,
-                name: 'Nombre del almacen',
-                image: '',
-                idUser: ''
-            }
-        }
-    },
-    actions: {
-        setEstado(i) {
-            this.loginInfo = i
-        }
-    }
-})
 
 const router = new VueRouter({routes})
-Vue.use(Pinia.PiniaVuePlugin)
-const pinia = Pinia.createPinia()
+
 Vue.use(BootstrapVue)
 let app = new Vue({
     el: '#app', router,
-    pinia,
-    data: {
-
-    },
-    computed: {
-        ...Pinia.mapState(userStore, ['loginInfo', 'logged'])
-    },
-    methods: {
-        ...Pinia.mapActions(userStore, ['setEstado'])
-    }
+    // pinia,
+    data: {}
 });
