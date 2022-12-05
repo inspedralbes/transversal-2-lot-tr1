@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Models\puntuacio;
+use App\Models\puntuacions;
 use Illuminate\Http\Request;
 
 class PuntuacioController extends Controller
@@ -10,7 +10,7 @@ class PuntuacioController extends Controller
     {
 
 
-        $puntuacions=new puntuacio;
+        $puntuacions=new puntuacions;
 
         $puntuacions->idUser=$request->idUser;
         $puntuacions->idGame=$request->idGame;
