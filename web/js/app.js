@@ -123,7 +123,7 @@ const partida = Vue.component('opcions', {
     },
     template: `<div>
     <button ><router-link to="/"> 🏠 </router-link></button>
-    
+    <navbar></navbar>
     <div v-show="!opcionsTriades">
     <h1>Tria les opcions del joc:</h1>
     <select v-model="dificultat">
