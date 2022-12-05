@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\UserController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,3 +19,4 @@ use App\Http\Controllers\GameController;
 
 
 Route::post('/store-game', [GameController::class , 'store']);
+Route::post('user-register',[UserController::class, 'store']);

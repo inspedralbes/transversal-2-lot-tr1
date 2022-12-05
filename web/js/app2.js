@@ -128,7 +128,7 @@ Vue.component('navbar', {
                     </li>
 
                 </ul>
-                <form class="d-flex"><a href="profile.html">
+                <form class="d-flex"><a href="#">
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login</button></a>
                     <button class="btn btn-secondary my-2 my-sm-0" type="submit">Signup</button></a>
                 </form>
