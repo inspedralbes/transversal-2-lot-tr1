@@ -96,7 +96,7 @@ const home = Vue.component('home', {
     template: `<div>
     <navbar></navbar>
     <button ><router-link to="/"> 🏠</router-link></button>
-    
+    <login></login>
     <h1>TRIVIAL</h1>
     <button ><router-link to="/partida">Jugar</router-link></button>
     </div>`,
