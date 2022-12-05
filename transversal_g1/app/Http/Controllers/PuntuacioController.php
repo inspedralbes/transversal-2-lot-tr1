@@ -10,12 +10,12 @@ class PuntuacioController extends Controller
     {
 
 
-        $puntuacio=new puntuacio;
+        $puntuacions=new puntuacio;
 
-        $puntuacio->idUser=$request->idUser;
-        $puntuacio->idGame=$request->idGame;
-        $puntuacio->puntuacio=$request->puntuacio;
-        $puntuacio->save();
+        $puntuacions->idUser=$request->idUser;
+        $puntuacions->idGame=$request->idGame;
+        $puntuacions->puntuacio=$request->puntuacio;
+        $puntuacions->save();
 
         //
     }
