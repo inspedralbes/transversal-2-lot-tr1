@@ -230,10 +230,10 @@ const partida = Vue.component('opcions', {
                 method: 'POST',
                 body: enviar
             });
-            fetch('../transversal_g1/public/api/store-points', {
-                method: 'POST',
-                body: punts
-            })
+            // fetch('../transversal_g1/public/api/store-points', {
+            //     method: 'POST',
+            //     body: punts
+            // })
         }
     }
 })
