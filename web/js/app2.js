@@ -1,59 +1,100 @@
-Vue.component('login', {
+// Vue.component('login', {
+//     template: `<div>
+//     <div v-show="!logged">
+//     <b-form-input v-model="form.username" placeholder="Username" required></b-form-input>
+//     <b-form-input v-model="form.password" placeholder="Password" required></b-form-input>
+//     <b-button @click="submitLogin" variant="primary">Login</b-button>
+//     <div v-show="processing">
+//         <b-spinner></b-spinner>
+//     </div>
+//     </div>
+//     <div v-show="logged">
+//     Benvingut {{nameUser}} <img :src=imageUser> 
+//     <b-button @click="logOut" variant="primary">Logout</b-button>
+//     </div>
+//     </div>`,
+//     data: function () {
+//         return {
+//             nameUser: "",
+//             imageUser: "",
+//             form: {
+//                 username: "",
+//                 password: ""
+//             },
+//             logged: false,
+//             processing: false
+//         }
+//     },
+//     methods: {
+
+//         submitLogin() {
+//             this.processing = true;
+//             fetch(`http://alvaro.alumnes.inspedralbes.cat/loginGET.php?username=${
+//                 this.form.username
+//             }&pwd=${
+//                 this.form.password
+//             }`).then(response => response.json()).then(data => {
+//                 if (data.exito) {
+//                     this.nameUser = data.nombre;
+//                     this.imageUser = data.imagen;
+//                     this.logged = true;
+
+//                     store = userStore()
+//                     store.setEstado(this.infoLogin);
+//                     store.logged = true;
+//                 }
+//             })
+//         },
+//         logOut() {
+//             this.logged = false;
+//             this.processing = false;
+//         }
+//     }
+// })
+
+Vue.component('navbar', {
     template: `<div>
-    <div v-show="!logged">
-    <b-form-input v-model="form.username" placeholder="Username" required></b-form-input>
-    <b-form-input v-model="form.password" placeholder="Password" required></b-form-input>
-    <b-button @click="submitLogin" variant="primary">Login</b-button>
-    <div v-show="processing">
-        <b-spinner></b-spinner>
-    </div>
-    </div>
-    <div v-show="logged">
-    Benvingut {{nameUser}} <img :src=imageUser> 
-    <b-button @click="logOut" variant="primary">Logout</b-button>
-    </div>
-    </div>`,
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="./index.html"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarColor01">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">
+                            <button type="button" class="btn btn-outline-secondary">Home</button></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="jugar.html"><button type="button"
+                                class="btn btn-outline-secondary">Jugar</button></a></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ranking.html"><button type="button"
+                                class="btn btn-outline-secondary">Ranking</button></a></a>
+
+                    </li>
+
+                </ul>
+                <form class="d-flex"><a href="profile.html">
+                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login/Signup</button></a>
+                </form>
+            </div>
+        </div>
+    </nav>
+</div>`,
     data: function () {
-        return {
-            nameUser: "",
-            imageUser: "",
-            form: {
-                username: "",
-                password: ""
-            },
-            logged: false,
-            processing: false
-        }
+        return {}
     },
-    methods: {
-
-        submitLogin() {
-            this.processing = true;
-            fetch(`http://alvaro.alumnes.inspedralbes.cat/loginGET.php?username=${
-                this.form.username
-            }&pwd=${
-                this.form.password
-            }`).then(response => response.json()).then(data => {
-                if (data.exito) {
-                    this.nameUser = data.nombre;
-                    this.imageUser = data.imagen;
-                    this.logged = true;
-
-                    store = userStore()
-                    store.setEstado(this.infoLogin);
-                    store.logged = true;
-                }
-            })
-        },
-        logOut() {
-            this.logged = false;
-            this.processing = false;
-        }
-    }
+    methods: {}
 })
 
 const home = Vue.component('home', {
     template: `<div>
+    <navbar></navbar>
     <button ><router-link to="/"> 🏠</router-link></button>
     <login></login>
     <h1>TRIVIAL</h1>
@@ -67,7 +108,18 @@ const home = Vue.component('home', {
 
 const partida = Vue.component('opcions', {
     data: function () {
-        return {categoria: '', dificultat: '', preguntesRespostes: [], opcionsTriades: false}
+        return {
+            categoria: '',
+            dificultat: '',
+            preguntesRespostes: [],
+            opcionsTriades: false,
+            preguntaActual: 0,
+            dadesPartida: {
+                punts: 0,
+                tempsPartida: 0,
+                acabada: false
+            }
+        }
     },
     template: `<div>
     <button ><router-link to="/"> 🏠 </router-link></button>
@@ -92,9 +144,13 @@ const partida = Vue.component('opcions', {
 
     <div v-show="opcionsTriades">
     <a></a>
-    <b-col md="3" v-for="preg in preguntesRespostes"> 
-        <pregunta :infoPreguntas=preg></pregunta>
+    <b-col v-for="(preg, index) in preguntesRespostes"> 
+        <pregunta @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
+    <div v-if="preguntaActual == 10">
+        <h1>Has encertat {{dadesPartida.punts}}/10</h1>
+        <b-button @click="addGame">Guardar partida</b-button>
+    </div>
     </div>
     </div>`,
     methods: {
@@ -103,12 +159,39 @@ const partida = Vue.component('opcions', {
                 this.preguntesRespostes = data;
             });
             this.opcionsTriades = true;
+        },
+        addGame: function () {
+            const enviar = new FormData();
+            var numDificultat = 0;
+            switch (this.preguntesRespostes[0].difficulty) {
+                case "easy": numDificultat = 1;
+                    break;
+                case "medium": numDificultat = 2;
+                    break;
+                case "hard": numDificultat = 3;
+                    break;
+            }
+            enviar.append('difficulty', numDificultat);
+            enviar.append('category', this.preguntesRespostes[0].category);
+            enviar.append('json', JSON.stringify(this.preguntesRespostes));
+            const punts= new FormData();
+            punts.append('idUser',)
+            fetch('../transversal_g1/public/api/store-game', {
+                method: 'POST',
+                body: enviar
+            });
+            fetch('../transversal_g1/public/api/store-points',{
+                method:'POST',
+                body:punts  
+            })
         }
     }
 })
 
 Vue.component('pregunta', {
-    props: ['infoPreguntas'],
+    props: [
+        'infoPreguntes', 'index', 'estatP'
+    ],
     data: function () {
         return {
             respostesOrdenades: [],
@@ -116,12 +199,13 @@ Vue.component('pregunta', {
             b0: "",
             b1: "",
             b2: "",
-            b3: "",
-        
+            b3: ""
         }
     },
     mounted() {
-        this.respostesOrdenades = [this.infoPreguntas.correctAnswer, this.infoPreguntas.incorrectAnswers[0], this.infoPreguntas.incorrectAnswers[1], this.infoPreguntas.incorrectAnswers[2]];
+        this.respostesOrdenades = [
+            this.infoPreguntes.correctAnswer, this.infoPreguntes.incorrectAnswers[0], this.infoPreguntes.incorrectAnswers[1], this.infoPreguntes.incorrectAnswers[2]
+        ];
         this.respostesDesordenades = this.respostesOrdenades;
 
         for (let i = this.respostesDesordenades.length - 1; i > 0; i--) {
@@ -129,74 +213,59 @@ Vue.component('pregunta', {
             const temp = this.respostesDesordenades[i];
             this.respostesDesordenades[i] = this.respostesDesordenades[j];
             this.respostesDesordenades[j] = temp;
-          }
+        }
     },
     template: `<div>
-    <h1>{{ infoPreguntas.question }}</h1>
+  
+    <h1>{{ infoPreguntes.question }}</h1>
     <b-button :variant="b0" @click="respostaCorrecte(0)">{{ respostesDesordenades[0] }}</b-button>
     <b-button :variant="b1" @click="respostaCorrecte(1)">{{ respostesDesordenades[1] }}</b-button> <br>
     <b-button :variant="b2" @click="respostaCorrecte(2)">{{ respostesDesordenades[2] }}</b-button>
     <b-button :variant="b3" @click="respostaCorrecte(3)">{{ respostesDesordenades[3] }}</b-button>
-    <b-button @click="addGame">pinga</b-button>
-    </div>`,
+   </div>`,
     methods: {
         respostaCorrecte: function (nRes) {
-            
-            if (this.respostesDesordenades[nRes] == this.infoPreguntas.correctAnswer) {
+            if (this.respostesDesordenades[nRes] == this.infoPreguntes.correctAnswer) {
                 this.buttonColors("success", nRes);
+                setTimeout(() => {
+                    this.$emit('sumaPunts')
+                    this.$emit('next-question')
+                }, 2000)
                 for (let i = 0; i < 4; i++) {
-                    if(i != nRes) {
+                    if (i != nRes) {
                         this.buttonColors("danger", i);
                     }
                 }
             } else {
                 for (let i = 0; i < 4; i++) {
-                    if(this.respostesDesordenades[i] !=  this.infoPreguntas.correctAnswer) {
+                    if (this.respostesDesordenades[i] != this.infoPreguntes.correctAnswer) {
                         this.buttonColors("danger", i);
-                    }else{
+                    } else {
                         this.buttonColors("success", i);
+
                     }
                 }
-            }
-        },
-        addGame: function() {
-            const enviar = new FormData();
-            var numDificultat = 0;
-            switch (this.infoPreguntas.difficulty) {
-                case "easy":
-                    numDificultat = 1;
-                break;
-                case "medium":
-                    numDificultat = 2;
-                break;
-                case "hard":
-                    numDificultat = 3;
-                break;
+                setTimeout(() => {
+                    this.$emit('next-question')
+                }, 2000)
             }
 
-            enviar.append('difficulty', numDificultat);
-            enviar.append('category', this.infoPreguntas.category);
-            enviar.append('json', JSON.stringify(this.infoPreguntas));
 
-            fetch('../transversal_g1/public/api/store-game', {
-                method: 'POST',
-                body: enviar
-            });
         },
-        buttonColors: function(color, nRes) {
+        buttonColors: function (color, nRes) {
             switch (nRes) {
                 case 0:
                     this.b0 = color;
-                break;
+                    break;
                 case 1:
                     this.b1 = color;
-                break;
+                    break;
                 case 2:
                     this.b2 = color;
-                break;
+                    break;
                 case 3:
                     this.b3 = color;
-                break;
+                    break;
             }
         }
     }
@@ -213,11 +282,39 @@ const routes = [
     }
 ]
 
-const router = new VueRouter({routes})
+const userStore = Pinia.defineStore('usuario', {
+    state() {
+        return {
+            logged: false,
+            loginInfo: {
+                success: true,
+                name: 'Nombre del almacen',
+                image: '',
+                idUser: ''
+            }
+        }
+    },
+    actions: {
+        setEstado(i) {
+            this.loginInfo = i
+        }
+    }
+})
 
+const router = new VueRouter({routes})
+Vue.use(Pinia.PiniaVuePlugin)
+const pinia = Pinia.createPinia()
 Vue.use(BootstrapVue)
 let app = new Vue({
     el: '#app', router,
-    // pinia,
-    data: {}
+    pinia,
+    data: {
+
+    },
+    computed: {
+        ...Pinia.mapState(userStore, ['loginInfo', 'logged'])
+    },
+    methods: {
+        ...Pinia.mapActions(userStore, ['setEstado'])
+    }
 });
