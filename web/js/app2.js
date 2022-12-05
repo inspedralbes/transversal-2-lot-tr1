@@ -1,56 +1,56 @@
-// Vue.component('login', {
-//     template: `<div>
-//     <div v-show="!logged">
-//     <b-form-input v-model="form.username" placeholder="Username" required></b-form-input>
-//     <b-form-input v-model="form.password" placeholder="Password" required></b-form-input>
-//     <b-button @click="submitLogin" variant="primary">Login</b-button>
-//     <div v-show="processing">
-//         <b-spinner></b-spinner>
-//     </div>
-//     </div>
-//     <div v-show="logged">
-//     Benvingut {{nameUser}} <img :src=imageUser> 
-//     <b-button @click="logOut" variant="primary">Logout</b-button>
-//     </div>
-//     </div>`,
-//     data: function () {
-//         return {
-//             nameUser: "",
-//             imageUser: "",
-//             form: {
-//                 username: "",
-//                 password: ""
-//             },
-//             logged: false,
-//             processing: false
-//         }
-//     },
-//     methods: {
+Vue.component('login', {
+    template: `<div>
+    <div v-show="!logged">
+    <b-form-input v-model="form.username" placeholder="Username" required></b-form-input>
+    <b-form-input v-model="form.password" placeholder="Password" required></b-form-input>
+    <b-button @click="submitLogin" variant="primary">Login</b-button>
+    <div v-show="processing">
+        <b-spinner></b-spinner>
+    </div>
+    </div>
+    <div v-show="logged">
+    Benvingut {{nameUser}} <img :src=imageUser> 
+    <b-button @click="logOut" variant="primary">Logout</b-button>
+    </div>
+    </div>`,
+    data: function () {
+        return {
+            nameUser: "",
+            imageUser: "",
+            form: {
+                username: "",
+                password: ""
+            },
+            logged: false,
+            processing: false
+        }
+    },
+    methods: {
 
-//         submitLogin() {
-//             this.processing = true;
-//             fetch(`http://alvaro.alumnes.inspedralbes.cat/loginGET.php?username=${
-//                 this.form.username
-//             }&pwd=${
-//                 this.form.password
-//             }`).then(response => response.json()).then(data => {
-//                 if (data.exito) {
-//                     this.nameUser = data.nombre;
-//                     this.imageUser = data.imagen;
-//                     this.logged = true;
+        submitLogin() {
+            this.processing = true;
+            fetch(`http://alvaro.alumnes.inspedralbes.cat/loginGET.php?username=${
+                this.form.username
+            }&pwd=${
+                this.form.password
+            }`).then(response => response.json()).then(data => {
+                if (data.exito) {
+                    this.nameUser = data.nombre;
+                    this.imageUser = data.imagen;
+                    this.logged = true;
 
-//                     store = userStore()
-//                     store.setEstado(this.infoLogin);
-//                     store.logged = true;
-//                 }
-//             })
-//         },
-//         logOut() {
-//             this.logged = false;
-//             this.processing = false;
-//         }
-//     }
-// })
+                    store = userStore()
+                    store.setEstado(this.infoLogin);
+                    store.logged = true;
+                }
+            })
+        },
+        logOut() {
+            this.logged = false;
+            this.processing = false;
+        }
+    }
+})
 
 Vue.component('navbar', {
     template: `<div>
@@ -281,7 +281,6 @@ const routes = [
         component: partida
     }
 ]
-
 const userStore = Pinia.defineStore('usuario', {
     state() {
         return {
