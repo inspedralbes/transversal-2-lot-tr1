@@ -19,4 +19,4 @@ use App\Http\Controllers\UserController;
 
 
 Route::post('/store-game', [GameController::class , 'store']);
-Route::post('user-register',[UserController::class, 'store']);
+Route::post('/register-user',[UserController::class, 'store']);
