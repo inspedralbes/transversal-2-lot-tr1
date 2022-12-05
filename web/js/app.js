@@ -145,10 +145,11 @@ const partida = Vue.component('opcions', {
     <div v-show="opcionsTriades">
     <a></a>
     <b-col v-for="(preg, index) in preguntesRespostes"> 
-        <pregunta @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
+        <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     <div v-if="preguntaActual == 10">
         <h1>Has encertat {{dadesPartida.punts}}/10</h1>
+        <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
         <b-button @click="addGame">Guardar partida</b-button>
     </div>
     </div>
@@ -191,6 +192,8 @@ Vue.component('pregunta', {
         return {
             respostesOrdenades: [],
             respostesDesordenades: [],
+            respostaContestada: false,
+            segons: 15,
             b0: "",
             b1: "",
             b2: "",
@@ -211,7 +214,7 @@ Vue.component('pregunta', {
         }
     },
     template: `<div>
-  
+    <h1>{{ segons }}</h1>
     <h1>{{ infoPreguntes.question }}</h1>
     <b-button :variant="b0" @click="respostaCorrecte(0)">{{ respostesDesordenades[0] }}</b-button>
     <b-button :variant="b1" @click="respostaCorrecte(1)">{{ respostesDesordenades[1] }}</b-button> <br>
@@ -220,11 +223,12 @@ Vue.component('pregunta', {
    </div>`,
     methods: {
         respostaCorrecte: function (nRes) {
+            this.respostaContestada = true;
             if (this.respostesDesordenades[nRes] == this.infoPreguntes.correctAnswer) {
                 this.buttonColors("success", nRes);
                 setTimeout(() => {
-                    this.$emit('sumaPunts')
-                    this.$emit('next-question')
+                    this.$emit('sumaPunts');
+                    this.$emit('next-question');
                 }, 2000)
                 for (let i = 0; i < 4; i++) {
                     if (i != nRes) {
@@ -242,7 +246,7 @@ Vue.component('pregunta', {
                 }
                 setTimeout(() => {
                     this.$emit('next-question')
-                }, 2000)
+                }, 2000);
             }
 
 
@@ -262,7 +266,26 @@ Vue.component('pregunta', {
                     this.b3 = color;
                     break;
             }
+        },
+        countDownTimer () {
+            if (this.segons > 0 && this.respostaContestada == false) {
+                setTimeout(() => {
+                    this.segons -= 1;
+                    if(this.respostaContestada == true) {
+                        this.segons += 1;
+                        this.$emit('sumarTemps', (this.segons - 15) * -1)
+                    }
+                    this.countDownTimer()
+                }, 1000)
+            }
+            if(this.segons == 0) {
+                this.$emit('sumarTemps', (this.segons - 15) * -1)
+                this.$emit('next-question');
+            }
         }
+    },
+    created () {
+        this.countDownTimer()
     }
 })
 
