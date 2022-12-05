@@ -22,7 +22,7 @@ class UserController extends Controller
         $user->description	=$request->description	;
 
 
-        $user->store();
+        $user->save();
 
         //
     }
