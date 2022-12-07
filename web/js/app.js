@@ -27,7 +27,7 @@ Vue.component("register", {
     data() {
         return {
             form: {
-                name: "",
+                nickname: "",
                 email: "",
                 password: "",
                 descripcio: ""
