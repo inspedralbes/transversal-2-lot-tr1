@@ -112,13 +112,21 @@ Vue.component("navbar", {
        Inicia sessió
     </template>
     <div class="d-block text-center">
-      <login></login>
-      <a>No tens compte?</a>
+        <div v-show="!registrar">
+            <login></login>
+            <b-button @click="registrar = true">No tens compte?</b-button>
+        </div>
+        <div v-show="registrar">
+            <register></register>
+            <b-button @click="registrar = false">Ja tens compte?</b-button>
+        </div>
     </div>
   </b-modal>
 </div>`,
     data: function () {
-        return {};
+        return {
+            registrar: false
+        };
     },
     methods: {}
 });
