@@ -13,7 +13,7 @@ class UserController extends Controller
     public function store(Request $request)
     {
         
-        $user= new user;
+        $user= new user();
 
         
         $user->nickname=$request->nickname;
