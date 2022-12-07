@@ -38,7 +38,7 @@ Vue.component("register", {
             enviar.append('email', this.form.email);
             enviar.append('password', this.form.password);
             enviar.append('descripcio', this.form.descripcio);
-            
+
             fetch("../transversal_g1/public/api/register-user", {
                 method: "POST",
                 body: enviar
@@ -59,15 +59,18 @@ Vue.component("login", {
             form: {
                 email: "",
                 password: ""
-            },
+            }
         };
     },
     methods: {
         submitLogin() {
+            const enviar = new FormData();
+            enviar.append('email', this.form.email);
+            enviar.append('password', this.form.password);
 
             fetch("../transversal_g1/public/api/login", {
                 method: "POST",
-                body: JSON.stringify(this.form)
+                body: enviar
             }).then(response => response.json()).then((data) => console.log(data));
         }
     }
@@ -124,9 +127,7 @@ Vue.component("navbar", {
   </b-modal>
 </div>`,
     data: function () {
-        return {
-            registrar: false
-        };
+        return {registrar: false};
     },
     methods: {}
 });
