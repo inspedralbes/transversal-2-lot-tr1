@@ -53,12 +53,10 @@ Vue.component("login", {
     <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Inicia sessió</h1></div>
     <b-form-input v-model="form.email" placeholder="Correu electrònic" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Contrasenya" required></b-form-input>
-    <b-button @dadesUsuari="(d) => dadesUsuari = d" @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
-    <h1>{{ dadesUsuari.nickname }}</h1>
+    <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
     </div>`,
     data: function () {
         return {
-            dadesUsuari: {},
             form: {
                 email: "",
                 password: ""
@@ -127,8 +125,10 @@ Vue.component("navbar", {
     </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
-            <login></login>
+            <login @dadesUsuari="(d) => dadesUsuari = d"></login>
+            <h1>{{dadesUsuari}}</h1>
             <b-button @click="registrar = true">No tens compte?</b-button>
+
         </div>
         <div v-show="registrar">
             <register></register>
@@ -138,7 +138,7 @@ Vue.component("navbar", {
   </b-modal>
 </div>`,
     data: function () {
-        return {registrar: false, iniciat: false};
+        return {registrar: false, iniciat: false, dadesUsuari: {}};
     },
     methods: {}
 });
