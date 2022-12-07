@@ -50,9 +50,10 @@ Vue.component("register", {
 });
 Vue.component("login", {
     template: `<div>
+    <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Inicia sessió</h1></div>
     <b-form-input v-model="form.email" placeholder="Correu electrònic" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Contrasenya" required></b-form-input>
-    <b-button @click="submitLogin" variant="primary">Login</b-button>
+    <b-button @click="submitLogin, $bvModal.hide('login')" variant="primary">Login</b-button>
     </div>`,
     data: function () {
         return {
@@ -110,7 +111,7 @@ Vue.component("navbar", {
         </div>
     </nav>
 
-    <b-modal id="login" hide-footer>
+    <b-modal id="login" hide-footer hide-header>
     <template #modal-title>
        Inicia sessió
     </template>
