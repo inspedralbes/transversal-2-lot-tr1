@@ -114,7 +114,7 @@ Vue.component("navbar", {
                         <button v-b-modal.login block @dadesUsuari @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
                     </div>
                     <div v-show="iniciat">
-                        <h2>Benvingut usuari<h2>
+                        <h2>Benvingut usuari</h2>
                     </div>
                 </form>
             </div>
