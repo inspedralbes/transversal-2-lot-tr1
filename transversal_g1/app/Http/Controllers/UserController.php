@@ -28,6 +28,7 @@ class UserController extends Controller
     }
     public function login(Request $request)
     {
+
         $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
@@ -39,6 +40,7 @@ class UserController extends Controller
         throw ValidationException::withMessages([
             'email' =>['The provided credentials are incorect.']
         ]);
+
     }
     public function logout()
     {
