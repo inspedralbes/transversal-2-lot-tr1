@@ -76,8 +76,8 @@ Vue.component("login", {
             .then((data) => {
                 console.log(data);
                 this.$emit("dadesUsuari", data);
-            }).catch((error) => {
-                console.error('Error:', error);
+            }).catch(() => {
+                console.error('Error:');
                 this.$emit("evtDadesUsuari", "hola");
               });
         }
