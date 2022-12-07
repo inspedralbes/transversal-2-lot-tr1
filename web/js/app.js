@@ -40,8 +40,10 @@ Vue.component("register", {
             fetch("../transversal_g1/public/api/register-user", {
                 method: "POST",
                 body: this.form
-            }).then(() => {
-                console.log("saved");
+            }).then(response => response.json()).then(data => {
+                if(data.exito) {
+                    console.log(data);
+                }
             });
         }
     }
