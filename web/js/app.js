@@ -72,10 +72,13 @@ Vue.component("login", {
             fetch("../transversal_g1/public/api/login", {
                 method: "POST",
                 body: enviar
-            }).then(response => response.json()).then((data) => {
+            }).then(response => response.json())
+            .then((data) => {
                 console.log(data)
                 this.$emit("dadesUsuari", data)
-            });
+            }).catch((error) => {
+                console.error('Error:', error);
+              });;
         }
     }
 });
