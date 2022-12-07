@@ -109,7 +109,7 @@ Vue.component("navbar", {
                 </ul>
                 <form class="d-flex">
                     <div v-show="!iniciat">
-                        <button v-b-modal.login block @dadesUsuari @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                        <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
                     </div>
                     <div v-show="iniciat">
                         <h2>Benvingut usuari</h2>
@@ -126,7 +126,7 @@ Vue.component("navbar", {
     <div class="d-block text-center">
         <div v-show="!registrar">
             <login @dadesUsuari="(d) => dadesUsuari = d"></login>
-            <h1>{{dadesUsuari}}</h1>
+            <h1>{{dadesUsuari.nickname}}</h1>
             <b-button @click="registrar = true">No tens compte?</b-button>
 
         </div>
