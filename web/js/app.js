@@ -38,7 +38,7 @@ Vue.component("register", {
             enviar.append('email', this.form.email);
             enviar.append('password', this.form.password);
             enviar.append('descripcio', this.form.descripcio);
-            
+
             fetch("../transversal_g1/public/api/register-user", {
                 method: "POST",
                 body: enviar
@@ -50,25 +50,32 @@ Vue.component("register", {
 });
 Vue.component("login", {
     template: `<div>
+    <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Inicia sessió</h1></div>
     <b-form-input v-model="form.email" placeholder="Correu electrònic" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Contrasenya" required></b-form-input>
-    <b-button @click="submitLogin" variant="primary">Login</b-button>
+    <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
     </div>`,
     data: function () {
         return {
             form: {
                 email: "",
                 password: ""
-            },
+            }
         };
     },
     methods: {
         submitLogin() {
+            const enviar = new FormData();
+            enviar.append('email', this.form.email);
+            enviar.append('password', this.form.password);
 
             fetch("../transversal_g1/public/api/login", {
                 method: "POST",
-                body: JSON.stringify(this.form)
-            }).then(response => response.json()).then((data) => console.log(data));
+                body: enviar
+            }).then(response => response.json()).then((data) => {
+                console.log(data)
+                this.$emit("dadesUsuari", data)
+            });
         }
     }
 });
@@ -101,20 +108,26 @@ Vue.component("navbar", {
 
                 </ul>
                 <form class="d-flex">
-                    <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                    <div v-show="!iniciat">
+                        <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                    </div>
+                    <div v-show="iniciat">
+                        <h2>Benvingut usuari</h2>
+                    </div>
                 </form>
             </div>
         </div>
     </nav>
 
-    <b-modal id="login" hide-footer>
+    <b-modal id="login" hide-footer hide-header>
     <template #modal-title>
        Inicia sessió
     </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
-            <login></login>
+            <login @dadesUsuari="(d) => dadesUsuari = d"></login>
             <b-button @click="registrar = true">No tens compte?</b-button>
+
         </div>
         <div v-show="registrar">
             <register></register>
@@ -124,9 +137,7 @@ Vue.component("navbar", {
   </b-modal>
 </div>`,
     data: function () {
-        return {
-            registrar: false
-        };
+        return {registrar: false, iniciat: false, dadesUsuari: {}};
     },
     methods: {}
 });
