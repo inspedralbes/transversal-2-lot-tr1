@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\ValidationException;
 
 class UserController extends Controller
@@ -30,8 +31,10 @@ class UserController extends Controller
     {
 
         $request->validate([
-            'email' => ['required', 'email'],
-            'password' => ['required']
+            'name' =>'required|min:4|string|max:255',
+            'email'=>'required|email|string|max:255',
+            'password'=>'required|min:8|',
+            
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))){
@@ -46,4 +49,18 @@ class UserController extends Controller
     {
         Auth::logout();
     }
+    public function profileUpdate(Request $request){
+        //validation rules
+
+        $request->validate([
+            'name' =>'required|min:4|string|max:255',
+            'email'=>'required|email|string|max:255'
+        ]);
+        $user = user::find($request->id);
+        $user->nickname=$request->nickname;
+        $user->email=$request->email;
+        $user->password=Hash::make($request->password);
+        $user->description=$request->description;
+        $user->save();
+}
 }
