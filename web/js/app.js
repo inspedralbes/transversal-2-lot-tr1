@@ -58,7 +58,7 @@ Vue.component("login", {
     </div>`,
     data: function () {
         return {
-            dadesUsuari: {},
+            dadesUsuari: "",
             form: {
                 email: "",
                 password: ""
