@@ -76,7 +76,7 @@ Vue.component("login", {
                 body: enviar
             }).then(response => response.json()
             ).then((data) => 
-                console.log(data);    
+                console.log(data)  
             //this.$emit("dadesUsuari", data)
             );
         }
