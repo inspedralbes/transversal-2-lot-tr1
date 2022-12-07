@@ -125,8 +125,7 @@ Vue.component("navbar", {
     </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
-            <login @dadesUsuari="(d) => dadesUsuari = d"></login>
-            <h1>{{dadesUsuari.nickname}}</h1>
+            <login @dadesUsuari="dadesUsuari++"></login>
             <b-button @click="registrar = true">No tens compte?</b-button>
 
         </div>
@@ -138,7 +137,7 @@ Vue.component("navbar", {
   </b-modal>
 </div>`,
     data: function () {
-        return {registrar: false, iniciat: false, dadesUsuari: {}};
+        return {registrar: false, iniciat: false, dadesUsuari: 0};
     },
     methods: {}
 });
