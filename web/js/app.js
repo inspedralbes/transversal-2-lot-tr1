@@ -41,9 +41,7 @@ Vue.component("register", {
                 method: "POST",
                 body: this.form
             }).then(response => response.json()).then(data => {
-                if(data.exito) {
-                    console.log(data);
-                }
+                console.log(data);
             });
         }
     }
