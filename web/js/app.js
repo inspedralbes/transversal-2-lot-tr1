@@ -33,9 +33,15 @@ Vue.component("register", {
     },
     methods: {
         saveForm() {
+            const enviar = new FormData();
+            enviar.append('nickname', this.form.nickname);
+            enviar.append('email', this.form.email);
+            enviar.append('password', this.form.password);
+            enviar.append('descripcio', this.form.descripcio);
+            
             fetch("../transversal_g1/public/api/register-user", {
                 method: "POST",
-                body: JSON.stringify(this.form)
+                body: enviar
             }).then(() => {
                 console.log("saved");
             });
