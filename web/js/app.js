@@ -63,7 +63,7 @@ Vue.component("login", {
     methods: {
         submitLogin() {
 
-            fetch("../transversal_g1/public/api/login/json", {
+            fetch("../transversal_g1/public/api/login", {
                 method: "POST",
                 body: JSON.stringify(this.form)
             }).then(response => response.json()).then(data => {
