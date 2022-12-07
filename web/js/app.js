@@ -65,6 +65,7 @@ Vue.component("login", {
     },
     methods: {
         submitLogin() {
+            
             const enviar = new FormData();
             enviar.append('email', this.form.email);
             enviar.append('password', this.form.password);
