@@ -19,7 +19,7 @@ class UserController extends Controller
         $user->nickname=$request->nickname;
         $user->email=$request->email;
         $user->password=Hash::make($request->password);
-        $user->description	=$request->description	;
+        $user->description=$request->description	;
 
 
         $user->save();
