@@ -54,7 +54,7 @@ Vue.component("login", {
     <b-form-input v-model="form.email" placeholder="Correu electrònic" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Contrasenya" required></b-form-input>
     <b-button @dadesUsuari="(d) => dadesUsuari = d" @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
-    {{dadesUsuari}}
+    <h1>{{ dadesUsuari }}</h1>
     </div>`,
     data: function () {
         return {
