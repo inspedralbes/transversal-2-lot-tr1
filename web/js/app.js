@@ -53,10 +53,12 @@ Vue.component("login", {
     <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Inicia sessió</h1></div>
     <b-form-input v-model="form.email" placeholder="Correu electrònic" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Contrasenya" required></b-form-input>
-    <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
+    <b-button @dadesUsuari="(d) => dadesUsuari = d" @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
+    {{dadesUsuari}}
     </div>`,
     data: function () {
         return {
+            dadesUsuari: {},
             form: {
                 email: "",
                 password: ""
@@ -72,7 +74,10 @@ Vue.component("login", {
             fetch("../transversal_g1/public/api/login", {
                 method: "POST",
                 body: enviar
-            }).then(response => response.json()).then((data) => console.log(data));
+            }).then(response => response.json()
+            ).then((data) => 
+                this.$emit("dadesUsuari", data)
+            );
         }
     }
 });
@@ -105,7 +110,12 @@ Vue.component("navbar", {
 
                 </ul>
                 <form class="d-flex">
-                    <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                    <div v-show="!iniciat">
+                        <button v-b-modal.login block @dadesUsuari @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                    </div>
+                    <div v-show="iniciat">
+                        <h2>Benvingut usuari<h2>
+                    </div>
                 </form>
             </div>
         </div>
@@ -128,7 +138,7 @@ Vue.component("navbar", {
   </b-modal>
 </div>`,
     data: function () {
-        return {registrar: false};
+        return {registrar: false, iniciat: false};
     },
     methods: {}
 });
