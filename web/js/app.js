@@ -65,7 +65,7 @@ Vue.component("login", {
     },
     methods: {
         submitLogin() {
-            
+
             const enviar = new FormData();
             enviar.append('email', this.form.email);
             enviar.append('password', this.form.password);
@@ -78,8 +78,9 @@ Vue.component("login", {
                 console.log(data);
                 this.$emit("dadesUsuari", data);
             }).catch(() => {
-                console.error('Error:');
                 this.$emit("evtDadesUsuari", "hola");
+                console.error('Error:');
+          
               });
         }
     }
