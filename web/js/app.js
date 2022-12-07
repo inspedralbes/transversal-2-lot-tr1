@@ -74,11 +74,12 @@ Vue.component("login", {
                 body: enviar
             }).then(response => response.json())
             .then((data) => {
-                console.log(data)
-                this.$emit("dadesUsuari", data)
+                console.log(data);
+                this.$emit("dadesUsuari", data);
             }).catch((error) => {
                 console.error('Error:', error);
-              });;
+                this.$emit("evtDadesUsuari", "hola");
+              });
         }
     }
 });
@@ -128,7 +129,7 @@ Vue.component("navbar", {
     </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
-            <login @dadesUsuari="(d) => dadesUsuari = d"></login>
+            <login @evtDadesUsuari="(d) => dadesUsuari = d"></login>
             <b-button @click="registrar = true">No tens compte?</b-button>
 
         </div>
