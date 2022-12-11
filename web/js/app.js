@@ -233,7 +233,7 @@ const partida = Vue.component("opcions", {
     </div>`,
     methods: {
         buscarQuiz: async function () {
-            if (this.categoria.isEmpty() && this.dificultat.isEmpty()) {
+            if (this.categoria.isEmpty()) {
                 await fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                     this.preguntesRespostes = data;
                 });
