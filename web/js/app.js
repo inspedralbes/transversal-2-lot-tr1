@@ -237,9 +237,6 @@ const partida = Vue.component("opcions", {
                     this.preguntesRespostes = data;
                 });
                 this.opcionsTriades = true;
-            /*}else{
-                Swal.fire('Any fool can use a computer')
-            }*/
             
         },
         addGame: function () {
