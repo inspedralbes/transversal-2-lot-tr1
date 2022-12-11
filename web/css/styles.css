@@ -191,11 +191,9 @@ body {
 
 /* <select> styles */
 .deplegue, .glass_btn {
-  /* Reset */
   appearance: none;
   border: 0;
   font: inherit;
-  /* Personalize */
   width: 80%;
   height: 10%;
   background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, var(--clr-glass-icon) 3em, var(--clr-glass) 3em);
@@ -204,7 +202,6 @@ body {
   box-shadow: 0 0 1em 0 rgba(255, 255, 255, 0.2);
   cursor: pointer;
   font-size: 120%;
-	/* text-shadow: 0 0 0.125em white, 0 0 0.5em currentColor; */
   position: absolute;
   left: 10% ;
   text-align: center;
@@ -221,13 +218,9 @@ body {
   color: rgba(255, 255, 255, 1);
 }
 
-
-
-/* <option> colors */
 .deplegue>option {
   color: black;
 }
-/* Remove focus outline */
 .deplegue:focus {
   outline: none;
 }
@@ -248,11 +241,11 @@ body {
   top: 85%;
 }
 
-.glass_btn:hover {
+/*.glass_btn:hover {
 	background-position: left;
 	color: var(--clr-neon);
 	box-shadow: inset 0px 3px 5px var(--clr-neon), 0px 0px 10px rgba(0,0,0,0.25);
-}
+}*/
 
 
 /*  Slider   */

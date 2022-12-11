@@ -199,7 +199,7 @@ const partida = Vue.component("opcions", {
     <navbar></navbar>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
-        <h1>Tria les opcions del joc:</h1>
+    <input class="deplegue deplegue_nombre" type="text" placeholder="Nick name" ></input>
     <select class="deplegue deplegue_difficult" v-model="dificultat">
         <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
@@ -231,7 +231,7 @@ const partida = Vue.component("opcions", {
     </div>`,
     methods: {
         buscarQuiz: async function () {
-            await fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
+            fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                 this.preguntesRespostes = data;
             });
             this.opcionsTriades = true;
