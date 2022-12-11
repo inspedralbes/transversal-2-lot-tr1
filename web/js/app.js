@@ -99,8 +99,7 @@ Vue.component("navbar", {
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">
-                            <button type="button" class="btn btn-outline-secondary">Home</button></a>
+                        <a class="nav-link active" >     </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" ><router-link to="/partida"><button type="button"
@@ -230,8 +229,11 @@ const partida = Vue.component("opcions", {
     <foot></foot>
     </div>`,
     methods: {
-        buscarQuiz: async function () {
-            await fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
+        buscarQuiz: function () {
+            if (this.categoria=="" || this.dificultat=="") {
+                console.log("no eligiste categoria o dicultat")
+            }
+            fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                 this.preguntesRespostes = data;
             });
             this.opcionsTriades = true;
