@@ -1,5 +1,6 @@
 @import url(//fonts.googleapis.com/css?family=Vibur);
 @import url('https://fonts.cdnfonts.com/css/gameplay');
+@import url("https://fonts.googleapis.com/css?family=Montserrat:700");
 
 :root {
 	--clr-neon: rgb(41, 184, 240);
@@ -116,9 +117,9 @@ body {
 	border-radius: 0.25em;
 	text-shadow: 0 0 0.125em var(--clr-white), 0 0 0.5em currentColor;
 	box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
-    position: absolute;
-    top: 60%;
-    left: 46vw ;
+  position: absolute;
+  top: 60%;
+  left: 46vw ;
 }
 
 
@@ -176,11 +177,16 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  height: 600px;
+  height: 700px;
   width: 600px;
   border-radius: 20px;
-  /* background-color: var; */
   box-shadow: 0 0 20px 8px #d0d0d0;
+}
+
+.card_despligue>img{
+  width: 80%;
+  margin: auto auto ;
+  display: block;
 }
 
 /* <select> styles */
@@ -190,7 +196,7 @@ body {
   border: 0;
   font: inherit;
   /* Personalize */
-  width: 60%;
+  width: 80%;
   height: 10%;
   background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, var(--clr-glass-icon) 3em, var(--clr-glass) 3em);
   color: white(0, 0, 0);
@@ -198,16 +204,21 @@ body {
   box-shadow: 0 0 1em 0 rgba(255, 255, 255, 0.2);
   cursor: pointer;
   font-size: 120%;
-	text-shadow: 0 0 0.125em var(--clr-white), 0 0 0.5em currentColor;
+	/* text-shadow: 0 0 0.125em white, 0 0 0.5em currentColor; */
   position: absolute;
-  left: 23% ;
+  left: 10% ;
   text-align: center;
   
 }
 .deplegue_difficult{
-  top: 55%;
+  top: 58%;
 }.deplegue_category{
-  top: 68%;
+  top: 71%;
+}
+.deplegue_nombre{
+  top:45%;
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 1);
 }
 
 
@@ -215,7 +226,6 @@ body {
 /* <option> colors */
 .deplegue>option {
   color: black;
-  background-color: var(--clr-glass);
 }
 /* Remove focus outline */
 .deplegue:focus {
@@ -225,17 +235,7 @@ body {
 
 /* Glass Btn */
 
-.glass_btn {
-  -webkit-touch-callout: none;
-    -webkit-user-select: none;
-     -khtml-user-select: none;
-       -moz-user-select: none;
-        -ms-user-select: none;
-            user-select: none;
-		-webkit-tap-highlight-color: transparent;
-}
-
-.glass_btn {
+.glass_btn{
 	font-family: 'Comfortaa', cursive;
 	color: var(--clr-glass);
 	border-radius: 4px;
@@ -315,7 +315,7 @@ input[type=radio]:checked {
 #slide3,
 #slide4,
 #slide5 {
-    background: rgb(41, 40, 40);
+    background: rgb(41, 40, 40);z-index: 10;
 }
 
 /* Slider Functionality */
@@ -383,6 +383,182 @@ input[type=radio]:checked {
 }
 
 
+/* Countdown */
+
+.counter {
+width: 750vmin;
+height: 75vmin;
+box-shadow: 0 0 0 1.875vmin, inset 3.75vmin 3.75vmin 7.5vmin rgba(0, 0, 0, 0.125), 3.75vmin 3.75vmin 7.5vmin rgba(0, 0, 0, 0.125);
+font-size: 37.5vmin;
+position: absolute;
+top: 43%;
+left: 10%;
+transform: translate(-50%, -40%);
+display: flex;
+align-items: center;
+justify-content: center;
+overflow: hidden;
+z-index: 1;
+}
+.counter1{
+  left: 97%;
+}
+@media (min-width: 600px) {
+.counter {
+  width: 50vmin;
+  height: 50vmin;
+  box-shadow: 0 0 0 1.25vmin, inset 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125), 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125);
+  font-size: 25vmin;
+  text-shadow: 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125);
+}
+}
+.counter:before {
+content: "15";
+-webkit-animation: 15s 1s forwards timer_countdown, 1s 0.875s 15 timer_beat;
+        animation: 15s 1s forwards timer_countdown, 1s 0.875s 15 timer_beat;
+}
+@-webkit-keyframes timer_beat {
+40%, 80% {
+  transform: none;
+}
+50% {
+  transform: scale(1.125);
+}
+}
+@keyframes timer_beat {
+40%, 80% {
+  transform: none;
+}
+50% {
+  transform: scale(1.125);
+}
+}
+@-webkit-keyframes timer_countdown {
+0% {
+  content: "15";
+}
+6.6666666667% {
+  content: "14";
+}
+13.3333333333% {
+  content: "13";
+}
+20% {
+  content: "12";
+}
+26.6666666667% {
+  content: "11";
+}
+33.3333333333% {
+  content: "10";
+}
+40% {
+  content: "9";
+}
+46.6666666667% {
+  content: "8";
+}
+53.3333333333% {
+  content: "7";
+}
+60% {
+  content: "6";
+}
+66.6666666667% {
+  content: "5";
+}
+73.3333333333% {
+  content: "4";
+}
+80% {
+  content: "3";
+}
+86.6666666667% {
+  content: "2";
+}
+93.3333333333% {
+  content: "1";
+}
+100% {
+  content: "0";
+}
+}
+@keyframes timer_countdown {
+0% {
+  content: "15";
+}
+6.6666666667% {
+  content: "14";
+}
+13.3333333333% {
+  content: "13";
+}
+20% {
+  content: "12";
+}
+26.6666666667% {
+  content: "11";
+}
+33.3333333333% {
+  content: "10";
+  
+}
+40% {
+  content: "9";
+}
+46.6666666667% {
+  content: "8";
+}
+53.3333333333% {
+  content: "7";
+}
+60% {
+  content: "6";
+}
+66.6666666667% {
+  content: "5";
+}
+73.3333333333% {
+  content: "4";
+}
+80% {
+  content: "3";
+}
+86.6666666667% {
+  content: "2";
+}
+93.3333333333% {
+  content: "1";
+}
+100% {
+  content: "0";
+}
+}
+.counter:after {
+content: "";
+position: absolute;
+top: 0;
+left: 0;
+z-index: -100;
+width: 100%;
+height: 100%;
+background-color: rgba(255, 255, 255, 0.125);
+-webkit-animation: 15s 1s linear forwards timer_indicator;
+        animation: 15s 1s linear forwards timer_indicator;
+}
+@-webkit-keyframes timer_indicator {
+100% {
+  transform: translateY(100%);
+}
+}
+@keyframes timer_indicator {
+100% {
+  transform: translateY(100%);
+}
+}
+
+
+
 
 /* Footer */
 .footer {
@@ -402,5 +578,3 @@ input[type=radio]:checked {
     justify-content: center;
     margin-top: 5px;
  }
-
-
