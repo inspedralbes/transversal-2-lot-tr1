@@ -151,8 +151,15 @@ Vue.component("navbar", {
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
-    <h1>TRIVIAL</h1>
-    <button ><router-link to="/partida">Jugar</router-link></button>
+    
+    
+    <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
+    <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
+    
+    <button > <router-link to="/partida"><a href="jugar.html" class="play_btn button">
+        PLAY
+      </a></router-link</button>
+    
     </div>`,
     data: function () {
         return {};
