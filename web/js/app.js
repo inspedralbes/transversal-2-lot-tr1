@@ -1,3 +1,5 @@
+const { isGloballyWhitelisted } = require("@vue/shared");
+
 Vue.component("register", {
     template: `<div class="flex flex-wrap w-full justify-center items-center pt-56">
     <div class="flex flex-wrap max-w-xl">
@@ -231,10 +233,15 @@ const partida = Vue.component("opcions", {
     </div>`,
     methods: {
         buscarQuiz: async function () {
-            fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
-                this.preguntesRespostes = data;
-            });
-            this.opcionsTriades = true;
+            if (this.categoria !="" && this.dificultat!="") {
+                fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
+                    this.preguntesRespostes = data;
+                });
+                this.opcionsTriades = true;
+            }else{
+                Swal.fire('Any fool can use a computer')
+            }
+            
         },
         addGame: function () {
             const enviar = new FormData();
