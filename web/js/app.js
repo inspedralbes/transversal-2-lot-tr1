@@ -157,9 +157,6 @@ Vue.component("footer", {
     <a href="https://www.linkedin.com/in/gurpreet-singh-0741021b2" target="_blank"><button type="button" class="btn btn-secondary">Gurpreet Singh</button></a>
     
   </div>`,
-    data: function () {
-        return {registrar: false, iniciat: false, dadesUsuari: {}};
-    },
     methods: {}
 });
 
