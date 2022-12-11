@@ -1,5 +1,3 @@
-const { isGloballyWhitelisted } = require("@vue/shared");
-
 Vue.component("register", {
     template: `<div class="flex flex-wrap w-full justify-center items-center pt-56">
     <div class="flex flex-wrap max-w-xl">
@@ -233,11 +231,10 @@ const partida = Vue.component("opcions", {
     </div>`,
     methods: {
         buscarQuiz: async function () {
-                await fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
-                    this.preguntesRespostes = data;
-                });
-                this.opcionsTriades = true;
-            
+            await fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
+                this.preguntesRespostes = data;
+            });
+            this.opcionsTriades = true;
         },
         addGame: function () {
             const enviar = new FormData();
