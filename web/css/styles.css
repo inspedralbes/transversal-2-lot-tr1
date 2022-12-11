@@ -54,8 +54,8 @@ body {
    .logo b, .omg b{
     font: 400 19vh "Vibur";
     color: var(--clr-white);
-    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;
-    
+    /*text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;
+    */
   }
 
   /*  .omg b{
