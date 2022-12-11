@@ -121,7 +121,7 @@ body {
   top: 60%;
   left: 46vw ;
 }
-
+/*
 
 .play_btn::before {
 	pointer-events: none;
@@ -170,7 +170,7 @@ body {
 	opacity: 1;
 }
 
-
+*/
 
 .card_despligue {
   position: absolute;
