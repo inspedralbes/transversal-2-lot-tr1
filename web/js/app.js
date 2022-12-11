@@ -148,6 +148,21 @@ Vue.component("navbar", {
     methods: {}
 });
 
+Vue.component("footer", {
+    template: `<div class="footer bg-primary">
+    <footer >&copy; Copyright 2022 | Developed by &nbsp;</footer>
+
+    <a href="https://www.linkedin.com/in/oscar-leal-garc%C3%ADa-6b366019b/" target="_blank"><button type="button" class="btn btn-secondary">Oscar Leal</button></a>
+    <a href="https://www.linkedin.com/in/mart%C3%AD-p%C3%A9rez-ballester-236319256/" target="_blank"><button type="button" class="btn btn-secondary">Marti Pérez</button> </a>
+    <a href="https://www.linkedin.com/in/gurpreet-singh-0741021b2" target="_blank"><button type="button" class="btn btn-secondary">Gurpreet Singh</button></a>
+    
+  </div>`,
+    data: function () {
+        return {registrar: false, iniciat: false, dadesUsuari: {}};
+    },
+    methods: {}
+});
+
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
@@ -159,7 +174,7 @@ const home = Vue.component("home", {
     <button > <router-link to="/partida"><a href="jugar.html" class="play_btn button">
         PLAY
       </a></router-link</button>
-    
+      <footer></footer>
     </div>`,
     data: function () {
         return {};
