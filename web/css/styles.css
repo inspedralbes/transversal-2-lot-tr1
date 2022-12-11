@@ -69,7 +69,7 @@ body {
   .logo b span:nth-of-type(2), .omg b span:nth-of-type(2){
     animation: blink linear infinite 3s;
   }
-  @keyframes blink {
+  /*@keyframes blink {
     78% {
       color: inherit;
       text-shadow: inherit;
@@ -101,7 +101,7 @@ body {
       color: inherit;
       text-shadow: inherit;
     }
-  }
+  }*/
 
 
 
