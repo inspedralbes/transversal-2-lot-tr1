@@ -171,9 +171,7 @@ const home = Vue.component("home", {
     <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
-    <button > <router-link to="/partida"><a href="jugar.html" class="play_btn button">
-        PLAY
-      </a></router-link</button>
+    <button class="play_btn button" > <router-link to="/partida">PLAY</router-link</button>
       <footer></footer>
     </div>`,
     data: function () {
