@@ -353,6 +353,6 @@ const router = new VueRouter({routes});
 Vue.use(BootstrapVue);
 let app = new Vue({
     el: "#app", router,
-    pinia,
+    //pinia,
     data: {}
 });
