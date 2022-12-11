@@ -199,8 +199,7 @@ const partida = Vue.component("opcions", {
     <navbar></navbar>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
-        <input class="deplegue deplegue_nombre" type="text" placeholder="Nick name" ></input>
-    <h1>Tria les opcions del joc:</h1>
+        <h1>Tria les opcions del joc:</h1>
     <select class="deplegue deplegue_difficult" v-model="dificultat">
         <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
@@ -208,13 +207,13 @@ const partida = Vue.component("opcions", {
         <option value="hard">Dificil</option>
     </select>
     <select class="deplegue deplegue_category" v-model="categoria">
-        <option selected disabled value="">Selecciona una categoria</option>
+        <option selected  value="">Selecciona una categoria</option>
         <option value="history">Historia</option>
         <option value="film_and_tv">Cinema</option>
         <option value="sport_and_leisure">Esports</option>
     </select>
     <br><br>
-    <button @click="buscarQuiz"> Comença </button>
+    <button @click="buscarQuiz" class="btn glass_btn"> Comença </button>
     </div>
 
     <div v-show="opcionsTriades">
