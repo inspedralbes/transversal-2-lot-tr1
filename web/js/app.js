@@ -236,7 +236,13 @@ const partida = Vue.component("opcions", {
                 });
                 this.opcionsTriades = true;
             }else{
-                Swal.fire('Any fool can use a computer')
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Escull la dificultat y la categoria ',
+                    showConfirmButton: false,
+                    timer: 1500
+                  })
             }
             
         },
