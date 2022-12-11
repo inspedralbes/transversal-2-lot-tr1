@@ -231,12 +231,12 @@ const partida = Vue.component("opcions", {
     methods: {
         buscarQuiz: function () {
             if (this.categoria=="" || this.dificultat=="") {
-                console.log("no eligiste categoria o dicultat")
-            }
-            fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
+                fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                 this.preguntesRespostes = data;
-            });
-            this.opcionsTriades = true;
+                });
+                this.opcionsTriades = true;
+            }
+            
         },
         addGame: function () {
             const enviar = new FormData();
