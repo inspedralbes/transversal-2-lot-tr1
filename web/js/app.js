@@ -148,7 +148,7 @@ Vue.component("navbar", {
     methods: {}
 });
 
-Vue.component("footer", {
+Vue.component("foot", {
     template: `<div class="footer bg-primary">
     <footer >&copy; Copyright 2022 | Developed by &nbsp;</footer>
 
@@ -171,7 +171,7 @@ const home = Vue.component("home", {
     <router-link to="/partida"><a class="play_btn button">
         PLAY
       </a></router-link>
-      <footer></footer>
+      <foot></foot>
     </div>`,
     data: function () {
         return {};
