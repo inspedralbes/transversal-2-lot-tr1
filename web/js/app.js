@@ -103,8 +103,8 @@ Vue.component("navbar", {
                             <button type="button" class="btn btn-outline-secondary">Home</button></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jugar.html"><button type="button"
-                                class="btn btn-outline-secondary">Jugar</button></a></a>
+                        <a class="nav-link" ><router-link to="/partida"><button type="button"
+                                class="btn btn-outline-secondary">Jugar</button></router-link></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="ranking.html"><button type="button"
@@ -169,7 +169,7 @@ const home = Vue.component("home", {
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
     <router-link to="/partida"><a class="play_btn button">
-        PLAY
+        Jugar
       </a></router-link>
       <foot></foot>
     </div>`,
