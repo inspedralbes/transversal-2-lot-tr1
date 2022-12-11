@@ -85,7 +85,17 @@ Vue.component("login", {
         }
     }
 });
+const ranking = Vue.component("ranking", {
+    template: `<div>
 
+    <navbar></navbar>
+    
+    <foot></foot>
+    </div>`,
+    methods: {
+       
+    }
+});
 Vue.component("navbar", {
     template: `<div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -99,14 +109,15 @@ Vue.component("navbar", {
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" >     </a>
+                        <a class="nav-link" > <router-link to="/"><button type="button"
+                        class="btn btn-outline-secondary">Home</button></router-link>    </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" ><router-link to="/partida"><button type="button"
                                 class="btn btn-outline-secondary">Jugar</button></router-link></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="ranking.html"><button type="button"
+                        <a class="nav-link" href="/ranking"><button type="button"
                                 class="btn btn-outline-secondary">Ranking</button></a></a>
 
                     </li>
@@ -376,6 +387,9 @@ const routes = [
     }, {
         path: "/partida",
         component: partida
+    }, {
+        path: "/ranking",
+        component: ranking
     },
 ];
 
