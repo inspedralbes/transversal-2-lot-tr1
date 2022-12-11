@@ -571,3 +571,14 @@ background-color: rgba(255, 255, 255, 0.125);
     justify-content: center;
     margin-top: 5px;
  }
+
+ @media (max-width: 600px) {
+  .card_despligue {
+    width: 15em;
+  }
+} 
+@media (max-height: 667px) {
+  .card_despligue {
+    height: 25em;
+  }
+}
