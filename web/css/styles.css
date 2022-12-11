@@ -177,8 +177,8 @@ body {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  height: 700px;
-  width: 600px;
+  height: 40em;
+  width: 35em;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
 }
