@@ -139,7 +139,7 @@ Vue.component("navbar", {
                         <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
                     </div>
                     <div v-show="isLogged">
-                        <h2>Benvingut usuari</h2>
+                        <h2>Benvingut {{getName}}</h2>
                     </div>
                 </form>
             </div>
@@ -170,6 +170,9 @@ Vue.component("navbar", {
     computed: {
         isLogged() {
             return userStore().logged;
+        },
+        getName() {
+            return userStore().name;
         }
     }
 });
