@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            DB::table('users')->where('id',3)->update(['nickname','gur']);
+            DB::table('users')->where('id',3)->update(['nickname' =>'gur']);
         })->everyMinute();
     }
 
