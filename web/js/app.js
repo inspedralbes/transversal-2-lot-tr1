@@ -58,7 +58,7 @@ Vue.component("register", {
                 method: "POST",
                 body: enviar
             }).then(() => {
-                creat = true;
+                this.creat = true;
             });
         }
     }
