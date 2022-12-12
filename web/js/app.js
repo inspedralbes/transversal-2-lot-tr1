@@ -135,10 +135,10 @@ Vue.component("navbar", {
 
                 </ul>
                 <form class="d-flex">
-                    <div v-show="!logged">
+                    <div v-show="!isLogged">
                         <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
                     </div>
-                    <div v-show="logged">
+                    <div v-show="isLogged">
                         <h2>Benvingut usuari</h2>
                     </div>
                 </form>
@@ -166,7 +166,12 @@ Vue.component("navbar", {
     data: function () {
         return {registrar: false, iniciat: false, dadesUsuari: {}};
     },
-    methods: {}
+    methods: {},
+    computed: {
+        isLogged() {
+            return userStore().logged;
+        }
+    }
 });
 
 Vue.component("foot", {
