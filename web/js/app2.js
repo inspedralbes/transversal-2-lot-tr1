@@ -1,11 +1,30 @@
-Vue.component('register', {
+const userStore = Pinia.defineStore('usuario', {
+    state() {
+        return {
+            logged: false,
+            loginInfo: {
+                name: 'Nombre del almacen'
+            }
+        }
+    },
+    actions: {
+        setEstado(i) {
+            this.loginInfo = i
+        }
+    }
+})
+
+Vue.use(Pinia.PiniaVuePlugin)
+const pinia = Pinia.createPinia()
+
+Vue.component("register", {
     template: `<div class="flex flex-wrap w-full justify-center items-center pt-56">
     <div class="flex flex-wrap max-w-xl">
         <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Register an account</h1></div>
         <div class="p-2 w-full">
-            <label class="w-full" for="name">Name</label>
-            <span class="w-full text-red-500" v-if="errors.name">{{errors.name[0]}}</span>
-            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Name" type="text" v-model="form.name" >
+            <label class="w-full" for="nickname">Name</label>
+            <span class="w-full text-red-500" v-if="errors.nickname">{{errors.nickname[0]}}</span>
+            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Name" type="text" v-model="form.nickname" >
         </div>
         <div class="p-2 w-full">
             <label for="email">Your e-mail</label>
@@ -15,10 +34,6 @@ Vue.component('register', {
             <label for="password">Password</label>
             <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Password" type="password" v-model="form.password" name="password">
         </div>
-        <div class="p-2 w-full">
-            <label for="description">Confirm Password</label>
-            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Confirm Password" type="password" v-model="form.password_confirmation" name="password_confirmation">
-        </div>
         <div class="p-2 w-full mt-4">
             <button @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Register</button>
         </div>
@@ -27,81 +42,80 @@ Vue.component('register', {
     data() {
         return {
             form: {
-                name: '',
-                email: '',
-                password: '',
-                descripcio:''
+                nickname: "",
+                email: "",
+                password: "",
+                description: ""
             },
             errors: []
-        }
+        };
     },
     methods: {
         saveForm() {
-            fetch('../transversal_g1/public/api/register-user', {
-                method: 'POST',
-                body: this.form
-            }).then(() => {
-                console.log('saved');
-            });
+            const enviar = new FormData();
+            enviar.append('nickname', this.form.nickname);
+            enviar.append('email', this.form.email);
+            enviar.append('password', this.form.password);
+            enviar.append('descripcio', this.form.descripcio);
 
+            fetch("../transversal_g1/public/api/register-user", {
+                method: "POST",
+                body: enviar
+            }).then(() => {
+                console.log("saved");
+            });
         }
     }
-})
-Vue.component('login', {
+});
+Vue.component("login", {
     template: `<div>
-    <div v-show="!logged">
-    <b-form-input v-model="form.username" placeholder="Username" required></b-form-input>
-    <b-form-input v-model="form.password" placeholder="Password" required></b-form-input>
-    <b-button @click="submitLogin" variant="primary">Login</b-button>
-    <div v-show="processing">
-        <b-spinner></b-spinner>
-    </div>
-    </div>
-    <div v-show="logged">
-    Benvingut {{nameUser}} <img :src=imageUser> 
-    <b-button @click="logOut" variant="primary">Logout</b-button>
-    </div>
+    <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Inicia sessió</h1></div>
+    <b-form-input v-model="form.email" placeholder="Correu electrònic" required></b-form-input>
+    <b-form-input v-model="form.password" placeholder="Contrasenya" required></b-form-input>
+    <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
     </div>`,
     data: function () {
         return {
-            nameUser: "",
-            imageUser: "",
             form: {
-                username: "",
+                email: "",
                 password: ""
-            },
-            logged: false,
-            processing: false
-        }
+            }
+        };
     },
     methods: {
-
         submitLogin() {
-            this.processing = true;
-            fetch(`http://alvaro.alumnes.inspedralbes.cat/loginGET.php?username=${
-                this.form.username
-            }&pwd=${
-                this.form.password
-            }`).then(response => response.json()).then(data => {
-                if (data.exito) {
-                    this.nameUser = data.nombre;
-                    this.imageUser = data.imagen;
-                    this.logged = true;
 
-                    store = userStore()
-                    store.setEstado(this.infoLogin);
-                    store.logged = true;
-                }
-            })
-        },
-        logOut() {
-            this.logged = false;
-            this.processing = false;
+            const enviar = new FormData();
+            enviar.append('email', this.form.email);
+            enviar.append('password', this.form.password);
+
+            fetch("../transversal_g1/public/api/login", {
+                method: "POST",
+                body: enviar
+            }).then(response => response.json()).then((data) => {
+                this.$emit("dadesUsuari", data);
+                console.log(data);
+                store = userStore()
+                store.setEstado(this.infoLogin);
+                store.logged = true;
+            }).catch(() => {
+                this.$emit("evtDadesUsuari", "hola");
+                console.error('Error:');
+
+            });
         }
     }
-})
+});
+const ranking = Vue.component("ranking", {
+    template: `<div>
 
-Vue.component('navbar', {
+    <navbar></navbar>
+    
+    <foot></foot>
+    </div>`,
+    methods: {}
+});
+Vue.component("navbar", {
     template: `<div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -114,53 +128,91 @@ Vue.component('navbar', {
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="index.html">
-                            <button type="button" class="btn btn-outline-secondary">Home</button></a>
+                        <a class="nav-link" > <router-link to="/"><button type="button"
+                        class="btn btn-outline-secondary">Home</button></router-link>    </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jugar.html"><button type="button"
-                                class="btn btn-outline-secondary">Jugar</button></a></a>
+                        <a class="nav-link" ><router-link to="/partida"><button type="button"
+                                class="btn btn-outline-secondary">Jugar</button></router-link></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="ranking.html"><button type="button"
+                        <a class="nav-link" href="/ranking"><button type="button"
                                 class="btn btn-outline-secondary">Ranking</button></a></a>
 
                     </li>
 
                 </ul>
-                <form class="d-flex"><a href="#">
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Login</button></a>
-                    <button class="btn btn-secondary my-2 my-sm-0" type="submit">Signup</button></a>
+                <form class="d-flex">
+                    <div v-show="!iniciat">
+                        <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                    </div>
+                    <div v-show="iniciat">
+                        <h2>Benvingut usuari</h2>
+                    </div>
                 </form>
             </div>
         </div>
     </nav>
+
+    <b-modal id="login" hide-footer hide-header>
+    <template #modal-title>
+       Inicia sessió
+    </template>
+    <div class="d-block text-center">
+        <div v-show="!registrar">
+            <login @evtDadesUsuari="(d) => dadesUsuari = d"></login>
+            <b-button @click="registrar = true">No tens compte?</b-button>
+
+        </div>
+        <div v-show="registrar">
+            <register></register>
+            <b-button @click="registrar = false">Ja tens compte?</b-button>
+        </div>
+    </div>
+  </b-modal>
 </div>`,
     data: function () {
-        return {}
+        return {registrar: false, iniciat: false, dadesUsuari: {}};
     },
     methods: {}
-})
+});
 
-const home = Vue.component('home', {
+Vue.component("foot", {
+    template: `<div class="footer bg-primary">
+    <footer >&copy; Copyright 2022 | Developed by &nbsp;</footer>
+
+    <a href="https://www.linkedin.com/in/oscar-leal-garc%C3%ADa-6b366019b/" target="_blank"><button type="button" class="btn btn-secondary">Oscar Leal</button></a>
+    <a href="https://www.linkedin.com/in/mart%C3%AD-p%C3%A9rez-ballester-236319256/" target="_blank"><button type="button" class="btn btn-secondary">Marti Pérez</button> </a>
+    <a href="https://www.linkedin.com/in/gurpreet-singh-0741021b2" target="_blank"><button type="button" class="btn btn-secondary">Gurpreet Singh</button></a>
+    
+  </div>`,
+    methods: {}
+});
+
+const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
-    <button ><router-link to="/"> 🏠</router-link></button>
-    <login></login>
-    <h1>TRIVIAL</h1>
-    <button ><router-link to="/partida">Jugar</router-link></button>
+    
+    
+    <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
+    <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
+    
+    <router-link to="/partida"><a class="play_btn button">
+        Jugar
+      </a></router-link>
+      <foot></foot>
     </div>`,
     data: function () {
-        return {}
+        return {};
     },
     methods: {}
-})
+});
 
-const partida = Vue.component('opcions', {
+const partida = Vue.component("opcions", {
     data: function () {
         return {
-            categoria: '',
-            dificultat: '',
+            categoria: "",
+            dificultat: "",
             preguntesRespostes: [],
             opcionsTriades: false,
             preguntaActual: 0,
@@ -169,46 +221,60 @@ const partida = Vue.component('opcions', {
                 tempsPartida: 0,
                 acabada: false
             }
-        }
+        };
     },
     template: `<div>
-    <button ><router-link to="/"> 🏠 </router-link></button>
-    
-    <div v-show="!opcionsTriades">
-    <h1>Tria les opcions del joc:</h1>
-    <select v-model="dificultat">
-        <option disabled value="">Selecciona una dificultat</option>
+
+    <navbar></navbar>
+    <div v-show="!opcionsTriades" class="card_despligue">
+    <img src="./img/logo_omg.png" alt="">
+    <input class="deplegue deplegue_nombre" type="text" placeholder="Nick name" ></input>
+    <select class="deplegue deplegue_difficult" v-model="dificultat">
+        <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
         <option value="medium">Mitja</option>
         <option value="hard">Dificil</option>
     </select>
-    <select v-model="categoria">
-        <option disabled value="">Selecciona una categoria</option>
+    <select class="deplegue deplegue_category" v-model="categoria">
+        <option selected  value="">Selecciona una categoria</option>
         <option value="history">Historia</option>
         <option value="film_and_tv">Cinema</option>
         <option value="sport_and_leisure">Esports</option>
     </select>
     <br><br>
-    <button @click="buscarQuiz"> Comença </button>
+    <button @click="buscarQuiz" class="btn glass_btn"> Comença </button>
     </div>
 
     <div v-show="opcionsTriades">
     <a></a>
     <b-col v-for="(preg, index) in preguntesRespostes"> 
-        <pregunta @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
+        <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     <div v-if="preguntaActual == 10">
         <h1>Has encertat {{dadesPartida.punts}}/10</h1>
+        <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
         <b-button @click="addGame">Guardar partida</b-button>
     </div>
     </div>
+    <foot></foot>
     </div>`,
     methods: {
-        buscarQuiz: async function () {
-            await fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then(response => response.json()).then(data => {
-                this.preguntesRespostes = data;
-            });
-            this.opcionsTriades = true;
+        buscarQuiz: function () {
+            if (this.categoria != "" && this.dificultat != "") {
+                fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
+                    this.preguntesRespostes = data;
+                });
+                this.opcionsTriades = true;
+            } else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: 'Escull la dificultat y la categoria ',
+                    showConfirmButton: false,
+                    timer: 1500
+                })
+            }
+
         },
         addGame: function () {
             const enviar = new FormData();
@@ -221,41 +287,36 @@ const partida = Vue.component('opcions', {
                 case "hard": numDificultat = 3;
                     break;
             }
-            enviar.append('difficulty', numDificultat);
-            enviar.append('category', this.preguntesRespostes[0].category);
-            enviar.append('json', JSON.stringify(this.preguntesRespostes));
-            const punts = new FormData();
-            punts.append('idUser',)
-            fetch('../transversal_g1/public/api/store-game', {
-                method: 'POST',
+            enviar.append("difficulty", numDificultat);
+            enviar.append("category", this.preguntesRespostes[0].category);
+            enviar.append("json", JSON.stringify(this.preguntesRespostes));
+
+            fetch("../transversal_g1/public/api/store-game", {
+                method: "POST",
                 body: enviar
             });
-            // fetch('../transversal_g1/public/api/store-points', {
-            //     method: 'POST',
-            //     body: punts
-            // })
         }
     }
-})
+});
 
-Vue.component('pregunta', {
+Vue.component("pregunta", {
     props: [
-        'infoPreguntes', 'index', 'estatP'
+        "infoPreguntes", "index", "estatP"
     ],
     data: function () {
         return {
             respostesOrdenades: [],
             respostesDesordenades: [],
+            respostaContestada: false,
+            segons: 20,
             b0: "",
             b1: "",
             b2: "",
             b3: ""
-        }
+        };
     },
     mounted() {
-        this.respostesOrdenades = [
-            this.infoPreguntes.correctAnswer, this.infoPreguntes.incorrectAnswers[0], this.infoPreguntes.incorrectAnswers[1], this.infoPreguntes.incorrectAnswers[2]
-        ];
+        this.respostesOrdenades = [this.infoPreguntes.correctAnswer, this.infoPreguntes.incorrectAnswers[0], this.infoPreguntes.incorrectAnswers[1], this.infoPreguntes.incorrectAnswers[2],];
         this.respostesDesordenades = this.respostesOrdenades;
 
         for (let i = this.respostesDesordenades.length - 1; i > 0; i--) {
@@ -266,7 +327,7 @@ Vue.component('pregunta', {
         }
     },
     template: `<div>
-  
+    <h1>{{ segons }}</h1>
     <h1>{{ infoPreguntes.question }}</h1>
     <b-button :variant="b0" @click="respostaCorrecte(0)">{{ respostesDesordenades[0] }}</b-button>
     <b-button :variant="b1" @click="respostaCorrecte(1)">{{ respostesDesordenades[1] }}</b-button> <br>
@@ -275,12 +336,13 @@ Vue.component('pregunta', {
    </div>`,
     methods: {
         respostaCorrecte: function (nRes) {
+            this.respostaContestada = true;
             if (this.respostesDesordenades[nRes] == this.infoPreguntes.correctAnswer) {
                 this.buttonColors("success", nRes);
                 setTimeout(() => {
-                    this.$emit('sumaPunts')
-                    this.$emit('next-question')
-                }, 2000)
+                    this.$emit("sumaPunts");
+                    this.$emit("next-question");
+                }, 2000);
                 for (let i = 0; i < 4; i++) {
                     if (i != nRes) {
                         this.buttonColors("danger", i);
@@ -292,15 +354,12 @@ Vue.component('pregunta', {
                         this.buttonColors("danger", i);
                     } else {
                         this.buttonColors("success", i);
-
                     }
                 }
                 setTimeout(() => {
-                    this.$emit('next-question')
-                }, 2000)
+                    this.$emit("next-question");
+                }, 2000);
             }
-
-
         },
         buttonColors: function (color, nRes) {
             switch (nRes) {
@@ -317,26 +376,51 @@ Vue.component('pregunta', {
                     this.b3 = color;
                     break;
             }
+        },
+        countDownTimer() {
+            if (this.segons > 0 && this.respostaContestada == false) {
+                setTimeout(() => {
+                    this.segons -= 1;
+                    if (this.respostaContestada == true) {
+                        this.segons += 1;
+                        this.$emit("sumarTemps", (this.segons - 20) * -1);
+                    }
+                    this.countDownTimer();
+                }, 1000);
+            }
+            if (this.segons == 0) {
+                this.$emit("sumarTemps", (this.segons - 20) * -1);
+                this.$emit("next-question");
+            }
         }
+    },
+    created() {
+        this.countDownTimer();
     }
-})
-
+});
 
 const routes = [
     {
-        path: '/',
+        path: "/",
         component: home
     }, {
-        path: '/partida',
+        path: "/partida",
         component: partida
-    }
-]
+    }, {
+        path: "/ranking",
+        component: ranking
+    },
+];
 
-const router = new VueRouter({routes})
+const router = new VueRouter({routes});
 
-Vue.use(BootstrapVue)
+Vue.use(BootstrapVue);
 let app = new Vue({
-    el: '#app', router,
-    // pinia,
-    data: {}
+    el: "#app",
+    router,
+    pinia,
+    data: {},
+    computed: {
+        ...Pinia.mapState(userStore, ['loginInfo', 'logged'])
+    }
 });
