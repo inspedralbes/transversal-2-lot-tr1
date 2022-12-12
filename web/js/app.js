@@ -4,11 +4,6 @@ const userStore = Pinia.defineStore('usuario', {
             logged: false,
             name: ''
         }
-    },
-    actions: {
-        setEstado(i) {
-            this.loginInfo = i
-        }
     }
 })
 
@@ -418,6 +413,6 @@ let app = new Vue({
     pinia,
     data: {},
     computed: {
-        ...Pinia.mapState(userStore, ['loginInfo', 'logged'])
+        ...Pinia.mapState(userStore, ['name', 'logged'])
     }
 });
