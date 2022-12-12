@@ -2,14 +2,7 @@ const userStore = Pinia.defineStore('usuario', {
     state() {
         return {
             logged: false,
-            loginInfo: {
-                name: 'Nombre del almacen'
-            }
-        }
-    },
-    actions: {
-        setEstado(i) {
-            this.loginInfo = i
+            name: ''
         }
     }
 })
@@ -95,7 +88,7 @@ Vue.component("login", {
             }).then(response => response.json()).then((data) => {
                 console.log(data);
                 store = userStore()
-                store.setEstado(this.infoLogin);
+                store.name = data.nickname;
                 store.logged = true;
             }).catch(() => {
                 this.$emit("evtDadesUsuari", "hola");
@@ -142,10 +135,10 @@ Vue.component("navbar", {
 
                 </ul>
                 <form class="d-flex">
-                    <div v-show="!iniciat">
+                    <div v-show="!isLogged">
                         <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
                     </div>
-                    <div v-show="iniciat">
+                    <div v-show="isLogged">
                         <h2>Benvingut usuari</h2>
                     </div>
                 </form>
@@ -173,7 +166,12 @@ Vue.component("navbar", {
     data: function () {
         return {registrar: false, iniciat: false, dadesUsuari: {}};
     },
-    methods: {}
+    methods: {},
+    computed: {
+        isLogged() {
+            return userStore().logged;
+        }
+    }
 });
 
 Vue.component("foot", {
@@ -420,6 +418,6 @@ let app = new Vue({
     pinia,
     data: {},
     computed: {
-        ...Pinia.mapState(userStore, ['loginInfo', 'logged'])
+        ...Pinia.mapState(userStore, ['name', 'logged'])
     }
 });
