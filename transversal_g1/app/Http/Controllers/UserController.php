@@ -13,7 +13,12 @@ class UserController extends Controller
 {
     public function store(Request $request)
     {
-        
+        $request->validate([
+            'nickname' =>'required|min:4|string|max:255',
+            'email'=>'required|email|string|max:255',
+            'password'=>'required|min:8|',
+            
+        ]);
         $user= new user();
 
         
@@ -31,8 +36,9 @@ class UserController extends Controller
     {
 
         $request->validate([
+            
             'email'=>'required|email|string|max:255',
-            'password'=>'required',
+            'password'=>'required'
             
         ]);
 
