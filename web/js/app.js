@@ -2,9 +2,7 @@ const userStore = Pinia.defineStore('usuario', {
     state() {
         return {
             logged: false,
-            loginInfo: {
-                name: 'Nombre del almacen'
-            }
+            name: ''
         }
     },
     actions: {
@@ -95,7 +93,7 @@ Vue.component("login", {
             }).then(response => response.json()).then((data) => {
                 console.log(data);
                 store = userStore()
-                store.setEstado(this.infoLogin);
+                store.name = data.nickname;
                 store.logged = true;
             }).catch(() => {
                 this.$emit("evtDadesUsuari", "hola");
