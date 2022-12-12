@@ -93,7 +93,6 @@ Vue.component("login", {
                 method: "POST",
                 body: enviar
             }).then(response => response.json()).then((data) => {
-                this.$emit("dadesUsuari", data);
                 console.log(data);
                 store = userStore()
                 store.setEstado(this.infoLogin);
