@@ -182,7 +182,7 @@ Vue.component("foot", {
     <footer >&copy; Copyright 2022 | Developed by &nbsp;</footer>
 
     <a href="https://www.linkedin.com/in/oscar-leal-garc%C3%ADa-6b366019b/" target="_blank"><button type="button" class="btn btn-secondary">Oscar Leal</button></a>
-    <a href="https://www.linkedin.com/in/mart%C3%AD-p%C3%A9rez-ballester-236319256/" target="_blank"><button type="button" class="btn btn-secondary">Marti Pérez</button> </a>
+    <a href="https://www.linkedin.com/in/mart%C3%AD-p%C3%A9rez-ballester-236319256/" target="_blank"><button type="button" class="btn btn-secondary">Marti Sala</button> </a>
     <a href="https://www.linkedin.com/in/gurpreet-singh-0741021b2" target="_blank"><button type="button" class="btn btn-secondary">Gurpreet Singh</button></a>
     
   </div>`,
@@ -247,9 +247,9 @@ const partida = Vue.component("opcions", {
 
     <div v-show="opcionsTriades">
     <a></a>
-    <b-col v-for="(preg, index) in preguntesRespostes"> 
+    <div v-for="(preg, index) in preguntesRespostes"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
-    </b-col>
+    </div>
     <div v-if="preguntaActual == 10">
         <h1>Has encertat {{dadesPartida.punts}}/10</h1>
         <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
@@ -312,13 +312,13 @@ Vue.component("pregunta", {
             b0: "",
             b1: "",
             b2: "",
-            b3: ""
+            b3: "",
+            
         };
     },
     mounted() {
         this.respostesOrdenades = [this.infoPreguntes.correctAnswer, this.infoPreguntes.incorrectAnswers[0], this.infoPreguntes.incorrectAnswers[1], this.infoPreguntes.incorrectAnswers[2],];
         this.respostesDesordenades = this.respostesOrdenades;
-
         for (let i = this.respostesDesordenades.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             const temp = this.respostesDesordenades[i];
@@ -327,12 +327,32 @@ Vue.component("pregunta", {
         }
     },
     template: `<div>
-    <h1>{{ segons }}</h1>
-    <h1>{{ infoPreguntes.question }}</h1>
-    <b-button :variant="b0" @click="respostaCorrecte(0)">{{ respostesDesordenades[0] }}</b-button>
-    <b-button :variant="b1" @click="respostaCorrecte(1)">{{ respostesDesordenades[1] }}</b-button> <br>
-    <b-button :variant="b2" @click="respostaCorrecte(2)">{{ respostesDesordenades[2] }}</b-button>
-    <b-button :variant="b3" @click="respostaCorrecte(3)">{{ respostesDesordenades[3] }}</b-button>
+    <section id="slider">
+        <input type="radio" name="slider" id="item" v-for="item in 10" disabled >
+        <section id="slide2">
+            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
+            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
+            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
+            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
+            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
+        </section>
+        <section id="slide5">
+            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
+            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
+            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
+            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
+            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
+        </section>
+        <section id="slide1">
+            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
+            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
+            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
+            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
+            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
+        </section>
+    </section>
+    <div class="counter"> {{ segons }} </div>
+    
    </div>`,
     methods: {
         respostaCorrecte: function (nRes) {
