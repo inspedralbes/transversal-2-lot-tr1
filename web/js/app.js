@@ -1,3 +1,22 @@
+const userStore = Pinia.defineStore('usuario', {
+    state() {
+        return {
+            logged: false,
+            loginInfo: {
+                name: 'Nombre del almacen'
+            }
+        }
+    },
+    actions: {
+        setEstado(i) {
+            this.loginInfo = i
+        }
+    }
+})
+
+Vue.use(Pinia.PiniaVuePlugin)
+const pinia = Pinia.createPinia()
+
 Vue.component("register", {
     template: `<div class="flex flex-wrap w-full justify-center items-center pt-56">
     <div class="flex flex-wrap max-w-xl">
@@ -73,15 +92,17 @@ Vue.component("login", {
             fetch("../transversal_g1/public/api/login", {
                 method: "POST",
                 body: enviar
-            }).then(response => response.json())
-            .then((data) => {
-                console.log(data);
+            }).then(response => response.json()).then((data) => {
                 this.$emit("dadesUsuari", data);
+                console.log(data);
+                store = userStore()
+                store.setEstado(this.infoLogin);
+                store.logged = true;
             }).catch(() => {
                 this.$emit("evtDadesUsuari", "hola");
                 console.error('Error:');
-          
-              });
+
+            });
         }
     }
 });
@@ -92,9 +113,7 @@ const ranking = Vue.component("ranking", {
     
     <foot></foot>
     </div>`,
-    methods: {
-       
-    }
+    methods: {}
 });
 Vue.component("navbar", {
     template: `<div>
@@ -241,21 +260,21 @@ const partida = Vue.component("opcions", {
     </div>`,
     methods: {
         buscarQuiz: function () {
-            if (this.categoria!="" || this.dificultat!="") {
+            if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
-                this.preguntesRespostes = data;
+                    this.preguntesRespostes = data;
                 });
                 this.opcionsTriades = true;
-            }else{
+            } else {
                 Swal.fire({
                     position: 'top-end',
                     icon: 'error',
                     title: 'Escull la dificultat y la categoria ',
                     showConfirmButton: false,
                     timer: 1500
-                  })
+                })
             }
-            
+
         },
         addGame: function () {
             const enviar = new FormData();
@@ -397,7 +416,11 @@ const router = new VueRouter({routes});
 
 Vue.use(BootstrapVue);
 let app = new Vue({
-    el: "#app", router,
-    //pinia,
-    data: {}
+    el: "#app",
+    router,
+    pinia,
+    data: {},
+    computed: {
+        ...Pinia.mapState(userStore, ['loginInfo', 'logged'])
+    }
 });
