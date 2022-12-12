@@ -14,8 +14,7 @@ Vue.component("register", {
     <div v-show="!creat">
         <div class="p-2 w-full">
             <label class="w-full" for="nickname">Nom</label>
-            <span class="w-full text-red-500" v-if="errors.nickname">{{errors.nickname[0]}}</span>
-            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Nom" type="text" v-model="form.nickname" >
+            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Nom" type="text" v-model="form.nickname">
         </div>
         <div class="p-2 w-full">
             <label for="email">El teu correu electrònic</label>
@@ -26,7 +25,7 @@ Vue.component("register", {
             <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Contrasenya" type="password" v-model="form.password" name="password">
         </div>
         <div class="p-2 w-full mt-4">
-            <button @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Crea el compte</button>
+            <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
         </div>
         </div>
     <div v-show="creat">
@@ -43,11 +42,13 @@ Vue.component("register", {
                 password: "",
                 description: ""
             },
-            errors: []
         };
     },
     methods: {
         saveForm() {
+            if(this.form.nickname.length >= 4 && this.form.nickname.length < 255) {
+                
+            }
             const enviar = new FormData();
             enviar.append('nickname', this.form.nickname);
             enviar.append('email', this.form.email);
@@ -59,6 +60,9 @@ Vue.component("register", {
                 body: enviar
             }).then(() => {
                 this.creat = true;
+            }).catch(() => {
+                this.creat = false;
+                console.log("error");
             });
         }
     }
@@ -95,7 +99,6 @@ Vue.component("login", {
                 store.logged = true;
             }).catch(() => {
                 console.error('Error:');
-
             });
         }
     }
@@ -199,10 +202,13 @@ const home = Vue.component("home", {
     <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
-    <router-link to="/partida"><a class="play_btn button">
-        Jugar
-      </a></router-link>
-      <foot></foot>
+    <router-link to="/partida">
+        <a class="play_btn button">Jugar</a>
+    </router-link>
+    <router-link to="/partida">
+        <a class="button">Partida del dia</a>
+    </router-link>
+    <foot></foot>
     </div>`,
     data: function () {
         return {};
