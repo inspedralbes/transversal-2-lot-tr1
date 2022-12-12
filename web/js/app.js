@@ -47,7 +47,11 @@ Vue.component("register", {
     methods: {
         saveForm() {
             if(this.form.nickname.length >= 4 && this.form.nickname.length < 255) {
-                
+                if(this.form.email.length >= 4 && this.form.email.length < 255) {
+                    if(this.form.password.length >= 4) {
+                        
+                    }
+                }
             }
             const enviar = new FormData();
             enviar.append('nickname', this.form.nickname);
@@ -60,9 +64,6 @@ Vue.component("register", {
                 body: enviar
             }).then(() => {
                 this.creat = true;
-            }).catch(() => {
-                this.creat = false;
-                console.log("error");
             });
         }
     }
