@@ -73,7 +73,7 @@ Vue.component("register", {
             } else {
                 this.error.correu = false;
             }
-            if (this.form.password.length < 4) {
+            if (this.form.password.length < 8) {
                 this.error.contrasenya = true;
             } else {
                 this.error.contrasenya = true;
@@ -254,6 +254,7 @@ const partida = Vue.component("opcions", {
             opcionsTriades: false,
             preguntaActual: 0,
             dadesPartida: {
+                tipus: '',
                 punts: 0,
                 tempsPartida: 0,
                 acabada: false
@@ -295,6 +296,9 @@ const partida = Vue.component("opcions", {
     </div>
     <foot></foot>
     </div>`,
+    mounted() {
+
+    },
     methods: {
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
@@ -324,6 +328,7 @@ const partida = Vue.component("opcions", {
                 case "hard": numDificultat = 3;
                     break;
             }
+            //enviar.append("type", tipus)
             enviar.append("difficulty", numDificultat);
             enviar.append("category", this.preguntesRespostes[0].category);
             enviar.append("json", JSON.stringify(this.preguntesRespostes));
