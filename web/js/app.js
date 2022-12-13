@@ -68,7 +68,7 @@ Vue.component("register", {
     }
 });
 Vue.component("login", {
-    template: `<div>
+    template: `<div class="login_glass">
     <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Inicia sessió</h1></div>
     <b-form-input v-model="form.email" placeholder="Correu electrònic" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Contrasenya" required></b-form-input>
@@ -135,7 +135,6 @@ Vue.component("navbar", {
                     <li class="nav-item">
                         <a class="nav-link" href="/ranking"><button type="button"
                                 class="btn btn-outline-secondary">Ranking</button></a></a>
-
                     </li>
 
                 </ul>
@@ -197,8 +196,6 @@ Vue.component("foot", {
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
-    
-    
     <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
@@ -264,7 +261,6 @@ const partida = Vue.component("opcions", {
         <b-button @click="addGame">Guardar partida</b-button>
     </div>
     </div>
-    <foot></foot>
     </div>`,
     methods: {
         buscarQuiz: function () {
@@ -335,7 +331,7 @@ Vue.component("pregunta", {
         }
     },
     template: `<div>
-    <div>
+    
     <section id="slider">
         <input type="radio" name="slider" id="item" v-for="item in 10" disabled >
         <section id="slide2">
@@ -360,8 +356,9 @@ Vue.component("pregunta", {
             <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
         </section>
     </section>
-    <div class="counter"> {{ segons }} </div>
-    
+    <div>
+        <h2 class="quiz_index_pregunta"> Pregunta {{ index+1 }} </h2>
+        <div class="counter"> {{ segons }} </div>    
    </div>
    </div>`,
     methods: {
