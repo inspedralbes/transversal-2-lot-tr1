@@ -14,8 +14,7 @@ Vue.component("register", {
     <div v-show="!creat">
         <div class="p-2 w-full">
             <label class="w-full" for="nickname">Nom</label>
-            <span class="w-full text-red-500" v-if="errors.nickname">{{errors.nickname[0]}}</span>
-            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Nom" type="text" v-model="form.nickname" >
+            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Nom" type="text" v-model="form.nickname">
         </div>
         <div class="p-2 w-full">
             <label for="email">El teu correu electrònic</label>
@@ -26,7 +25,7 @@ Vue.component("register", {
             <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Contrasenya" type="password" v-model="form.password" name="password">
         </div>
         <div class="p-2 w-full mt-4">
-            <button @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">Crea el compte</button>
+            <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
         </div>
         </div>
     <div v-show="creat">
@@ -43,11 +42,17 @@ Vue.component("register", {
                 password: "",
                 description: ""
             },
-            errors: []
         };
     },
     methods: {
         saveForm() {
+            if(this.form.nickname.length >= 4 && this.form.nickname.length < 255) {
+                if(this.form.email.length >= 4 && this.form.email.length < 255) {
+                    if(this.form.password.length >= 4) {
+                        
+                    }
+                }
+            }
             const enviar = new FormData();
             enviar.append('nickname', this.form.nickname);
             enviar.append('email', this.form.email);
@@ -95,7 +100,6 @@ Vue.component("login", {
                 store.logged = true;
             }).catch(() => {
                 console.error('Error:');
-
             });
         }
     }
@@ -199,10 +203,13 @@ const home = Vue.component("home", {
     <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
-    <router-link to="/partida"><a class="play_btn button">
-        Jugar
-      </a></router-link>
-      <foot></foot>
+    <router-link to="/partida">
+        <a class="play_btn button">Jugar</a>
+    </router-link>
+    <router-link to="/partida">
+        <a class="button">Partida del dia</a>
+    </router-link>
+    <foot></foot>
     </div>`,
     data: function () {
         return {};
@@ -329,12 +336,34 @@ Vue.component("pregunta", {
         }
     },
     template: `<div>
-    <h1>{{ segons }}</h1>
-    <h1>{{ infoPreguntes.question }}</h1>
-    <b-button :variant="b0" @click="respostaCorrecte(0)">{{ respostesDesordenades[0] }}</b-button>
-    <b-button :variant="b1" @click="respostaCorrecte(1)">{{ respostesDesordenades[1] }}</b-button> <br>
-    <b-button :variant="b2" @click="respostaCorrecte(2)">{{ respostesDesordenades[2] }}</b-button>
-    <b-button :variant="b3" @click="respostaCorrecte(3)">{{ respostesDesordenades[3] }}</b-button>
+    <div>
+    <section id="slider">
+        <input type="radio" name="slider" id="item" v-for="item in 10" disabled >
+        <section id="slide2">
+            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
+            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
+            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
+            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
+            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
+        </section>
+        <section id="slide5">
+            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
+            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
+            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
+            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
+            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
+        </section>
+        <section id="slide1">
+            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
+            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
+            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
+            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
+            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
+        </section>
+    </section>
+    <div class="counter"> {{ segons }} </div>
+    
+   </div>
    </div>`,
     methods: {
         respostaCorrecte: function (nRes) {
