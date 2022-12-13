@@ -6,7 +6,7 @@
 	--clr-neon: rgb(41, 184, 240);
 	--clr-bg: rgba(1, 1, 1, 1);
 	--clr-white: rgba(255, 255, 255, 1);
-  --clr-pink: #e344ff;
+  --clr-pink: rgb(227, 68, 255);
   --clr-darkgrey: rgb(41, 40, 40);
 
   --clr-glass: rgba(255, 255, 255, 0.2);
@@ -38,7 +38,7 @@ body {
 
 
 /* Index.html Logo */
-.logo ,.omg {
+.logo ,.omg{
     text-align: center;
     width: 65%;
     height: 250px;
@@ -54,16 +54,16 @@ body {
     top: 12%;
   }
   
-   .logo b, .omg b{
+   .logo b, .omg b, .titul_login, .titul_register{
     font: 400 19vh "Vibur";
     color: var(--clr-white);
     text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;
     
   }
 
-    .omg b{
-        font-size: 10vh;
-        text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px #000;
+    .omg b, .titul_login, .titul_register{
+      font-size: 10vh;
+      text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px #000;
     }
 
   .logo b span, .omg b span{
@@ -433,10 +433,10 @@ background-color: rgba(255, 255, 255, 0.125);
 }
 .d-block , .modal-content, .login_user, .login_pass{
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(247, 244, 244, 0.418);
+  /* box-shadow: 0 4px 30px rgba(41, 184, 240,0.418); */
   backdrop-filter: blur(17.8px);
   -webkit-backdrop-filter: blur(17.8px);
-    background-color:rgba(255, 255, 255, 0.048);
+    background-color:rgba(41, 184, 240,0.1);
     
   }
 
@@ -448,10 +448,10 @@ background-color: rgba(255, 255, 255, 0.125);
     left: 25%;
     right: 0;
     height: fit-content;
-    display: flex;  
+    display: flex;
   }
-.form_login{
-  margin: 2% ;
+.form_login, .login_btn_registre{
+  margin: 1% 5% ;
 }
 .login_user, .login_pass{
   margin-bottom: 5%;
