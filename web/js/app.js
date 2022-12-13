@@ -99,6 +99,7 @@ Vue.component("login", {
     <b-form-input v-model="form.email" placeholder="Email" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Password" required></b-form-input>
     <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
+    </form>
     </div>`,
     data: function () {
         return {
@@ -269,13 +270,14 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
-    <select class="deplegue deplegue_difficult" v-model="dificultat">
+    <input class="desplegue desplegue_nombre" type="text" placeholder="Nick name" ></input>
+    <select class="desplegue desplegue_difficult" v-model="dificultat">
         <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
         <option value="medium">Mitja</option>
         <option value="hard">Dificil</option>
     </select>
-    <select class="deplegue deplegue_category" v-model="categoria">
+    <select class="desplegue desplegue_category" v-model="categoria">
         <option selected  value="">Selecciona una categoria</option>
         <option value="history">Historia</option>
         <option value="film_and_tv">Cinema</option>
