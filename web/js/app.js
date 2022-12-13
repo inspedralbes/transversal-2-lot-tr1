@@ -9,28 +9,23 @@ const pinia = Pinia.createPinia()
 
 Vue.component("register", {
     template: `
-    <div class="flex flex-wrap w-full justify-center items-center pt-56">
-        <div class="flex flex-wrap max-w-xl">
-            <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Sign in</h1></div>
+    <div >
+            <div class="titul_register">Register</div>
             <form>
                 <div v-show="!creat">
-                    <div class="p-2 w-full">
-                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Name" type="text" v-model="form.nickname">
-                        <div v-show="error.nom">
-                            incorrect name
-                        </div>
+                    <div class="form_login">
+                    <p v-show="error.nom" style="color: red;">nom incorrecte</p>
+                    <b-form-input class="login_user" placeholder="Nom" type="text" v-model="form.nickname">
+                        
+                    </div>
+                    <div class="form_login">
+                        <p v-show="error.correu" style="color: red;">correu electrònic incorrecte</p>
+                        <input class="login_user" placeholder="User" type="email" v-model="form.email">
                     </div>
                     <div class="p-2 w-full">
-                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Email" type="email" v-model="form.email">
-                        <div v-show="error.correu">
-                            incorrect email
-                        </div>
-                    </div>
-                    <div class="p-2 w-full">
-                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Password" type="password" v-model="form.password" name="password">
-                        <div v-show="error.contrasenya">
-                            incorrect password
-                        </div>
+                    <p v-show="error.contrasenya" style="color: red;">contrasenya incorrecte</p>
+                        <input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password">
+                        
                     </div>
                     <div class="p-2 w-full mt-4">
                         <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
@@ -40,8 +35,7 @@ Vue.component("register", {
                     <h2>User successfully created!</h2>
                 </div>
             </form>
-        </div>
-    </div>`,
+        </div>`,
     data() {
         return {
             creat: false,
@@ -94,10 +88,13 @@ Vue.component("register", {
     }
 });
 Vue.component("login", {
-    template: `<div class="login_glass">
-    <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Login</h1></div>
-    <b-form-input v-model="form.email" placeholder="Email" required></b-form-input>
-    <b-form-input v-model="form.password" placeholder="Password" required></b-form-input>
+    template: `<div>
+    <div class="titul_login">Login</div>
+    <form class="form_login">
+  
+    <b-form-input type="email" v-model="form.email" placeholder="Email" class="login_user" required></b-form-input>
+    
+    <b-form-input v-model="form.password" placeholder="Password" type="password" name="pass" class="login_pass" required></b-form-input>
     <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
     </form>
     </div>`,
@@ -288,7 +285,9 @@ const partida = Vue.component("partida", {
             <button @click="buscarQuiz" class="btn glass_btn"> Start </button>
         </div>
     </div>
-
+    <div v-show="!opcionsTriades">
+        <foot></foot>
+    </div>
     <div v-show="opcionsTriades">
     <b-col v-for="(preg, index) in preguntesRespostes"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
