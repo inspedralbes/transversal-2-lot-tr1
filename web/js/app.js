@@ -64,10 +64,10 @@ Vue.component("register", {
             } else {
                 this.error.correu = false;
             }
-            if (this.form.password.length < 8) {
+            if (this.form.password.length < 7) {
                 this.error.contrasenya = true;
             } else {
-                this.error.contrasenya = true;
+                this.error.contrasenya = false;
             }
 
             if (!this.error.nom && !this.error.correu && !this.error.contrasenya) {
@@ -267,7 +267,6 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
-    <input class="desplegue desplegue_nombre" type="text" placeholder="Nick name" ></input>
     <select class="desplegue desplegue_difficult" v-model="dificultat">
         <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
