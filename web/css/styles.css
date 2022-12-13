@@ -57,11 +57,11 @@ body {
    .logo b, .omg b{
     font: 400 19vh "Vibur";
     color: var(--clr-white);
-    /*text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;
-    */
+    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;
+    
   }
 
-  /*  .omg b{
+    .omg b{
         font-size: 10vh;
         text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px #000;
     }
@@ -104,7 +104,7 @@ body {
       color: inherit;
       text-shadow: inherit;
     }
-  }*/
+  }
 
 
 
@@ -124,7 +124,7 @@ body {
   top: 60%;
   left: 46vw ;
 }
-/*
+
 
 .play_btn::before {
 	pointer-events: none;
@@ -173,7 +173,7 @@ body {
 	opacity: 1;
 }
 
-*/
+
 
 .card_despligue {
   position: absolute;
@@ -244,11 +244,11 @@ body {
   top: 85%;
 }
 
-/*.glass_btn:hover {
+.glass_btn:hover {
 	background-position: left;
 	color: var(--clr-neon);
 	box-shadow: inset 0px 3px 5px var(--clr-neon), 0px 0px 10px rgba(0,0,0,0.25);
-}*/
+}
 
 
 /*  Slider   */

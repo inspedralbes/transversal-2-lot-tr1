@@ -228,10 +228,10 @@ const home = Vue.component("home", {
     <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
-    <router-link to="/partida">
+    <router-link to="/partida/normal">
         <a class="play_btn button">Jugar</a>
     </router-link>
-    <router-link to="/partida">
+    <router-link to="/partida/daily">
         <a class="button">Partida del dia</a>
     </router-link>
     <foot></foot>
@@ -242,7 +242,7 @@ const home = Vue.component("home", {
     methods: {}
 });
 
-const partida = Vue.component("opcions", {
+const partida = Vue.component("partida", {
     data: function () {
         return {
             categoria: "",
@@ -264,7 +264,6 @@ const partida = Vue.component("opcions", {
     </div>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
-    <input class="deplegue deplegue_nombre" type="text" placeholder="Nick name" ></input>
     <select class="deplegue deplegue_difficult" v-model="dificultat">
         <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
@@ -289,13 +288,11 @@ const partida = Vue.component("opcions", {
     <div v-if="preguntaActual == 10">
         <h1>Has encertat {{dadesPartida.punts}}/10</h1>
         <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
+        <h1>{{ $route.params.tipus }}</h1>
         <b-button @click="addGame">Guardar partida</b-button>
     </div>
     </div>
     </div>`,
-    mounted() {
-
-    },
     methods: {
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
@@ -325,7 +322,10 @@ const partida = Vue.component("opcions", {
                 case "hard": numDificultat = 3;
                     break;
             }
-            //enviar.append("type", tipus)
+
+            this.tipus = this.$route.params.tipus;
+            console.log(this.tipus);
+            enviar.append("type", this.tipus)
             enviar.append("difficulty", numDificultat);
             enviar.append("category", this.preguntesRespostes[0].category);
             enviar.append("json", JSON.stringify(this.preguntesRespostes));
@@ -466,7 +466,7 @@ const routes = [
         path: "/",
         component: home
     }, {
-        path: "/partida",
+        path: "/partida/:tipus",
         component: partida
     }, {
         path: "/ranking",
