@@ -34,7 +34,7 @@ class Kernel extends ConsoleKernel
                     break;
             }
            ;
-            $response = Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='.$difficulty);
+            $response = Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='.$difficulty_number);
             $updateItems=
             [
                 'json' => $response,
