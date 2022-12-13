@@ -32,7 +32,7 @@ Vue.component("register", {
                     </div>
                 </div>
                 <div v-show="creat">
-                    <h2>Usuari creat correctament!</h2>
+                    <h2>User successfully created!</h2>
                 </div>
             </form>
         </div>`,
@@ -153,8 +153,8 @@ Vue.component("navbar", {
                         class="btn btn-outline-secondary">Home</button></router-link>    </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" ><router-link to="/partida/normal"><button type="button"
-                                class="btn btn-outline-secondary">Jugar</button></router-link></a>
+                        <a class="nav-link" ><router-link to="/partida"><button type="button"
+                                class="btn btn-outline-secondary">Play</button></router-link></a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/ranking"><button type="button"
@@ -167,7 +167,7 @@ Vue.component("navbar", {
                         <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
                     </div>
                     <div v-show="isLogged">
-                        <h2>Benvingut {{getName}}</h2>
+                        <h2>Welcome {{getName}}</h2>
                     </div>
                 </form>
             </div>
@@ -176,17 +176,17 @@ Vue.component("navbar", {
 
     <b-modal id="login" hide-footer hide-header>
     <template #modal-title>
-       Inicia sessió
+       Login
     </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
             <login></login>
-            <b-button @click="registrar = true" class="login_btn_registre">No tens compte?</b-button>
+            <b-button @click="registrar = true">Don't you have an account?</b-button>
 
         </div>
         <div v-show="registrar">
             <register></register>
-            <b-button @click="registrar = false">Ja tens compte?</b-button>
+            <b-button @click="registrar = false">Already signed up?</b-button>
         </div>
     </div>
   </b-modal>
@@ -224,10 +224,10 @@ const home = Vue.component("home", {
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
     <router-link to="/partida/normal">
-        <a class="play_btn button">Jugar</a>
+        <a class="play_btn button">Play</a>
     </router-link>
     <router-link to="/partida/daily">
-        <a class="button">Partida del dia</a>
+        <a class="button">Game of the day</a>
     </router-link>
     <foot></foot>
     </div>`,
@@ -238,6 +238,7 @@ const home = Vue.component("home", {
 });
 
 const partida = Vue.component("partida", {
+    props: ['tipus'],
     data: function () {
         return {
             categoria: "",
@@ -246,12 +247,19 @@ const partida = Vue.component("partida", {
             opcionsTriades: false,
             preguntaActual: 0,
             dadesPartida: {
-                tipus: '',
                 punts: 0,
                 tempsPartida: 0,
                 acabada: false
             }
         };
+    },
+    mounted() {
+        if (this.tipus == "daily") {
+            this.opcionsTriades = true;
+            fetch("../transversal_g1/public/api/get-daily").then((response) => response.json()).then((data) => {
+                this.preguntesRespostes = data;
+            });
+        }
     },
     template: `<div>
     <div v-show="!opcionsTriades">
@@ -273,20 +281,20 @@ const partida = Vue.component("partida", {
         <option value="sport_and_leisure">Esports</option>
     </select>
     <br><br>
-    <button @click="buscarQuiz" class="btn glass_btn"> Comença </button>
+        <div v-if="tipus == 'normal'">
+            <button @click="buscarQuiz" class="btn glass_btn"> Start </button>
+        </div>
     </div>
     <div v-show="!opcionsTriades">
         <foot></foot>
     </div>
     <div v-show="opcionsTriades">
-    <a></a>
     <b-col v-for="(preg, index) in preguntesRespostes"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     <div v-if="preguntaActual == 10">
         <h1>Has encertat {{dadesPartida.punts}}/10</h1>
         <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
-        <h1>{{ $route.params.tipus }}</h1>
         <b-button @click="addGame">Guardar partida</b-button>
     </div>
     </div>
@@ -307,7 +315,6 @@ const partida = Vue.component("partida", {
                     timer: 1500
                 })
             }
-
         },
         addGame: function () {
             const enviar = new FormData();
@@ -321,8 +328,6 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            this.tipus = this.$route.params.tipus;
-            console.log(this.tipus);
             enviar.append("type", this.tipus)
             enviar.append("difficulty", numDificultat);
             enviar.append("category", this.preguntesRespostes[0].category);
@@ -465,7 +470,8 @@ const routes = [
         component: home
     }, {
         path: "/partida/:tipus",
-        component: partida
+        component: partida,
+        props: true
     }, {
         path: "/ranking",
         component: ranking

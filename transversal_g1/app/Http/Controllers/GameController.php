@@ -22,4 +22,8 @@ class GameController extends Controller
 
         //
     }
+    public function sendDailyGame(){
+
+        $game=new game();
+    }
 }
