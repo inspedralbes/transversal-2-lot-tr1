@@ -23,3 +23,4 @@ Route::post('/store-game', [GameController::class , 'store']);
 Route::post('/register-user',[UserController::class, 'store']);
 Route::post('/login',[UserController::class, 'login']);
 Route::post('/store-points', [PuntuacioController::class , 'store']);
+Route::post('/get-daily', [GameController::class , 'sendDailyGame']);
