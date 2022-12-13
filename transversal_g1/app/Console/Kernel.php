@@ -34,13 +34,13 @@ class Kernel extends ConsoleKernel
                     break;
             }
            ;
-            $response = Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='+$difficulty);
+            $response = Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='.$difficulty);
             $updateItems=
             [
                 'json' => $response,
                 'difficulty' => $difficulty_number
         ];
-            DB::table('game')->where('type',' daily')->update($updateItems);
+            DB::table('games')->where('type',' daily')->update($updateItems);
         })->everyMinute();
     }
 
