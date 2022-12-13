@@ -5,6 +5,7 @@ namespace App\Console;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 class Kernel extends ConsoleKernel
 {
     /**
@@ -16,7 +17,30 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            DB::table('users')->where('id',3)->update(['nickname' =>'gur']);
+            $difficulty=random_int(1,3);
+            $difficulty_number=$difficulty;
+            switch ($difficulty) {
+                case '1':
+                    $difficulty="easy";
+                    break;
+                case '2':
+                    $difficulty="medium";
+                    break;
+                case '3':
+                    $difficulty="hard";
+                    break;
+                default:
+                    
+                    break;
+            }
+           ;
+            $response = Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='.$difficulty);
+            $updateItems=
+            [
+                'json' => $response,
+                'difficulty' => $difficulty_number
+        ];
+            DB::table('games')->where('type',' daily')->update($updateItems);
         })->everyMinute();
     }
 
