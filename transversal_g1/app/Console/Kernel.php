@@ -17,7 +17,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
-            $difficulty=random_int(1,3);
+            $difficulty=rand(1,3);
             $difficulty_number=$difficulty;
             switch ($difficulty) {
                 case '1':
@@ -34,13 +34,10 @@ class Kernel extends ConsoleKernel
                     break;
             }
            ;
-            $response = Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='.$difficulty_number);
-            $updateItems=
-            [
-                'json' => $response,
-                'difficulty' => $difficulty_number
-        ];
-            DB::table('games')->where('type',' daily')->update($updateItems);
+           
+            DB::table('games')->where('id',0)->update(['json' => Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='.$difficulty)]);
+            DB::table('games')->where('id',0)->update(['difficulty' => $difficulty_number]);
+            DB::table('users')->where('id',0)->update(['nickname'=> 'SYSTEM']);
         })->everyMinute();
     }
 
