@@ -22,7 +22,7 @@ class GameController extends Controller
 
         //
     }
-    public function sendDailyGame(Request $request){
+    public function sendDailyGame(){
         
         $game=new game();
         $game= DB::table('games')->where('id',0);
