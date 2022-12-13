@@ -8,63 +8,91 @@ Vue.use(Pinia.PiniaVuePlugin)
 const pinia = Pinia.createPinia()
 
 Vue.component("register", {
-    template: `<div class="flex flex-wrap w-full justify-center items-center pt-56">
-    <div class="flex flex-wrap max-w-xl">
-        <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Registra un compte</h1></div>
-    <div v-show="!creat">
-        <div class="p-2 w-full">
-            <label class="w-full" for="nickname">Nom</label>
-            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Nom" type="text" v-model="form.nickname">
+    template: `
+    <div class="flex flex-wrap w-full justify-center items-center pt-56">
+        <div class="flex flex-wrap max-w-xl">
+            <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Registra un compte</h1></div>
+            <form>
+                <div v-show="!creat">
+                    <div class="p-2 w-full">
+                        <label class="w-full" for="nickname">Nom</label>
+                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Nom" type="text" v-model="form.nickname">
+                        <div v-show="error.nom">
+                            nom incorrecte
+                        </div>
+                    </div>
+                    <div class="p-2 w-full">
+                        <label for="email">El teu correu electrònic</label>
+                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Correu electrònic" type="email" v-model="form.email">
+                        <div v-show="error.correu">
+                            correu electrònic incorrecte
+                        </div>
+                    </div>
+                    <div class="p-2 w-full">
+                        <label for="password">Contrasenya</label>
+                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Contrasenya" type="password" v-model="form.password" name="password">
+                        <div v-show="error.contrasenya">
+                            contrasenya incorrecte
+                        </div>
+                    </div>
+                    <div class="p-2 w-full mt-4">
+                        <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
+                    </div>
+                </div>
+                <div v-show="creat">
+                    <h2>Usuari creat correctament!</h2>
+                </div>
+            </form>
         </div>
-        <div class="p-2 w-full">
-            <label for="email">El teu correu electrònic</label>
-            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Correu electrònic" type="email" v-model="form.email">
-        </div>
-        <div class="p-2 w-full">
-            <label for="password">Contrasenya</label>
-            <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Contrasenya" type="password" v-model="form.password" name="password">
-        </div>
-        <div class="p-2 w-full mt-4">
-            <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
-        </div>
-        </div>
-    <div v-show="creat">
-        <h2>Usuari creat correctament!</h2>
-    </div>
-    </div> 
-</div>`,
+    </div>`,
     data() {
         return {
             creat: false,
+            error: {
+                nom: false,
+                correu: false,
+                contrasenya: false
+            },
             form: {
                 nickname: "",
                 email: "",
                 password: "",
                 description: ""
-            },
+            }
         };
     },
     methods: {
         saveForm() {
-            if(this.form.nickname.length >= 4 && this.form.nickname.length < 255) {
-                if(this.form.email.length >= 4 && this.form.email.length < 255) {
-                    if(this.form.password.length >= 4) {
-                        
-                    }
-                }
+            if (this.form.nickname.length < 4 || this.form.nickname.length > 255) {
+                this.error.nom = true;
+            } else {
+                this.error.nom = false;
             }
-            const enviar = new FormData();
-            enviar.append('nickname', this.form.nickname);
-            enviar.append('email', this.form.email);
-            enviar.append('password', this.form.password);
-            enviar.append('descripcio', this.form.descripcio);
+            if (this.form.email.length < 4 || this.form.email.length > 255 || !this.form.email.includes("@") || !this.form.email.includes(".")) {
+                this.error.correu = true;
+            } else {
+                this.error.correu = false;
+            }
+            if (this.form.password.length < 4) {
+                this.error.contrasenya = true;
+            } else {
+                this.error.contrasenya = true;
+            }
 
-            fetch("../transversal_g1/public/api/register-user", {
-                method: "POST",
-                body: enviar
-            }).then(() => {
-                this.creat = true;
-            });
+            if (!this.error.nom && !this.error.correu && !this.error.contrasenya) {
+                const enviar = new FormData();
+                enviar.append('nickname', this.form.nickname);
+                enviar.append('email', this.form.email);
+                enviar.append('password', this.form.password);
+                enviar.append('descripcio', this.form.descripcio);
+
+                fetch("../transversal_g1/public/api/register-user", {
+                    method: "POST",
+                    body: enviar
+                }).then(() => {
+                    this.creat = true;
+                });
+            }
         }
     }
 });
