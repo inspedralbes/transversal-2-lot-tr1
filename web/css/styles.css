@@ -193,7 +193,7 @@ body {
 }
 
 /* <select> styles */
-.deplegue, .glass_btn {
+.desplegue, .glass_btn {
   appearance: none;
   border: 0;
   font: inherit;
@@ -210,21 +210,21 @@ body {
   text-align: center;
   
 }
-.deplegue_difficult{
+.desplegue_difficult{
   top: 58%;
-}.deplegue_category{
+}.desplegue_category{
   top: 71%;
 }
-.deplegue_nombre{
+.desplegue_nombre{
   top:45%;
   background: rgba(255, 255, 255, 0.3);
   color: rgba(255, 255, 255, 1);
 }
 
-.deplegue>option {
+.desplegue>option {
   color: black;
 }
-.deplegue:focus {
+.desplegue:focus {
   outline: none;
 }
 
@@ -431,26 +431,37 @@ background-color: rgba(255, 255, 255, 0.125);
   transform: translateY(100%);
 }
 }
-.d-block , .modal-content{
+.d-block , .modal-content, .login_user, .login_pass{
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(247, 244, 244, 0.945);
-  backdrop-filter: blur(7.8px);
-  -webkit-backdrop-filter: blur(7.8px);
-  -webkit-border-radius: 0px !important;
-    -moz-border-radius: 0px !important;
-    border-radius: 0px !important; 
-    background-color:rgba(252, 250, 250, 0);
+  box-shadow: 0 4px 30px rgba(247, 244, 244, 0.418);
+  backdrop-filter: blur(17.8px);
+  -webkit-backdrop-filter: blur(17.8px);
+    background-color:rgba(255, 255, 255, 0.048);
+    
   }
 
 .modal-dialog {
     max-width: 50%;
     margin: 0;
-    top: 20%;
+    top: 25%;
     bottom: 0;
     left: 25%;
     right: 0;
     height: fit-content;
-    display: flex;
+    display: flex;  
+  }
+.form_login{
+  margin: 2% ;
+}
+.login_user, .login_pass{
+  margin-bottom: 5%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 1);
+  border-radius: 0.5em;
+  cursor: pointer;
+  font-size: 120%;
+  
 }
 
 /* Footer */
