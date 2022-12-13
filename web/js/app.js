@@ -9,31 +9,23 @@ const pinia = Pinia.createPinia()
 
 Vue.component("register", {
     template: `
-    <div class="flex flex-wrap w-full justify-center items-center pt-56">
-        <div class="flex flex-wrap max-w-xl">
-            <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Registra un compte</h1></div>
+    <div >
+            <div class="titul_register">Register</div>
             <form>
                 <div v-show="!creat">
-                    <div class="p-2 w-full">
-                        <label class="w-full" for="nickname">Nom</label>
-                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Nom" type="text" v-model="form.nickname">
-                        <div v-show="error.nom">
-                            nom incorrecte
-                        </div>
+                    <div class="form_login">
+                    <p v-show="error.nom" style="color: red;">nom incorrecte</p>
+                    <b-form-input class="login_user" placeholder="Nom" type="text" v-model="form.nickname">
+                        
+                    </div>
+                    <div class="form_login">
+                        <p v-show="error.correu" style="color: red;">correu electrònic incorrecte</p>
+                        <input class="login_user" placeholder="User" type="email" v-model="form.email">
                     </div>
                     <div class="p-2 w-full">
-                        <label for="email">El teu correu electrònic</label>
-                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Correu electrònic" type="email" v-model="form.email">
-                        <div v-show="error.correu">
-                            correu electrònic incorrecte
-                        </div>
-                    </div>
-                    <div class="p-2 w-full">
-                        <label for="password">Contrasenya</label>
-                        <input class="w-full bg-gray-100 rounded border border-gray-400 focus:outline-none focus:border-indigo-500 text-base px-4 py-2" placeholder="Contrasenya" type="password" v-model="form.password" name="password">
-                        <div v-show="error.contrasenya">
-                            contrasenya incorrecte
-                        </div>
+                    <p v-show="error.contrasenya" style="color: red;">contrasenya incorrecte</p>
+                        <input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password">
+                        
                     </div>
                     <div class="p-2 w-full mt-4">
                         <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
@@ -43,8 +35,7 @@ Vue.component("register", {
                     <h2>Usuari creat correctament!</h2>
                 </div>
             </form>
-        </div>
-    </div>`,
+        </div>`,
     data() {
         return {
             creat: false,
@@ -97,13 +88,13 @@ Vue.component("register", {
     }
 });
 Vue.component("login", {
-    template: `<div class="login_glass">
-    <div class="p-2 text-2xl text-gray-800 font-semibold"><h1>Inicia sessió</h1></div>
+    template: `<div>
+    <div class="titul_login">Login</div>
     <form class="form_login">
-    <label class="login_user_label" for="email">Email:</label>
-    <b-form-input type="email"v-model="form.email" placeholder="Correu electrònic" class="login_user" required></b-form-input>
-    <label for="pass" class="login_user_password">Password:</label>
-    <b-form-input v-model="form.password" placeholder="Contrasenya" type="password" name="pass" class="login_pass" required></b-form-input>
+  
+    <b-form-input type="email" v-model="form.email" placeholder="Email" class="login_user" required></b-form-input>
+    
+    <b-form-input v-model="form.password" placeholder="Password" type="password" name="pass" class="login_pass" required></b-form-input>
     <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
     </form>
     </div>`,
@@ -162,7 +153,7 @@ Vue.component("navbar", {
                         class="btn btn-outline-secondary">Home</button></router-link>    </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" ><router-link to="/partida"><button type="button"
+                        <a class="nav-link" ><router-link to="/partida/normal"><button type="button"
                                 class="btn btn-outline-secondary">Jugar</button></router-link></a>
                     </li>
                     <li class="nav-item">
@@ -190,7 +181,7 @@ Vue.component("navbar", {
     <div class="d-block text-center">
         <div v-show="!registrar">
             <login></login>
-            <b-button @click="registrar = true">No tens compte?</b-button>
+            <b-button @click="registrar = true" class="login_btn_registre">No tens compte?</b-button>
 
         </div>
         <div v-show="registrar">
@@ -284,7 +275,9 @@ const partida = Vue.component("partida", {
     <br><br>
     <button @click="buscarQuiz" class="btn glass_btn"> Comença </button>
     </div>
-
+    <div v-show="!opcionsTriades">
+        <foot></foot>
+    </div>
     <div v-show="opcionsTriades">
     <a></a>
     <b-col v-for="(preg, index) in preguntesRespostes"> 
