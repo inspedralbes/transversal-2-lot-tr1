@@ -18,6 +18,20 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             $difficulty=random_int(1,3);
+            switch ($difficulty) {
+                case '1':
+                    $difficulty="easy";
+                    break;
+                case '2':
+                    $difficulty="medium";
+                    break;
+                case '3':
+                    $difficulty="hard";
+                    break;
+                default:
+                    
+                    break;
+            }
             $response = Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='+$difficulty);
             DB::table('game')->where('type',' daily')->update(['json' => $response],['difficulty'=>$difficulty]);
         })->everyMinute();
