@@ -267,7 +267,6 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
-    <input class="desplegue desplegue_nombre" type="text" placeholder="Nick name" ></input>
     <select class="desplegue desplegue_difficult" v-model="dificultat">
         <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
