@@ -67,7 +67,7 @@ Vue.component("register", {
             if (this.form.password.length < 8) {
                 this.error.contrasenya = true;
             } else {
-                this.error.contrasenya = true;
+                this.error.contrasenya = false;
             }
 
             if (!this.error.nom && !this.error.correu && !this.error.contrasenya) {
