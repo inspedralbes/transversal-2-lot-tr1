@@ -26,7 +26,7 @@ class GameController extends Controller
         
         $game=new game();
         $game= DB::table('games')->where('id',0);
-        return response()->json($game, 200);
+        return json($game);
 
     }
 }
