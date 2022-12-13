@@ -259,8 +259,9 @@ const partida = Vue.component("opcions", {
         };
     },
     template: `<div>
-
-    <navbar></navbar>
+    <div v-show="!opcionsTriades">
+        <navbar></navbar>
+    </div>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
     <input class="deplegue deplegue_nombre" type="text" placeholder="Nick name" ></input>
