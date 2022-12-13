@@ -13,6 +13,7 @@ class GameController extends Controller
         $game=new game;
 
         $game->id;
+        $game->type=$request->type;
         $game->difficulty=$request->difficulty;
         $game->categoria=$request->category;
         $game->json=json_encode($request->json);
