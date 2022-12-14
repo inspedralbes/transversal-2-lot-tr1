@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChallengeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
@@ -20,6 +21,7 @@ use App\Http\Controllers\UserController;
 
 
 Route::post('/store-game', [GameController::class , 'store']);
+Route::post('/challengeUser', [ChallengeController::class , 'store']);
 Route::post('/register-user',[UserController::class, 'store']);
 Route::post('/edit-profile',[UserController::class, 'profileUpdate']);
 Route::post('/login',[UserController::class, 'login']);
