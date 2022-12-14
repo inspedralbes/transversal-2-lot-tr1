@@ -263,7 +263,6 @@ const partida = Vue.component("partida", {
             this.opcionsTriades = true;
             fetch("../transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
                 this.preguntesRespostes = JSON.parse(data);
-                console.log(JSON.parse(data));
             });
         }
         //window.onbeforeunload = function() {
@@ -302,10 +301,12 @@ const partida = Vue.component("partida", {
     </b-col>
     
         <section v-if="preguntaActual == 10" id="slider">
+            <navbar></navbar>
             <h1>Has encertat {{dadesPartida.punts}}/10</h1>
             <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
             <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
             <b-button @click="location.reload();">Play Again</b-button>
+            <foot></foot>
         </section>
     </div>
     </div>`,
@@ -314,7 +315,6 @@ const partida = Vue.component("partida", {
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                     this.preguntesRespostes = data;
-                    console.log(data);
                 });
                 this.opcionsTriades = true;
             } else {
