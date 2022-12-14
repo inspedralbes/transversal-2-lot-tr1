@@ -195,6 +195,14 @@ Vue.component("navbar", {
         return {registrar: false, iniciat: false, dadesUsuari: {}};
     },
     methods: {},
+    computed: {
+        isLogged() {
+            return userStore().logged;
+        },
+        getName() {
+            return userStore().name;
+        }
+    }
 });
 
 Vue.component("perfil", {
@@ -208,15 +216,7 @@ Vue.component("perfil", {
     </div>
   </b-modal>
   </div>`,
-    methods: {},
-    computed: {
-        isLogged() {
-            return userStore().logged;
-        },
-        getName() {
-            return userStore().name;
-        }
-    }
+    methods: {}
 });
 
 Vue.component("foot", {
