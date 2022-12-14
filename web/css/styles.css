@@ -439,7 +439,15 @@ background-color: rgba(255, 255, 255, 0.125);
   backdrop-filter: blur(17.8px);
   -webkit-backdrop-filter: blur(17.8px);
     background-color:rgba(41, 184, 240,0.1);
+    width: 100%;
+    border: none;
+    min-height: 4ch;
   }
+
+  .login_user::placeholder,.login_pass::placeholder { /* Most modern browsers support this now. */
+    color:    #909;
+    text-shadow: 0 0 0.125em var(--clr-pink), 0 0 0.5em currentColor;
+ }
     
 .modal-dialog {
     max-width: 50%;
@@ -455,7 +463,7 @@ background-color: rgba(255, 255, 255, 0.125);
   margin: 1% 5% ;
 }
 .login_user, .login_pass{
-  margin-bottom: 5%;
+  margin-bottom: 3%;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
   color: rgba(255, 255, 255, 1);

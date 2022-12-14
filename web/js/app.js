@@ -80,7 +80,7 @@ Vue.component("login", {
     template: `<div>
     <div class="titol_modal">Login</div>
     <form class="form_login">
-    <b-form-input type="email" v-model="form.email" placeholder="Email" class="login_user" required></b-form-input>
+    <b-form-input type="email" v-model="form.email" placeholder="Email" class="login_user" required ></b-form-input>
     <b-form-input v-model="form.password" placeholder="Password" type="password" name="pass" class="login_pass" required></b-form-input>
     <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
     </form>
@@ -297,9 +297,12 @@ const partida = Vue.component("partida", {
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     <div v-if="preguntaActual == 10">
+        <navbar></navbar>
         <h1>Has encertat {{dadesPartida.punts}}/10</h1>
         <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
-        <b-button @click="addGame">Guardar partida</b-button>
+        <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
+        <router-link to="/partida/normal"><b-button>Play Again</b-button></router-link>
+        <foot></foot>
     </div>
     </div>
     </div>`,
