@@ -263,6 +263,7 @@ const partida = Vue.component("partida", {
             this.opcionsTriades = true;
             fetch("../transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
                 this.preguntesRespostes = data;
+                console.log(data);
             });
         }
         window.onbeforeunload = function() {
