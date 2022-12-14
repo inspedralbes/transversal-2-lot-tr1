@@ -14,7 +14,6 @@ class ChallengeController extends Controller
         $challenge->idChallenger->$request->idChallenger;
         $challenge->idChallenged->$request->idChallenged;
         $challenge->idGame->$request->idGame;
-        $challenge->seem->$request->seen; 
         $challenge->save();
 
         //
