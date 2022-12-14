@@ -20,11 +20,11 @@ Vue.component("register", {
                     </div>
                     <div class="form_login">
                         <p v-show="error.correu" style="color: red;">correu electrònic incorrecte</p>
-                        <input class="login_user" placeholder="User" type="email" v-model="form.email">
+                        <b-form-input class="login_user" placeholder="User" type="email" v-model="form.email">
                     </div>
-                    <div class="p-2 w-full">
+                    <div class="form_login">
                     <p v-show="error.contrasenya" style="color: red;">contrasenya incorrecte</p>
-                        <input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password">
+                        <b-form-input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password">
                         
                     </div>
                     <div class="p-2 w-full mt-4">
@@ -153,7 +153,7 @@ Vue.component("navbar", {
                         class="btn btn-outline-secondary">Home</button></router-link>    </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" ><router-link to="/partida"><button type="button"
+                        <a class="nav-link" ><router-link to="/partida/normal"><button type="button"
                                 class="btn btn-outline-secondary">Play</button></router-link></a>
                     </li>
                     <li class="nav-item">
