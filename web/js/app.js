@@ -300,14 +300,16 @@ const partida = Vue.component("partida", {
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     
-        <section v-if="preguntaActual == 10" id="slider">
-            <navbar></navbar>
+    <div v-if="preguntaActual == 10">
+        <navbar></navbar>
+        <section id="slider">
             <h1>Has encertat {{dadesPartida.punts}}/10</h1>
             <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
             <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
             <b-button @click="location.reload();">Play Again</b-button>
-            <foot></foot>
         </section>
+        <foot></foot>
+    </div>
     </div>
     </div>`,
     methods: {
