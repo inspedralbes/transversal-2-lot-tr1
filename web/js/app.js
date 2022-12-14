@@ -15,16 +15,16 @@ Vue.component("register", {
                 <div v-show="!creat">
                     <div class="form_login">
                     <p v-show="error.nom" style="color: red;">nom incorrecte</p>
-                    <b-form-input class="login_user" placeholder="Nom" type="text" v-model="form.nickname">
+                    <b-form-input class="login_user" placeholder="Nom" type="text" v-model="form.nickname"></b-form-input>
                         
                     </div>
                     <div class="form_login">
                         <p v-show="error.correu" style="color: red;">correu electrònic incorrecte</p>
-                        <b-form-input class="login_user" placeholder="User" type="email" v-model="form.email">
+                        <b-form-input class="login_user" placeholder="User" type="email" v-model="form.email"></b-form-input>
                     </div>
                     <div class="form_login">
                     <p v-show="error.contrasenya" style="color: red;">contrasenya incorrecte</p>
-                        <b-form-input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password">
+                        <b-form-input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password"></b-form-input>
                         
                     </div>
                     <div class="p-2 w-full mt-4">
