@@ -262,14 +262,14 @@ const partida = Vue.component("partida", {
         if (this.tipus == "daily") {
             this.opcionsTriades = true;
             fetch("../transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
-                this.preguntesRespostes = json.parse(data.json);
+                this.preguntesRespostes = data;
                 console.log(data);
             });
         }
-        window.onbeforeunload = function() {
-            return "Data will be lost if you leave the page, are you sure?";
+        //window.onbeforeunload = function() {
+        //    return "Data will be lost if you leave the page, are you sure?";
 
-        };
+        //};
     },
     template: `<div>
     <div v-show="!opcionsTriades">
