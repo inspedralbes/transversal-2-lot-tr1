@@ -23,7 +23,7 @@ class GameController extends Controller
         //
     }
     public function sendDailyGame(){
-        $game=DB::select('select * from games where id = ?', [1]);       
+        $game=DB::select('select * from games where id = ?', [0]);       
         return response()->json($game);
     }
 }
