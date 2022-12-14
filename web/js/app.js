@@ -305,8 +305,13 @@ const partida = Vue.component("partida", {
         <section id="slider">
             <h1>Has encertat {{dadesPartida.punts}}/10</h1>
             <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
-            <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
-            <b-button @click="location.reload();">Play Again</b-button>
+            <router-link to="/"><a><b-button @click="addGame">Save game</b-button></a></router-link>
+            <div v-if="tipus == 'normal'">
+                <a href="/web/index.html?#/partida/normal"><b-button>Play Again</b-button></a>
+            </div>
+            <div v-if="tipus == 'daily'">
+            <a href="/web/index.html?#/partida/normal"><b-button>Play normal game</b-button></a>
+            </div>
         </section>
         <foot></foot>
     </div>
