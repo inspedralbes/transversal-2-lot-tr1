@@ -161,9 +161,6 @@ Vue.component("navbar", {
     </nav>
 
     <b-modal id="login" hide-footer hide-header>
-    <template #modal-title>
-       Login
-    </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
             <login></login>
@@ -297,11 +294,12 @@ const partida = Vue.component("partida", {
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     
-        <section v-if="preguntaActual == 10" id="slider">
-            <h1>Has encertat {{dadesPartida.punts}}/10</h1>
-            <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
-            <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
-            <b-button @click="location.reload();">Play Again</b-button>
+        <section v-if="preguntaActual == 10" id="slider_final_quiz">
+            <div class="titol_modal game_over">Game <b>Over</b></div>
+            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
+            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
+            <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
+            <b-button @click="location.reload();" class="final_quiz_play_btn">Play Again</b-button>
         </section>
     </div>
     </div>`,
