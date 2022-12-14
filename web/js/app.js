@@ -210,10 +210,8 @@ Vue.component("perfil", {
     <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0">Perfil</button>
     
     <b-modal id="perfil" hide-footer hide-header>
-    <template #modal-title>
-       Perfil de {{ getName }}
-    </template>
     <div class="d-block text-center">
+        <div class="titul_login">Perfil de {{ getName }}</div>
         
     </div>
   </b-modal>
