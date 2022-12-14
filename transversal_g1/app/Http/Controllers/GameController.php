@@ -24,7 +24,7 @@ class GameController extends Controller
     }
     public function sendDailyGame(){
         
-        
-         return response()->json(DB::table('games')->where('id',0));
+        $game=DB::table('games')->where('id',0);        
+        return response()->json();
     }
 }
