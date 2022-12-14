@@ -314,6 +314,7 @@ const partida = Vue.component("partida", {
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                     this.preguntesRespostes = data;
+                    console.log(data);
                 });
                 this.opcionsTriades = true;
             } else {
