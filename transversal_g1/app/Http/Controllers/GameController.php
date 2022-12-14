@@ -17,13 +17,13 @@ class GameController extends Controller
         $game->difficulty=$request->difficulty;
         $game->categoria=$request->category;
         $game->json=json_encode($request->json);
-        $game->iduser=1;
+        $game->iduser= $request->iduser;
         $game->save();
 
         //
     }
     public function sendDailyGame(){
         $game=DB::table('games')->where('id',0)->value('json');       
-        return response()->json($game);
+        return response()->json($game,200);
     }
 }

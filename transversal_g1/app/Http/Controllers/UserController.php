@@ -61,7 +61,7 @@ class UserController extends Controller
             'name' =>'required|min:4|string|max:255',
             'email'=>'required|email|string|max:255'
         ]);
-        $user = user::find($request->id);
+        $user  = user::find($request->id);
         $user->nickname=$request->nickname;
         $user->email=$request->email;
         $user->description=$request->description;
