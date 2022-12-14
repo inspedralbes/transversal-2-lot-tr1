@@ -315,6 +315,11 @@ const partida = Vue.component("partida", {
     </div>
     </div>
     </div>`,
+    computed: {
+        getDataUser() {
+            return userStore().data;
+        }
+    },
     methods: {
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
@@ -344,6 +349,7 @@ const partida = Vue.component("partida", {
                     break;
             }
 
+            console.log(getDataUser().id);
             enviar.append("type", this.tipus)
             enviar.append("difficulty", numDificultat);
             enviar.append("category", this.preguntesRespostes[0].category);
