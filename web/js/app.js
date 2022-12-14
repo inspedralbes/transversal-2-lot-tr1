@@ -207,8 +207,17 @@ Vue.component("navbar", {
 
 Vue.component("perfil", {
     template: `<div>
-    <button>Perfil</button>
+    <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0">Perfil</button>
     
+    <b-modal id="perfil" hide-footer hide-header>
+    <template #modal-title>
+       Login
+    </template>
+    <div class="d-block text-center">
+        <login></login>
+        <b-button @click="registrar = true">Don't you have an account?</b-button>
+    </div>
+  </b-modal>
   </div>`,
     methods: {}
 });
