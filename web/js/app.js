@@ -297,10 +297,12 @@ const partida = Vue.component("partida", {
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     <div v-if="preguntaActual == 10">
+        <navbar></navbar>
         <h1>Has encertat {{dadesPartida.punts}}/10</h1>
         <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
-        <router-link to="/"><b-button @click="addGame">Save game</b-button><router-link>
-        <router-link to="/partida/normal"><b-button>Play Again</b-button><router-link>
+        <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
+        <router-link to="/partida/normal"><b-button>Play Again</b-button></router-link>
+        <foot></foot>
     </div>
     </div>
     </div>`,
