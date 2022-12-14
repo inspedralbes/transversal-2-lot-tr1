@@ -313,8 +313,8 @@ const partida = Vue.component("partida", {
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
-                    this.preguntesRespostes = data;
-                    console.log(data);
+                    this.preguntesRespostes = JSON.parse(data);
+                    console.log(JSON.parse(data));
                 });
                 this.opcionsTriades = true;
             } else {
