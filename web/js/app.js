@@ -184,9 +184,6 @@ Vue.component("navbar", {
     computed: {
         isLogged() {
             return userStore().logged;
-        },
-        getName() {
-            return userStore().name;
         }
     }
 });
@@ -202,7 +199,12 @@ Vue.component("perfil", {
     </div>
   </b-modal>
   </div>`,
-    methods: {}
+    methods: {},
+    computed: {
+        getName() {
+            return userStore().name;
+        }
+    }
 });
 
 Vue.component("foot", {
