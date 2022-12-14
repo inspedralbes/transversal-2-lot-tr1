@@ -431,19 +431,20 @@ background-color: rgba(255, 255, 255, 0.125);
   transform: translateY(100%);
 }
 }
+.d-block{
+  background: transparent;
+}
 .d-block , .modal-content, .login_user, .login_pass{
-  border-radius: 16px;
-  /* box-shadow: 0 4px 30px rgba(41, 184, 240,0.418); */
+  box-shadow: 0 4px 30px rgba(41, 184, 240,0.418);
   backdrop-filter: blur(17.8px);
   -webkit-backdrop-filter: blur(17.8px);
     background-color:rgba(41, 184, 240,0.1);
-    
   }
-
+    
 .modal-dialog {
     max-width: 50%;
     margin: 0;
-    top: 25%;
+    top: 20%;
     bottom: 0;
     left: 25%;
     right: 0;
@@ -461,7 +462,14 @@ background-color: rgba(255, 255, 255, 0.125);
   border-radius: 0.5em;
   cursor: pointer;
   font-size: 120%;
-  
+}
+
+.login_btn_register{
+  margin-bottom: 2%;
+}
+
+.input--error{
+  border-color:red;
 }
 
 /* Footer */
