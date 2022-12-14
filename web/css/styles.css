@@ -51,11 +51,14 @@ body {
     user-select: none;
   }
   .omg{
-    top: 12%;
+    top: -10%;
   }
-  
-   .logo b, .omg b, .titol_modal{
-    font: 400 19vh "Vibur";
+    .logo{
+      font-size: 19vh;
+    }
+   .logo b, .omg b, .titol_modal, .titol_modal>b{
+    font-weight: 400;
+    font-family: "Vibur";
     color: var(--clr-white);
     text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;
     
@@ -252,12 +255,21 @@ body {
 
 
 /*  Slider   */
-#slider {
+#slider, #slider_final_quiz{
     position: relative;
     width: 50vw;
     height: 30vw;
     margin: 1vh auto;
     perspective: 1400px;
+    box-shadow: 3px 3px 5px rgba(255,255,255,0.5), 0px 0px 10px rgba(255, 255, 255, 0.5);
+}
+
+#slider_final_quiz{
+  width: 60vw;
+  margin: 15vh auto;
+}
+.game_over{
+  left: 25%;
 }
 
 input[type=radio] {
@@ -281,11 +293,10 @@ input[type=radio]:checked {
     height: 100%;
     left: 0;
     top: 10%;
-    color: var(--clr-white);
     border-radius: 5px;
     transition: transform 400ms ease;
 }
-.slide1_pregunta{
+.slide1_pregunta, .final_quiz_titol, .final_quiz_segons{
   text-align: center;
     display: block;
     width: auto;
@@ -301,16 +312,19 @@ input[type=radio]:checked {
   align-items: baseline;
 
 }
-.slide1_btn{
+.slide1_btn, .final_quiz_save_btn, .final_quiz_play_btn{
   min-width: 44.5%;
   min-height: 20%;
+}
+.final_quiz_save_btn, .final_quiz_play_btn{
+  margin: 22% 2.5%;
 }
 
 #slide1,
 #slide2,
 #slide3,
 #slide4,
-#slide5 {
+#slide5{
     background: rgb(41, 40, 40);z-index: 10;
 }
 
@@ -385,9 +399,9 @@ input[type=radio]:checked {
 
 /* Countdown */
 
-.counter {
+.counter, .counter1, .counter2 {
 position: absolute;
-top: 43%;
+top: 40%;
 left: 12%;
 transform: translate(-50%, -40%);
 display: flex;
@@ -397,13 +411,24 @@ overflow: hidden;
 z-index: 1;
 border-radius: 50%;
 }
+
 @media (min-width: 600px) {
-.counter {
+.counter, .counter1, .counter2{
   width: 30vmin;
   height: 30vmin;
   box-shadow: 0 0 0 1.25vmin, inset 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125), 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125);
+}
+.counter{
   font-size: 15vmin;
   text-shadow: 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125);
+}
+.counter1 {
+  font-size: 10vmin;
+  left: 15%;
+}
+.counter2 {
+  font-size: 10vmin;
+  left: 70%;
 }
 }
 
