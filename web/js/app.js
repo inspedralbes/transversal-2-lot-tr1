@@ -211,11 +211,10 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <template #modal-title>
-       Login
+       Perfil de {{ getName() }}
     </template>
     <div class="d-block text-center">
-        <login></login>
-        <b-button @click="registrar = true">Don't you have an account?</b-button>
+        
     </div>
   </b-modal>
   </div>`,
