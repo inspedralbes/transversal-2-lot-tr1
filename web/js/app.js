@@ -1,6 +1,6 @@
 const userStore = Pinia.defineStore('usuario', {
     state() {
-        return {logged: false, name: ''}
+        return {logged: false, data: {}}
     }
 })
 
@@ -105,7 +105,7 @@ Vue.component("login", {
             }).then(response => response.json()).then((data) => {
                 console.log(data);
                 store = userStore()
-                store.name = data.nickname;
+                store.data = data;
                 store.logged = true;
             }).catch(() => {
                 console.error('Error:');
@@ -184,25 +184,30 @@ Vue.component("navbar", {
     computed: {
         isLogged() {
             return userStore().logged;
-        },
-        getName() {
-            return userStore().name;
         }
     }
 });
 
 Vue.component("perfil", {
     template: `<div>
-    <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0">Perfil</button>
+    <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0">Profile</button>
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol_modal">Perfil de {{ getName }}</div>
-        
+        <div class="titol_modal">{{ getDataUser.nickname }} Profile</div>
+        <p>Username: {{ getDataUser.nickname }}</p>
+        <p>Description: {{ getDataUser.description }}</p>
+        <p>Email: {{ getDataUser.email }}</p>
+        <p>Creation date: {{ getDataUser.created_at }}</p>
     </div>
   </b-modal>
   </div>`,
-    methods: {}
+    methods: {},
+    computed: {
+        getDataUser() {
+            return userStore().data;
+        }
+    }
 });
 
 Vue.component("foot", {
@@ -487,6 +492,6 @@ let app = new Vue({
     pinia,
     data: {},
     computed: {
-        ...Pinia.mapState(userStore, ['name', 'logged'])
+        ...Pinia.mapState(userStore, ['data', 'logged'])
     }
 });
