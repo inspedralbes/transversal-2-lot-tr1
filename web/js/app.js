@@ -296,14 +296,13 @@ const partida = Vue.component("partida", {
     <b-col v-for="(preg, index) in preguntesRespostes"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
-    <div v-if="preguntaActual == 10">
-        <navbar></navbar>
-        <h1>Has encertat {{dadesPartida.punts}}/10</h1>
-        <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
-        <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
-        <router-link to="/partida/normal"><b-button>Play Again</b-button></router-link>
-        <foot></foot>
-    </div>
+    
+        <section v-if="preguntaActual == 10" id="slider">
+            <h1>Has encertat {{dadesPartida.punts}}/10</h1>
+            <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
+            <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
+            <b-button @click="location.reload();">Play Again</b-button>
+        </section>
     </div>
     </div>`,
     methods: {
@@ -315,7 +314,7 @@ const partida = Vue.component("partida", {
                 this.opcionsTriades = true;
             } else {
                 Swal.fire({
-                    position: 'top-end',
+                    position: 'center',
                     icon: 'error',
                     title: 'Escull la dificultat y la categoria ',
                     showConfirmButton: false,
@@ -379,20 +378,6 @@ Vue.component("pregunta", {
     
     <section id="slider">
         <input type="radio" name="slider" id="item" v-for="item in 10" disabled >
-        <section id="slide2">
-            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
-            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
-            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
-            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
-            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
-        </section>
-        <section id="slide5">
-            <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
-            <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
-            <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
-            <b-button :variant="b2" @click="respostaCorrecte(2)" class="slide1_btn" type="button">{{ respostesDesordenades[2] }}</b-button>
-            <b-button :variant="b3" @click="respostaCorrecte(3)" class="slide1_btn" type="button">{{ respostesDesordenades[3] }}</b-button>
-        </section>
         <section id="slide1">
             <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
             <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
