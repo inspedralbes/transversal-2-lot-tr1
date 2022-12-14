@@ -12,21 +12,10 @@ Vue.component("register", {
     <div >
             <div class="titul_register">Register</div>
             <form>
-                <div v-show="!creat">
-                    <div class="form_login">
-                    <p v-show="error.nom" style="color: red;">nom incorrecte</p>
-                    <b-form-input class="login_user" placeholder="Nom" type="text" v-model="form.nickname"></b-form-input>
-                        
-                    </div>
-                    <div class="form_login">
-                        <p v-show="error.correu" style="color: red;">correu electrònic incorrecte</p>
-                        <b-form-input class="login_user" placeholder="User" type="email" v-model="form.email"></b-form-input>
-                    </div>
-                    <div class="form_login">
-                    <p v-show="error.contrasenya" style="color: red;">contrasenya incorrecte</p>
-                        <b-form-input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password"></b-form-input>
-                        
-                    </div>
+                <div v-show="!creat" class="form_login">
+                        <input class="login_user" placeholder="Nom" type="text" v-model="form.nickname" :class="{'input--error':error.nom}"> 
+                        <input class="login_user" placeholder="Email" type="email" v-model="form.email" :class="{'input--error':error.correu}">
+                        <input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password" :class="{'input--error':error.contrasenya}">
                     <div class="p-2 w-full mt-4">
                         <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                     </div>
@@ -91,9 +80,7 @@ Vue.component("login", {
     template: `<div>
     <div class="titul_login">Login</div>
     <form class="form_login">
-  
     <b-form-input type="email" v-model="form.email" placeholder="Email" class="login_user" required></b-form-input>
-    
     <b-form-input v-model="form.password" placeholder="Password" type="password" name="pass" class="login_pass" required></b-form-input>
     <b-button @click="submitLogin(); $bvModal.hide('login');" variant="primary">Login</b-button>
     </form>
@@ -108,7 +95,6 @@ Vue.component("login", {
     },
     methods: {
         submitLogin() {
-
             const enviar = new FormData();
             enviar.append('email', this.form.email);
             enviar.append('password', this.form.password);
@@ -181,12 +167,12 @@ Vue.component("navbar", {
     <div class="d-block text-center">
         <div v-show="!registrar">
             <login></login>
-            <b-button @click="registrar = true">Don't you have an account?</b-button>
+            <b-button @click="registrar = true" class="login_btn_register">Don't you have an account?</b-button>
 
         </div>
         <div v-show="registrar">
             <register></register>
-            <b-button @click="registrar = false">Already signed up?</b-button>
+            <b-button @click="registrar = false"class="login_btn_register">Already signed up?</b-button>
         </div>
     </div>
   </b-modal>
@@ -210,10 +196,8 @@ Vue.component("perfil", {
     <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0">Perfil</button>
     
     <b-modal id="perfil" hide-footer hide-header>
-    <template #modal-title>
-       Perfil de {{ getName }}
-    </template>
     <div class="d-block text-center">
+        <div class="titul_login">Perfil de {{ getName }}</div>
         
     </div>
   </b-modal>
