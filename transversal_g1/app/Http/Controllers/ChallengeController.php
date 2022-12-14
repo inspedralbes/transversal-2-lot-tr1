@@ -10,7 +10,7 @@ class ChallengeController extends Controller
     {
 
 
-        $challenge=new challenge();
+        $challenge=new challenge;
         $challenge->idChallenger->$request->idChallenger;
         $challenge->idChallenged->$request->idChallenged;
         $challenge->idGame->$request->idGame;
