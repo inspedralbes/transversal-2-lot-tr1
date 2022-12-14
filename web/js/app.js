@@ -11,7 +11,7 @@ Vue.component("register", {
     template: `
     <div >
             <div class="titol_modal">Register</div>
-            <form>
+            <div>
                 <div v-show="!creat" class="form_login">
                         <input class="login_user" placeholder="Nom" type="text" v-model="form.nickname" :class="{'input--error':error.nom}"> 
                         <input class="login_user" placeholder="Email" type="email" v-model="form.email" :class="{'input--error':error.correu}">
@@ -23,7 +23,7 @@ Vue.component("register", {
                 <div v-show="creat">
                     <h2>User successfully created!</h2>
                 </div>
-            </form>
+            </div>
         </div>`,
     data() {
         return {
@@ -76,6 +76,9 @@ Vue.component("register", {
         }
     }
 });
+
+
+
 Vue.component("login", {
     template: `<div>
     <div class="titol_modal">Login</div>
@@ -148,14 +151,12 @@ Vue.component("navbar", {
                     </li>
 
                 </ul>
-                <form class="d-flex">
-                    <div v-show="!isLogged">
-                        <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
-                    </div>
-                    <div v-show="isLogged">
-                        <perfil></perfil>
-                    </div>
-                </form>
+                <div v-show="!isLogged">
+                    <button v-b-modal.login class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                </div>
+                <div v-show="isLogged">
+                    <perfil></perfil>
+                </div>
             </div>
         </div>
     </nav>
@@ -300,16 +301,14 @@ const partida = Vue.component("partida", {
     <div v-if="preguntaActual == 10">
         <navbar></navbar>
         <section id="slider">
-        <section v-if="preguntaActual == 10" id="slider_final_quiz">
-            <div class="titol_modal game_over">Game <b>Over</b></div>
-            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
-            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
-            <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
+            <h1>Has encertat {{dadesPartida.punts}}/10</h1>
+            <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
+            <router-link to="/"><a><b-button @click="addGame">Save game</b-button></a></router-link>
             <div v-if="tipus == 'normal'">
                 <a href="/web/index.html?#/partida/normal"><b-button>Play Again</b-button></a>
             </div>
             <div v-if="tipus == 'daily'">
-                <a href="/web/index.html?#/partida/normal"><b-button class="final_quiz_play_btn">Play normal game</b-button></a>
+            <a href="/web/index.html?#/partida/normal"><b-button>Play normal game</b-button></a>
             </div>
         </section>
         <foot></foot>
@@ -481,7 +480,7 @@ const routes = [
     },
 ];
 
-const router = new VueRouter({routes});
+const router = new VueRouter({ routes});
 
 Vue.use(BootstrapVue);
 let app = new Vue({
