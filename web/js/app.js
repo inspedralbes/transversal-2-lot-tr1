@@ -1,6 +1,6 @@
 const userStore = Pinia.defineStore('usuario', {
     state() {
-        return {logged: false, name: ''}
+        return {logged: false, data: {}}
     }
 })
 
@@ -105,7 +105,7 @@ Vue.component("login", {
             }).then(response => response.json()).then((data) => {
                 console.log(data);
                 store = userStore()
-                store.name = data.nickname;
+                store.data = data;
                 store.logged = true;
             }).catch(() => {
                 console.error('Error:');
@@ -194,15 +194,15 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol_modal">Perfil de {{ getName }}</div>
-        
+        <div class="titol_modal">Perfil de {{ getDataUser.nickname }}</div>
+        <p>Nom:</p>
     </div>
   </b-modal>
   </div>`,
     methods: {},
     computed: {
-        getName() {
-            return userStore().name;
+        getDataUser() {
+            return userStore().data;
         }
     }
 });
@@ -488,6 +488,6 @@ let app = new Vue({
     pinia,
     data: {},
     computed: {
-        ...Pinia.mapState(userStore, ['name', 'logged'])
+        ...Pinia.mapState(userStore, ['data', 'logged'])
     }
 });
