@@ -222,6 +222,7 @@ Vue.component("foot", {
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
+    <div class="card_reto"></div>
     <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
@@ -299,15 +300,15 @@ const partida = Vue.component("partida", {
     
     <div v-if="preguntaActual == 10">
         <navbar></navbar>
-        <section id="slider">
-        <section v-if="preguntaActual == 10" id="slider_final_quiz">
+        <section id="slider_final_quiz">
             <div class="titol_modal game_over">Game <b>Over</b></div>
             <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
             <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
             <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
+            <router-link to="/partida/normal"><b-button @click="addGame" class="final_quiz_play_btn">Play game</b-button></router-link>
             <div v-if="tipus == 'normal'">
-                <a href="/web/index.html?#/partida/normal"><b-button>Play Again</b-button></a>
-            </div>
+                <a href="/web/index.html?#/partida/normal"><b-button class="final_quiz_play_btn">Play Again</b-button></a>
+            </div> 
             <div v-if="tipus == 'daily'">
                 <a href="/web/index.html?#/partida/normal"><b-button class="final_quiz_play_btn">Play normal game</b-button></a>
             </div>
@@ -454,7 +455,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 1000);
+                }, 000);
             }
             if (this.segons == 0) {
                 this.$emit("sumarTemps", (this.segons - 20) * -1);
