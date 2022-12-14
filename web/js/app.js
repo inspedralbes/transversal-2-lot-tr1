@@ -161,9 +161,6 @@ Vue.component("navbar", {
     </nav>
 
     <b-modal id="login" hide-footer hide-header>
-    <template #modal-title>
-       Login
-    </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
             <login></login>
@@ -262,13 +259,11 @@ const partida = Vue.component("partida", {
         if (this.tipus == "daily") {
             this.opcionsTriades = true;
             fetch("../transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
-                this.preguntesRespostes = data;
-                console.log(data);
+                this.preguntesRespostes = JSON.parse(data);
             });
         }
         //window.onbeforeunload = function() {
         //    return "Data will be lost if you leave the page, are you sure?";
-
         //};
     },
     template: `<div>
@@ -302,12 +297,23 @@ const partida = Vue.component("partida", {
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
     
-        <section v-if="preguntaActual == 10" id="slider">
-            <h1>Has encertat {{dadesPartida.punts}}/10</h1>
-            <h1>Has trigat un total de {{dadesPartida.tempsPartida}} segons</h1>
-            <router-link to="/"><b-button @click="addGame">Save game</b-button></router-link>
-            <b-button @click="location.reload();">Play Again</b-button>
+    <div v-if="preguntaActual == 10">
+        <navbar></navbar>
+        <section id="slider">
+        <section v-if="preguntaActual == 10" id="slider_final_quiz">
+            <div class="titol_modal game_over">Game <b>Over</b></div>
+            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
+            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
+            <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
+            <div v-if="tipus == 'normal'">
+                <a href="/web/index.html?#/partida/normal"><b-button>Play Again</b-button></a>
+            </div>
+            <div v-if="tipus == 'daily'">
+                <a href="/web/index.html?#/partida/normal"><b-button class="final_quiz_play_btn">Play normal game</b-button></a>
+            </div>
         </section>
+        <foot></foot>
+    </div>
     </div>
     </div>`,
     methods: {
