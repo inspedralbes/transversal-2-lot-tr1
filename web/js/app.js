@@ -211,7 +211,7 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <template #modal-title>
-       Perfil de {{ getName() }}
+       Perfil de {{ getName }}
     </template>
     <div class="d-block text-center">
         
