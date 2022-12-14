@@ -153,7 +153,7 @@ Vue.component("navbar", {
                         class="btn btn-outline-secondary">Home</button></router-link>    </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" ><router-link to="/partida"><button type="button"
+                        <a class="nav-link" ><router-link to="/partida/normal"><button type="button"
                                 class="btn btn-outline-secondary">Play</button></router-link></a>
                     </li>
                     <li class="nav-item">
