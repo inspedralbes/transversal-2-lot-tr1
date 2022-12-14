@@ -10,7 +10,7 @@ const pinia = Pinia.createPinia()
 Vue.component("register", {
     template: `
     <div >
-            <div class="titul_register">Register</div>
+            <div class="titol_modal">Register</div>
             <form>
                 <div v-show="!creat" class="form_login">
                         <input class="login_user" placeholder="Nom" type="text" v-model="form.nickname" :class="{'input--error':error.nom}"> 
@@ -78,7 +78,7 @@ Vue.component("register", {
 });
 Vue.component("login", {
     template: `<div>
-    <div class="titul_login">Login</div>
+    <div class="titol_modal">Login</div>
     <form class="form_login">
     <b-form-input type="email" v-model="form.email" placeholder="Email" class="login_user" required></b-form-input>
     <b-form-input v-model="form.password" placeholder="Password" type="password" name="pass" class="login_pass" required></b-form-input>
@@ -197,7 +197,7 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titul_login">Perfil de {{ getName }}</div>
+        <div class="titol_modal">Perfil de {{ getName }}</div>
         
     </div>
   </b-modal>
