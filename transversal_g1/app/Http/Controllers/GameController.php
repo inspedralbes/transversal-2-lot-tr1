@@ -23,8 +23,8 @@ class GameController extends Controller
         //
     }
     public function sendDailyGame(){
-        $game =  game::find(0);
-         return response()->json($game);
+        
+         return response('hola');
 
     }
 }
