@@ -11,7 +11,7 @@ Vue.component("register", {
     template: `
     <div >
             <div class="titol_modal">Register</div>
-            <form>
+            <div>
                 <div v-show="!creat" class="form_login">
                         <input class="login_user" placeholder="Nom" type="text" v-model="form.nickname" :class="{'input--error':error.nom}"> 
                         <input class="login_user" placeholder="Email" type="email" v-model="form.email" :class="{'input--error':error.correu}">
@@ -23,7 +23,7 @@ Vue.component("register", {
                 <div v-show="creat">
                     <h2>User successfully created!</h2>
                 </div>
-            </form>
+            </div>
         </div>`,
     data() {
         return {
@@ -76,6 +76,9 @@ Vue.component("register", {
         }
     }
 });
+
+
+
 Vue.component("login", {
     template: `<div>
     <div class="titol_modal">Login</div>
@@ -148,22 +151,17 @@ Vue.component("navbar", {
                     </li>
 
                 </ul>
-                <form class="d-flex">
                     <div v-show="!isLogged">
-                        <button v-b-modal.login block @click="$bvModal.show('login')" class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                        <button v-b-modal.login class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
                     </div>
                     <div v-show="isLogged">
                         <perfil></perfil>
                     </div>
-                </form>
             </div>
         </div>
     </nav>
 
     <b-modal id="login" hide-footer hide-header>
-    <template #modal-title>
-       Login
-    </template>
     <div class="d-block text-center">
         <div v-show="!registrar">
             <login></login>
@@ -482,7 +480,7 @@ const routes = [
     },
 ];
 
-const router = new VueRouter({routes});
+const router = new VueRouter({ routes});
 
 Vue.use(BootstrapVue);
 let app = new Vue({
