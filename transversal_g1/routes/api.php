@@ -27,3 +27,4 @@ Route::post('/edit-profile',[UserController::class, 'profileUpdate']);
 Route::post('/login',[UserController::class, 'login']);
 Route::post('/store-points', [PuntuacioController::class , 'store']);
 Route::get('/daily', [GameController::class , 'sendDailyGame']);
+Route::get('/authUser', [GameController::class , '']);
