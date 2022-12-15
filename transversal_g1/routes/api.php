@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\ChallengeController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\PuntuacioController;
@@ -17,7 +16,6 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
 
 Route::get('/authUser', [GameController::class , 'authUser']);
 Route::post('/store-game', [GameController::class , 'store']);
