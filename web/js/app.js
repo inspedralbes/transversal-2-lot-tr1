@@ -250,6 +250,7 @@ const partida = Vue.component("partida", {
             preguntesRespostes: [],
             opcionsTriades: false,
             preguntaActual: 0,
+            linkDif: false,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -264,7 +265,11 @@ const partida = Vue.component("partida", {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
-        console.log(window.location.href);
+        if(window.location.href.includes("index")){
+            this.linkDif = true;
+        }else {
+            this.linkDif = false;
+        };
         
         //window.onbeforeunload = function() {
         //    return "Data will be lost if you leave the page, are you sure?";
@@ -308,8 +313,14 @@ const partida = Vue.component("partida", {
             <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
             <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
             <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
-            <a href="/web/#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
-            <a href="/web/#/partida/normal"><b-button v-if="tipus == 'daily'" class="final_quiz_play_btn">Play normal game</b-button></a>
+            <div v-if="linkDif" class="final_quiz_play_btn">
+                <a href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'normal'">Play Again</b-button></a>
+                <a href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
+            </div>
+            <div v-else class="final_quiz_play_btn">
+                <a href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button v-if="tipus == 'normal'">Play Again</b-button></a>
+                <a href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
+            </div>
         </section>
         <foot></foot>
     </div>
