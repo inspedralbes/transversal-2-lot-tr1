@@ -22,7 +22,7 @@ Vue.component("register", {
                 </div>
                 <div v-show="creat">
                     <h2>User successfully created!</h2>
-                </div>
+                </div>/
             </div>
         </div>`,
     data() {
