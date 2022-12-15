@@ -17,7 +17,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/user-check', [GameController::class , 'sendUser']);
+Route::get('/user-check', [UserController::class , 'sendUser']);
 Route::post('/store-game', [GameController::class , 'store']);
 Route::post('/challengeUser', [ChallengeController::class , 'store']);
 Route::post('/register-user',[UserController::class, 'store']);
