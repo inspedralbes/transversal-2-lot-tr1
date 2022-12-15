@@ -17,11 +17,11 @@ class UserController extends Controller
             'nickname' =>'required|min:4|string|max:255',
             'email'=>'required|email|string|max:255',
             'password'=>'required|min:8|',
-            
+
         ]);
         $user= new user();
 
-        
+
         $user->nickname=$request->nickname;
         $user->email=$request->email;
         $user->password=Hash::make($request->password);
@@ -36,10 +36,10 @@ class UserController extends Controller
     {
 
         $request->validate([
-            
+
             'email'=>'required|email|string|max:255',
             'password'=>'required'
-            
+
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))){
@@ -50,7 +50,7 @@ class UserController extends Controller
         ]);
 
     }
-    public function authUser(){
+    public function checkUser(){
         return response()->json(Auth::user(), 200);
     }
     public function logout()
