@@ -19,7 +19,7 @@ use App\Http\Controllers\UserController;
 */
 
 
-
+Route::get('/authUser', [GameController::class , 'authUser']);
 Route::post('/store-game', [GameController::class , 'store']);
 Route::post('/challengeUser', [ChallengeController::class , 'store']);
 Route::post('/register-user',[UserController::class, 'store']);
