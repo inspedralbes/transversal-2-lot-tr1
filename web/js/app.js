@@ -78,7 +78,6 @@ Vue.component("register", {
 });
 
 
-
 Vue.component("login", {
     template: `<div>
     <div class="titol_modal">Login</div>
@@ -265,15 +264,15 @@ const partida = Vue.component("partida", {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
-        if(window.location.href.includes("index")){
+        if (window.location.href.includes("index")) {
             this.linkDif = true;
-        }else {
+        } else {
             this.linkDif = false;
         };
-        
-        //window.onbeforeunload = function() {
+
+        // window.onbeforeunload = function() {
         //    return "Data will be lost if you leave the page, are you sure?";
-        //};
+        // };
     },
     template: `<div>
     <div v-show="!opcionsTriades">
@@ -418,26 +417,37 @@ Vue.component("pregunta", {
         <div class="counter"> {{ segons }} </div>    
    </div>
    </div>`,
+    computed: {
+        isLogged() {
+            return userStore().logged;
+        }
+    },
     methods: {
         respostaCorrecte: function (nRes) {
             this.respostaContestada = true;
             if (this.respostesDesordenades[nRes] == this.infoPreguntes.correctAnswer) {
-                this.buttonColors("success", nRes);
+                if (userStore().logged) {
+                    this.buttonColors("success", nRes);
+                }
                 setTimeout(() => {
                     this.$emit("sumaPunts");
                     this.$emit("next-question");
                 }, 2000);
-                for (let i = 0; i < 4; i++) {
-                    if (i != nRes) {
-                        this.buttonColors("danger", i);
+                if (userStore().logged) {
+                    for (let i = 0; i < 4; i++) {
+                        if (i != nRes) {
+                            this.buttonColors("danger", i);
+                        }
                     }
                 }
             } else {
-                for (let i = 0; i < 4; i++) {
-                    if (this.respostesDesordenades[i] != this.infoPreguntes.correctAnswer) {
-                        this.buttonColors("danger", i);
-                    } else {
-                        this.buttonColors("success", i);
+                if (userStore().logged) {
+                    for (let i = 0; i < 4; i++) {
+                        if (this.respostesDesordenades[i] != this.infoPreguntes.correctAnswer) {
+                            this.buttonColors("danger", i);
+                        } else {
+                            this.buttonColors("success", i);
+                        }
                     }
                 }
                 setTimeout(() => {
@@ -470,7 +480,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumarTemps", (this.segons - 20) * -1);
@@ -497,7 +507,7 @@ const routes = [
     },
 ];
 
-const router = new VueRouter({ routes});
+const router = new VueRouter({routes});
 
 Vue.use(BootstrapVue);
 let app = new Vue({
