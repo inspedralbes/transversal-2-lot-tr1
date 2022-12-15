@@ -308,17 +308,15 @@ const partida = Vue.component("partida", {
     <div v-if="preguntaActual == 10">
         <section id="slider_final_quiz">
             <div class="titol_modal game_over">Game <b>Over</b></div>
-            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
-            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
-            <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
-            <div v-if="linkDif" class="final_quiz_play_btn">
-                <a href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'normal'">Play Again</b-button></a>
-                <a href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
-            </div>
-            <div v-else class="final_quiz_play_btn">
-                <a href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button v-if="tipus == 'normal'">Play Again</b-button></a>
-                <a href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
-            </div>
+            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
+            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div> 
+            
+            <router-link v-if="isLogged" to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
+            <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">Save game</b-button>
+                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
+                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
+                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></a>
+                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></a>
         </section>
         <foot></foot>
     </div>
@@ -327,6 +325,9 @@ const partida = Vue.component("partida", {
     computed: {
         getDataUser() {
             return userStore().data;
+        },
+        isLogged() {
+            return userStore().logged;
         }
     },
     methods: {
