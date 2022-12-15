@@ -275,7 +275,7 @@ const partida = Vue.component("partida", {
         // };
     },
     template: `<div>
-    <div v-show="!opcionsTriades">
+    <div v-show="!opcionsTriades || preguntaActual == 10">
         <navbar></navbar>
     </div>
     <div v-show="!opcionsTriades" class="card_despligue">
@@ -306,7 +306,6 @@ const partida = Vue.component("partida", {
     </b-col>
     
     <div v-if="preguntaActual == 10">
-        <navbar></navbar>
         <section id="slider_final_quiz">
             <div class="titol_modal game_over">Game <b>Over</b></div>
             <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
@@ -480,7 +479,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 1000);
+                }, 000);
             }
             if (this.segons == 0) {
                 this.$emit("sumarTemps", (this.segons - 20) * -1);
