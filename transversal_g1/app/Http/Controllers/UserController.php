@@ -44,7 +44,7 @@ class UserController extends Controller
             
         ]);
 
-        if (Auth::attempt($request->only('email', 'password','remember_token'))){
+        if (Auth::attempt($request->only('email', 'password'))){
             
             return response()->json(Auth::user(), 200);
         }
@@ -55,6 +55,9 @@ class UserController extends Controller
         
  
         
+    }
+    public function authUser(){
+        return response()->json(Auth::user(),200);
     }
     public function logout()
     {
