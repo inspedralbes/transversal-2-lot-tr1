@@ -43,7 +43,8 @@ class UserController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))){
-            Auth::login(Auth::user());
+            $user=Auth::user();
+            Auth::login($user);
             return response()->json(Auth::user(), 200);
             
         }
