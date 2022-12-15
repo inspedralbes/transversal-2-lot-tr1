@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
                     $difficulty="hard";
                     break;
                 default:
-                    
+
                     break;
             }
            ;
@@ -38,7 +38,7 @@ class Kernel extends ConsoleKernel
             DB::table('games')->where('id',0)->update(['json' => Http::get('https://the-trivia-api.com/api/questions?limit=10&difficulty='.$difficulty)]);
             DB::table('games')->where('id',0)->update(['difficulty' => $difficulty_number]);
             DB::table('users')->where('id',0)->update(['nickname'=> 'SYSTEM']);
-        })->dailyAt('13:00');
+        })->everyminute('13:00');
     }
 
     /**
@@ -52,5 +52,5 @@ class Kernel extends ConsoleKernel
 
         require base_path('routes/console.php');
     }
-    
+
 }
