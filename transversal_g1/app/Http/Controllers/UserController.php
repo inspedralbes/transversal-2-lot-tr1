@@ -43,11 +43,11 @@ class UserController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))){
-            $user=Auth::user();
-            Auth::login($user);
+            Auth::login($request->only('email','password'));    
             return response()->json(Auth::user(), 200);
             
         }
+        
         throw ValidationException::withMessages([
             'email' =>['The provided credentials are incorect.']
         ]);
