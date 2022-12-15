@@ -349,7 +349,7 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            enviar.append("id", userStore().data.id)
+            enviar.append("idUser", userStore().data.id)
             enviar.append("type", this.tipus)
             enviar.append("difficulty", numDificultat);
             enviar.append("category", this.preguntesRespostes[0].category);
