@@ -78,7 +78,6 @@ Vue.component("register", {
 });
 
 
-
 Vue.component("login", {
     template: `<div>
     <div class="titol_modal">Login</div>
@@ -262,6 +261,7 @@ const partida = Vue.component("partida", {
             preguntesRespostes: [],
             opcionsTriades: false,
             preguntaActual: 0,
+            linkDif: false,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -276,12 +276,18 @@ const partida = Vue.component("partida", {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
-        //window.onbeforeunload = function() {
+        if (window.location.href.includes("index")) {
+            this.linkDif = true;
+        } else {
+            this.linkDif = false;
+        };
+
+        // window.onbeforeunload = function() {
         //    return "Data will be lost if you leave the page, are you sure?";
-        //};
+        // };
     },
     template: `<div>
-    <div v-show="!opcionsTriades">
+    <div v-show="!opcionsTriades || preguntaActual == 10">
         <navbar></navbar>
     </div>
     <div v-show="!opcionsTriades" class="card_despligue">
@@ -312,19 +318,17 @@ const partida = Vue.component("partida", {
     </b-col>
     
     <div v-if="preguntaActual == 10">
-        <navbar></navbar>
         <section id="slider_final_quiz">
             <div class="titol_modal game_over">Game <b>Over</b></div>
-            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10   </div> 
-            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
-            <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
-            <router-link to="/partida/normal"><b-button @click="addGame" class="final_quiz_play_btn">Play game</b-button></router-link>
-            <div v-if="tipus == 'normal'">
-                <a href="/web/index.html?#/partida/normal"><b-button class="final_quiz_play_btn">Play Again</b-button></a>
-            </div> 
-            <div v-if="tipus == 'daily'">
-            <a href="/web/index.html?#/partida/normal"><b-button>Play normal game</b-button></a>
-            </div>
+            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
+            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div> 
+            
+            <router-link v-if="isLogged" to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
+            <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">Save game</b-button>
+                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
+                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
+                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></a>
+                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></a>
         </section>
         <foot></foot>
     </div>
@@ -333,6 +337,9 @@ const partida = Vue.component("partida", {
     computed: {
         getDataUser() {
             return userStore().data;
+        },
+        isLogged() {
+            return userStore().logged;
         }
     },
     methods: {
@@ -369,7 +376,7 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            console.log(userStore().id);
+            enviar.append("iduser", userStore().data.id)
             enviar.append("type", this.tipus)
             enviar.append("difficulty", numDificultat);
             enviar.append("category", this.preguntesRespostes[0].category);
@@ -427,26 +434,37 @@ Vue.component("pregunta", {
         <div class="counter"> {{ segons }} </div>    
    </div>
    </div>`,
+    computed: {
+        isLogged() {
+            return userStore().logged;
+        }
+    },
     methods: {
         respostaCorrecte: function (nRes) {
             this.respostaContestada = true;
             if (this.respostesDesordenades[nRes] == this.infoPreguntes.correctAnswer) {
-                this.buttonColors("success", nRes);
+                if (userStore().logged) {
+                    this.buttonColors("success", nRes);
+                }
                 setTimeout(() => {
                     this.$emit("sumaPunts");
                     this.$emit("next-question");
                 }, 2000);
-                for (let i = 0; i < 4; i++) {
-                    if (i != nRes) {
-                        this.buttonColors("danger", i);
+                if (userStore().logged) {
+                    for (let i = 0; i < 4; i++) {
+                        if (i != nRes) {
+                            this.buttonColors("danger", i);
+                        }
                     }
                 }
             } else {
-                for (let i = 0; i < 4; i++) {
-                    if (this.respostesDesordenades[i] != this.infoPreguntes.correctAnswer) {
-                        this.buttonColors("danger", i);
-                    } else {
-                        this.buttonColors("success", i);
+                if (userStore().logged) {
+                    for (let i = 0; i < 4; i++) {
+                        if (this.respostesDesordenades[i] != this.infoPreguntes.correctAnswer) {
+                            this.buttonColors("danger", i);
+                        } else {
+                            this.buttonColors("success", i);
+                        }
                     }
                 }
                 setTimeout(() => {
@@ -506,7 +524,7 @@ const routes = [
     },
 ];
 
-const router = new VueRouter({ routes});
+const router = new VueRouter({routes});
 
 Vue.use(BootstrapVue);
 let app = new Vue({

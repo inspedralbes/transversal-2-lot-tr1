@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\models\challenge;
+use App\Models\challenge;
 use Illuminate\Http\Request;
 
 class ChallengeController extends Controller
@@ -10,10 +10,10 @@ class ChallengeController extends Controller
     {
 
 
-        $challenge=new challenge;
-        $challenge->idChallenger->$request->idChallenger;
-        $challenge->idChallenged->$request->idChallenged;
-        $challenge->idGame->$request->idGame;
+        $challenge = new challenge;
+        $challenge->idChallenger=$request->idChallenger;
+        $challenge->idChallenged=$request->idChallenged;
+        $challenge->idGame=$request->idGame;
         $challenge->save();
 
         //

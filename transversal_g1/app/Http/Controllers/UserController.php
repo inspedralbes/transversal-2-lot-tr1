@@ -50,6 +50,9 @@ class UserController extends Controller
         ]);
 
     }
+    public function authUser(){
+        return response()->json(Auth::user(), 200);
+    }
     public function logout()
     {
         Auth::logout();
