@@ -26,6 +26,7 @@ class UserController extends Controller
         $user->nickname=$request->nickname;
         $user->email=$request->email;
         $user->password=Hash::make($request->password);
+
         $user->description="";
 
 
@@ -42,12 +43,9 @@ class UserController extends Controller
             'password'=>'required'
             
         ]);
-
-        if (Auth::attempt($request->only('email', 'password'))){
-            $user=$request->only('email','password');
-            Auth::login($user);   
+        if (Auth::attempt($request->only('email', 'password'),true)){
+            
             return response()->json(Auth::user(), 200);
-             
         }
         
         throw ValidationException::withMessages([
