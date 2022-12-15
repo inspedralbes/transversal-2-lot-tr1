@@ -43,7 +43,8 @@ class UserController extends Controller
             'password'=>'required'
             
         ]);
-        if (Auth::attempt($request->only('email', 'password'),true)){
+        
+        if (Auth::attempt($request->only('email', 'password','personal_access_tokens'))){
             
             return response()->json(Auth::user(), 200);
         }
