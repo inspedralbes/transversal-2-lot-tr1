@@ -13,9 +13,9 @@ Vue.component("register", {
             <div class="titol_modal">Register</div>
             <div>
                 <div v-show="!creat" class="form_login">
-                        <input class="login_user" placeholder="Nom" type="text" v-model="form.nickname" :class="{'input--error':error.nom}"> 
-                        <input class="login_user" placeholder="Email" type="email" v-model="form.email" :class="{'input--error':error.correu}">
-                        <input class="login_pass"  placeholder="Password" type="password" v-model="form.password" name="password" :class="{'input--error':error.contrasenya}">
+                        <input class="register_user" placeholder="Nom" type="text" v-model="form.nickname" :class="{'input--error':error.nom}"> 
+                        <input class="register_user" placeholder="Email" type="email" v-model="form.email" :class="{'input--error':error.correu}">
+                        <input class="register_pass"  placeholder="Password" type="password" v-model="form.password" name="password" :class="{'input--error':error.contrasenya}">
                     <div class="p-2 w-full mt-4">
                         <input @click.prevent="saveForm" type="submit" class="flex text-white bg-indigo-500 border-0 py-2 px-8 focus:outline-none hover:bg-indigo-600 rounded text-lg">
                     </div>
@@ -223,16 +223,28 @@ Vue.component("foot", {
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
-    <div class="card_reto"></div>
+    <div class="card_reto">
+        <h2>Ranking</h2>
+        <div>
+        <b-tabs content-class="mt-3" justified>
+            <b-tab title="First" active><p>I'm the first tab</p></b-tab>
+            <b-tab title="Second"><p>I'm the second tab</p></b-tab>
+            <b-tab title="very, very long title"><p>I'm the tab with the very, very long title</p></b-tab>
+            <b-tab title="disabled"><p>I'm a disabled tab!</p></b-tab>
+        </b-tabs>
+        </div>
+    </div>
+    
     <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
     <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     
     <router-link to="/partida/normal">
         <a class="play_btn button">Play</a>
     </router-link>
-    <router-link to="/partida/daily">
-        <a class="button">Game of the day</a>
-    </router-link>
+    
+    <div class="card_gameDay btn-outline-secondary">
+        <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
+    </div>
     <foot></foot>
     </div>`,
     data: function () {
@@ -274,7 +286,7 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="!opcionsTriades" class="card_despligue">
     <img src="./img/logo_omg.png" alt="">
-    <select class="desplegue desplegue_difficult" v-model="dificultat">
+    <select class="desplegue desplegue_difficult" v-model="dificultat" @change="onChange">
         <option selected value="">Selecciona una dificultat</option>
         <option value="easy">Facil</option>
         <option value="medium">Mitja</option>
@@ -288,7 +300,7 @@ const partida = Vue.component("partida", {
     </select>
     <br><br>
         <div v-if="tipus == 'normal'">
-            <button @click="buscarQuiz" class="btn glass_btn"> Start </button>
+            <button @click="buscarQuiz" class="btn glass_btn" :class="{'.glass_btn_active':opcionsTriades}"> Start </button>
         </div>
     </div>
     <div v-show="!opcionsTriades">
@@ -324,6 +336,11 @@ const partida = Vue.component("partida", {
         }
     },
     methods: {
+        onChange(event) {
+            if (this.categoria != "" && this.dificultat != "") {
+                this.opcionsTriades = true;
+            };
+        },
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
@@ -462,7 +479,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumarTemps", (this.segons - 20) * -1);

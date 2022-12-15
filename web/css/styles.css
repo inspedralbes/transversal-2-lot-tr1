@@ -36,7 +36,9 @@ body {
 }
 
 /* Navbar btn */
-.btn-outline-secondary:hover, .btn-secondary:hover { color: var(--clr-bg);
+.btn-outline-secondary:hover, .btn-secondary:hover { 
+  box-shadow: var(--clr-neon) 10px 10px 80px 10px;
+    color: var(--clr-bg);
     background-color: var(--clr-neon);
     border-color: var(--clr-neon);
 }
@@ -187,7 +189,7 @@ body {
 
 
 
-.card_despligue, .card_reto {
+.card_despligue, .card_reto, .card_gameDay {
   position: absolute;
   left: 50%;
   top: 50%;
@@ -197,21 +199,53 @@ body {
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
 }
+
 .card_reto{
   width: 25em;
   left: 20%;
+  text-align: center;
+}
+
+.card_reto>h2{
+  width: 100%;
+  margin: 5% 0;
 }
 
 .card_gameDay{
   width: 25em;
-  left: 20%;
+  left: 80%;
+  cursor: pointer;
+  padding: 3px;
+  opacity: 0.5;
+  transition: 3s;
+}
+.card_gameDay:hover {
+  background-color: rgba(221, 78, 221, 0.192);
+  transition: color 1s;
+  opacity: 1;
+}
+.btn-game-day{
+  position: absolute;
+  right: 5%;
+  bottom: 5%;
+  border-radius: 20px;
+  width: 90%;  
 }
 
 .card_despligue>img{
+  
   width: 80%;
   margin: auto auto ;
   display: block;
 }
+
+
+
+
+
+
+
+
 
 /* <select> styles */
 .desplegue, .glass_btn {
@@ -261,11 +295,11 @@ body {
   background: linear-gradient(45deg, rgba(2,0,36,0) 5%, rgba(255,255,255,.5) 6%, rgba(255,255,255,0) 9%, rgba(255,255,255,.5) 10%, rgba(255,255,255,0) 17%, rgba(255,255,255,.5) 19%, rgba(255,255,255,0) 21%);
 	background-size: 150%;
 	background-position: right;
-	transition: 1s;
+	transition: 1s ease-in-out;
   top: 85%;
 }
 
-.glass_btn:hover {
+.glass_btn_active {
 	background-position: left;
 	color: var(--clr-neon);
 	box-shadow: inset 0px 3px 5px var(--clr-neon), 0px 0px 10px rgba(0,0,0,0.25);
@@ -476,21 +510,23 @@ background-color: rgba(255, 255, 255, 0.125);
 .d-block{
   background: transparent;
 }
-.d-block , .modal-content, .login_user, .login_pass{
-  box-shadow: 0 4px 30px rgba(41, 184, 240,0.418);
-  backdrop-filter: blur(17.8px);
-  -webkit-backdrop-filter: blur(17.8px);
+.d-block , .modal-content, .login_user, .login_pass, .register_user, .register_pass {
+    box-shadow: 0 4px 30px rgba(41, 184, 240,0.418);
+    backdrop-filter: blur(17.8px);
+    -webkit-backdrop-filter: blur(17.8px);
     background-color:rgba(41, 184, 240,0.1);
     width: 100%;
     border: none;
     min-height: 4ch;
   }
 
-  .login_user::placeholder,.login_pass::placeholder { /* Most modern browsers support this now. */
+  .login_user::placeholder,.login_pass::placeholder, .register_user::placeholder,.register_pass::placeholder { 
     color:    #909;
     text-shadow: 0 0 0.125em var(--clr-pink), 0 0 0.5em currentColor;
- }
-    
+  }
+  .register_user::placeholder,.register_pass::placeholder {
+    padding-left: 1%;
+  }
 .modal-dialog {
     max-width: 50%;
     margin: 0;
@@ -504,7 +540,7 @@ background-color: rgba(255, 255, 255, 0.125);
 .form_login, .login_btn_registre{
   margin: 1% 5% ;
 }
-.login_user, .login_pass{
+.login_user, .login_pass, .register_user, .register_pass{
   margin-bottom: 3%;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
