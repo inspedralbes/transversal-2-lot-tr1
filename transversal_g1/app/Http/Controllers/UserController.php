@@ -50,7 +50,7 @@ class UserController extends Controller
         ]);
 
     }
-    public function checkUser(){
+    public function usuarioCheck(){
         return response()->json(Auth::user(), 200);
     }
     public function logout()
