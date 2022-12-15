@@ -314,12 +314,12 @@ const partida = Vue.component("partida", {
             <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s   </div> 
             <router-link to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
             <div v-show="linkDif">
-                <a href="/web/#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
-                <a href="/web/#/partida/normal"><b-button v-if="tipus == 'daily'" class="final_quiz_play_btn">Play normal game</b-button></a>
+                <a href="transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
+                <a href="transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'daily'" class="final_quiz_play_btn">Play normal game</b-button></a>
             </div>
             <div v-show="!linkDif">
-                <a href="/web/index.html#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
-                <a href="/web/index.html#/partida/normal"><b-button v-if="tipus == 'daily'" class="final_quiz_play_btn">Play normal game</b-button></a>
+                <a href="transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
+                <a href="transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button v-if="tipus == 'daily'" class="final_quiz_play_btn">Play normal game</b-button></a>
             </div>
         </section>
         <foot></foot>
