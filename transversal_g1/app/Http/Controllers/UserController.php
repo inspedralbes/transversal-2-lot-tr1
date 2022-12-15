@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -43,12 +44,18 @@ class UserController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))){
+            $user=$request->only('email','password');
+            Auth::login($user);   
             return response()->json(Auth::user(), 200);
+             
         }
+        
         throw ValidationException::withMessages([
             'email' =>['The provided credentials are incorect.']
         ]);
-
+        
+ 
+        
     }
     public function logout()
     {
