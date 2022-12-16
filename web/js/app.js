@@ -262,7 +262,6 @@ const partida = Vue.component("partida", {
             opcionsTriades: false,
             preguntaActual: 0,
             linkDif: false,
-            checkColor: '',
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -322,13 +321,13 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="opcionsTriades">
     <b-col v-for="(preg, index) in preguntesRespostes"> 
-        <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="sumarPuntuacio(index)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
+        <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="(n) => sumarPuntuacio(index, n)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
 
     <div>
-        <b-button :variant="checkColor" v-for="param in 10" @sumaPunts="checkColor = 'danger'" class="check" id="check" disabled></b-button>
+        <b-button v-for="param in 10" class="check" disabled></b-button>
     </div>
-    
+
     <div v-if="preguntaActual == 10">
         <section id="slider_final_quiz">
             <div class="titol_modal game_over">Game <b>Over</b></div>
@@ -360,9 +359,18 @@ const partida = Vue.component("partida", {
                 this.opcionsTriades = true;
             };
         },
-        sumarPuntuacio(index) {
-            this.dadesPartida.punts++;
-            document.querySelector(".check:nth-child("+(index + 1)+")").style.backgroundColor = "green";
+        sumarPuntuacio(index, num) {
+            if(num == 1) {
+                this.dadesPartida.punts += num;
+                if(userStore().logged) {
+                    document.querySelector(".check:nth-child("+(index + 1)+")").style.backgroundColor = "green";
+                }
+            }else {
+                if(userStore().logged) {
+                    document.querySelector(".check:nth-child("+(index + 1)+")").style.backgroundColor = "red";
+                }
+            }
+            
         },
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
@@ -462,7 +470,7 @@ Vue.component("pregunta", {
                     this.buttonColors("success", nRes);
                 }
                 setTimeout(() => {
-                    this.$emit("sumaPunts");
+                    this.$emit("sumaPunts", 1);
                     this.$emit("next-question");
                 }, 2000);
                 if (userStore().logged) {
@@ -483,6 +491,7 @@ Vue.component("pregunta", {
                     }
                 }
                 setTimeout(() => {
+                    this.$emit("sumaPunts", 0);
                     this.$emit("next-question");
                 }, 2000);
             }
@@ -515,6 +524,7 @@ Vue.component("pregunta", {
                 }, 1000);
             }
             if (this.segons == 0) {
+                this.$emit("sumaPunts", 0);
                 this.$emit("sumarTemps", (this.segons - 20) * -1);
                 this.$emit("next-question");
             }

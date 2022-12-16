@@ -592,15 +592,10 @@ background-color: rgba(255, 255, 255, 0.125);
   width: 30px;
   height: 30px;
   border-radius: 100%;
-  display: inline-block;
-}
-
-.check--success {
-  background-color: green;
-  width: 30px;
-  height: 30px;
-  border-radius: 100%;
-  display: inline-block;
+  background-color: #333;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
 }
 
 /* Cards index.html */
