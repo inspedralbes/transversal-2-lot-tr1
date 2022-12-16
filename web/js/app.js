@@ -1,3 +1,5 @@
+import { Bar } from 'vue-chartjs';
+
 const userStore = Pinia.defineStore('usuario', {
     state() {
         return {logged: false, data: {}}
