@@ -398,7 +398,7 @@ input[type=radio]:checked {
 #s3:checked~#slide3,
 #s4:checked~#slide4,
 #s5:checked~#slide5 {
-    box-shadow: 0 13px 26px var(--clr-white), 0 12px 6px var(--clr-darkgrey);
+    box-shadow: 0 13px 26px var(--clr-white), 0 12px 6px var(--clr-ºrkgrey);
     transform: translate3d(0%, 0, 0px);
 }
 
@@ -588,6 +588,19 @@ background-color: rgba(255, 255, 255, 0.125);
   }
 }
 
+.check {
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: inline-block;
+}
 
+.check--success {
+  background-color: green;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  display: inline-block;
+}
 
 /* Cards index.html */
