@@ -26,5 +26,6 @@ class ChallengeController extends Controller
         $challenged=DB::select('SELECT nickname AS challengedName, idChallenged FROM challenges JOIN users ON users.id=idChallenged WHERE users.id'.$request->idChallenged);
         $challenger=DB::select('SELECT nickname AS challengerName, idChallenger FROM challenges JOIN users ON users.id=idChallenger WHERE users.id'.$request->idChallenger);
         return response()->json(['challenger'=>$challenger, 'challenged'=>$challenged]);
+        //uwu
     }
 }
