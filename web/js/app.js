@@ -261,6 +261,7 @@ const partida = Vue.component("partida", {
             opcionsTriades: false,
             preguntaActual: 0,
             linkDif: false,
+            checkColor: '',
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -289,20 +290,26 @@ const partida = Vue.component("partida", {
     <div v-show="!opcionsTriades || preguntaActual == 10">
         <navbar></navbar>
     </div>
-    <div v-show="!opcionsTriades" class="card_desplegue_options">
-        <img src="./img/logo_omg.png" alt="">
-
-        <select class="desplegue__select desplegue__select__difficult" v-model="dificultat" @change="onChange">
-            <option selected value="">Selecciona una dificultat</option>
-            <option value="easy">Facil</option>
-            <option value="medium">Mitja</option>
-            <option value="hard">Dificil</option>
-        </select>
-        <select class="desplegue__select desplegue__select__category" v-model="categoria">
-            <option selected  value="">Selecciona una categoria</option>
-            <option value="history">Historia</option>
-            <option value="film_and_tv">Cinema</option>
-            <option value="sport_and_leisure">Esports</option>
+    <div v-show="!opcionsTriades" class="card_despligue">
+    <img src="./img/logo_omg.png" alt="">
+    <select class="desplegue desplegue_difficult" v-model="dificultat" @change="onChange">
+        <option selected value="">Selecciona una dificultat</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+    </select>
+    <select class="desplegue desplegue_category" v-model="categoria">
+        <option selected  value="">Selecciona una categoria</option>
+        <option value="history">History</option>
+        <option value="film_and_tv">Film & TV</option>
+        <option value="sport_and_leisure">Sport & Leisure</option>
+        <option value="general_knowledge">General Knowledge</option>
+        <option value="geography">Geography</option>
+        <option value="music">Music</option> 
+        <option value="science">Science</option>
+        <option value="arts_and_literature">Arts & Literature</option>
+        <option value="food_and_drink">Food & Drink</option>
+        <option value="society_and_culture">Society & Culture</option>
         </select>
     <br><br>
         <div v-if="tipus == 'normal'">
@@ -314,8 +321,12 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="opcionsTriades">
     <b-col v-for="(preg, index) in preguntesRespostes"> 
-        <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="dadesPartida.punts++" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
+        <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="sumarPuntuacio(index)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
+
+    <div>
+        <b-button :variant="checkColor" v-for="param in 10" @sumaPunts="checkColor = 'danger'" class="check" id="check" disabled></b-button>
+    </div>
     
     <div v-if="preguntaActual == 10">
         <section id="slider_final_quiz">
@@ -343,10 +354,14 @@ const partida = Vue.component("partida", {
         }
     },
     methods: {
-        onChange(event) {
+        onChange() {
             if (this.categoria != "" && this.dificultat != "") {
                 this.opcionsTriades = true;
             };
+        },
+        sumarPuntuacio(index) {
+            this.dadesPartida.punts++;
+            document.querySelector(".check:nth-child("+(index + 1)+")").style.backgroundColor = "green";
         },
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
@@ -420,7 +435,6 @@ Vue.component("pregunta", {
     template: `<div>
     
     <section id="slider">
-        <input type="radio" name="slider" id="item" v-for="item in 10" disabled >
         <section id="slide1">
             <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
             <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
