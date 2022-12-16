@@ -42,14 +42,10 @@ body {
     background-color: var(--clr-neon);
     border-color: var(--clr-neon);
 }
-.slide1_btn:focus{
-  
-  box-shadow: var(--clr-neon) 10px 10px 80px 10px;
-}
 
 
 /* Index.html Logo */
-.logo ,.omg{
+.logo__trivial ,.logo__omg{
     text-align: center;
     width: 65%;
     height: 250px;
@@ -61,31 +57,33 @@ body {
     bottom: 0;
     user-select: none;
   }
-  .omg{
-    top: -10%;
+  .logo__omg{
+    top: 10%;
   }
-    .logo{
-      font-size: 19vh;
-    }
-   .logo b, .omg b, .titol_modal, .titol_modal>b{
+  .logo__trivial{
+    font-size: 19vh;
+  }
+  
+  .logo__trivial b, .logo__omg b, .titol__modal__login, .titol__modal__register, .titol__modal__gameover, .titol__modal__gameover>b {
     font-weight: 400;
     font-family: "Vibur";
     color: var(--clr-white);
-    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;
-    
+    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;  
+  }
+  
+  .logo__omg b, .titol__modal__login, .titol__modal__register,.titol__modal__gameover{
+    font-size: 10vh;
+    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px #000;
   }
 
-    .omg b, .titol_modal{
-      font-size: 10vh;
-      text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px #000;
-    }
-
-  .logo b span, .omg b span{
+  .logo__trivial b span, .logo__omg b span{
     animation: blink linear infinite 2s;
   }
-  .logo b span:nth-of-type(2), .omg b span:nth-of-type(2){
+
+  .logo__trivial b span:nth-of-type(2), .logo__omg b span:nth-of-type(2){
     animation: blink linear infinite 3s;
   }
+
  @keyframes blink {
     78% {
       color: inherit;
@@ -124,7 +122,7 @@ body {
 
   /* Play play_btn */
     
-.play_btn {
+.btn__play__home {
 	font-size: 2em;
 	cursor: pointer;
 	text-decoration: none;
@@ -140,7 +138,7 @@ body {
 }
 
 
-.play_btn::before {
+.btn__play__home::before {
 	pointer-events: none;
 	content: "";
 	position: absolute;
@@ -155,7 +153,7 @@ body {
 	transition: transform 0.5s linear;
 }
 
-.play_btn::after {
+.btn__play__home::after {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -169,33 +167,34 @@ body {
 	transition: opacity 0.2s linear;
 }
 
-.play_btn:hover,
-.play_btn:focus {
+.btn__play__home:hover,
+.btn__play__home:focus {
 	color: var(--clr-bg);
 	text-shadow: none;
 }
 
-.play_btn:hover::before,
-.play_btn:focus::before {
+.btn__play__home:hover::before,
+.btn__play__home:focus::before {
 	opacity: 1;
 	transform: perspective(1em) rotateX(40deg) scale(1.5, 0.6);
 	transition: transform 0.2s linear;
 }
 
-.play_btn:hover::after,
-.play_btn:focus::after {
+.btn__play__home:hover::after,
+.btn__play__home:focus::after {
 	opacity: 1;
+  
 }
 
 
 
-.card_despligue, .card_reto, .card_gameDay {
+.card_desplegue_options, .card_reto, .card_gameDay {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  height: 40em;
-  width: 35em;
+  height: 65%;
+  width: 60%;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
 }
@@ -219,7 +218,7 @@ body {
   opacity: 0.5;
   transition: 3s;
 }
-.card_gameDay:hover {
+.card_gameDay:hover, .card_reto:hover {
   background-color: rgba(221, 78, 221, 0.192);
   transition: color 1s;
   opacity: 1;
@@ -232,23 +231,17 @@ body {
   width: 90%;  
 }
 
-.card_despligue>img{
-  
-  width: 80%;
+.card_desplegue_options>img{
+  width: fit-content;
+  height: 60%;
   margin: auto auto ;
   display: block;
 }
 
 
 
-
-
-
-
-
-
 /* <select> styles */
-.desplegue, .glass_btn {
+.desplegue__select{
   appearance: none;
   border: 0;
   font: inherit;
@@ -265,28 +258,27 @@ body {
   text-align: center;
   
 }
-.desplegue_difficult{
-  top: 58%;
-}.desplegue_category{
-  top: 71%;
-}
-.desplegue_nombre{
-  top:45%;
-  background: rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 1);
-}
 
-.desplegue>option {
+.desplegue__select>option {
   color: black;
 }
-.desplegue:focus {
+
+.desplegue__select:focus {
   outline: none;
 }
+
+.desplegue__select__difficult{
+  top: 58%;
+}.desplegue__select__category{
+  top: 71%;
+}
+
+
 
 
 /* Glass Btn */
 
-.glass_btn{
+.desplegue__select__btn{
 	font-family: 'Comfortaa', cursive;
 	color: var(--clr-glass);
 	border-radius: 4px;
@@ -299,7 +291,7 @@ body {
   top: 85%;
 }
 
-.glass_btn_active {
+.desplegue__select__btn:hover {
 	background-position: left;
 	color: var(--clr-neon);
 	box-shadow: inset 0px 3px 5px var(--clr-neon), 0px 0px 10px rgba(0,0,0,0.25);
@@ -448,6 +440,10 @@ input[type=radio]:checked {
   top:10%;
 }
 
+.slide1_btn:focus{
+  box-shadow: var(--clr-neon) 10px 10px 80px 10px;
+}
+
 /* Countdown */
 
 .counter, .counter1, .counter2 {
@@ -506,6 +502,7 @@ background-color: rgba(255, 255, 255, 0.125);
 100% {
   transform: translateY(100%);
 }
+
 }
 .d-block{
   background: transparent;
@@ -578,12 +575,12 @@ background-color: rgba(255, 255, 255, 0.125);
  }
 
  @media (max-width: 600px) {
-  .card_despligue {
+  .card_desplegue_options {
     width: 15em;
   }
 } 
 @media (max-height: 667px) {
-  .card_despligue {
+  .card_desplegue_options {
     height: 25em;
   }
 }

@@ -23,10 +23,9 @@ class ChallengeController extends Controller
     public function checkChallenge(Request $request){
         DB::table('challenges')-> where('id',$request->idChallenged);
         
-        $challenged=DB::select(`SELECT nickname AS challengedName, idChallenged FROM challenges JOIN users ON users.id=idChallenged;
-        `);
-        $challenger=DB::select(`SELECT nickname AS challengerName, idChallenger FROM challenges JOIN users ON users.id=idChallenger;
-        `);
+        $challenged=DB::select('SELECT nickname AS challengedName, idChallenged FROM challenges JOIN users ON id=idChallenged WHERE users.id='.$request->idChallenged);
+        $challenger=DB::select('SELECT nickname AS challengerName, idChallenger FROM challenges JOIN users ON id=idChallenger');
         return response()->json(['challenger'=>$challenger, 'challenged'=>$challenged]);
+        //uwu
     }
 }

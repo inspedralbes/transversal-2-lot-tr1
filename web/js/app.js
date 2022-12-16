@@ -10,7 +10,7 @@ const pinia = Pinia.createPinia()
 Vue.component("register", {
     template: `
     <div >
-            <div class="titol_modal">Register</div>
+            <div class="titol__modal__register">Register</div>
             <div>
                 <div v-show="!creat" class="form_login">
                         <input class="register_user" placeholder="Nom" type="text" v-model="form.nickname" :class="{'input--error':error.nom}"> 
@@ -80,7 +80,7 @@ Vue.component("register", {
 
 Vue.component("login", {
     template: `<div>
-    <div class="titol_modal">Login</div>
+    <div class="titol__modal__login">Login</div>
     <form class="form_login">
     <b-form-input type="email" v-model="form.email" placeholder="Email" class="login_user" required ></b-form-input>
     <b-form-input v-model="form.password" placeholder="Password" type="password" name="pass" class="login_pass" required></b-form-input>
@@ -151,7 +151,7 @@ Vue.component("navbar", {
 
                 </ul>
                 <div v-show="!isLogged">
-                    <button v-b-modal.login class="btn btn-secondary my-2 my-sm-0">Login/Signup</button>
+                    <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
                 </div>
                 <div v-show="isLogged">
                     <perfil></perfil>
@@ -191,7 +191,7 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol_modal">{{ getDataUser.nickname }} Profile</div>
+        <div class="titol__modal__profile">{{ getDataUser.nickname }} Profile</div>
         <p>Username: {{ getDataUser.nickname }}</p>
         <p>Description: {{ getDataUser.description }}</p>
         <p>Email: {{ getDataUser.email }}</p>
@@ -234,11 +234,10 @@ const home = Vue.component("home", {
         </div>
     </div>
     
-    <div class="logo"><b>T<span>ri</span>vi<span>a</span>L</b></div>
-    <div class="logo omg"><b><span>O</span><span>M</span><span>G</span></b></div>
-    
+    <div class="logo__trivial"><b>T<span>ri</span>vi<span>a</span>L</b></div>
+    <div class="logo__omg"><b><span>O</span><span>M</span><span>G</span></b></div>
     <router-link to="/partida/normal">
-        <a class="play_btn button">Play</a>
+        <a class="btn__play__home">Play</a>
     </router-link>
     
     <div class="card_gameDay btn-outline-secondary">
@@ -313,7 +312,7 @@ const partida = Vue.component("partida", {
         </select>
     <br><br>
         <div v-if="tipus == 'normal'">
-            <button @click="buscarQuiz" class="btn glass_btn" :class="{'.glass_btn_active':opcionsTriades}"> Start </button>
+            <button @click="buscarQuiz" class="btn desplegue__select desplegue__select__btn" :class="{'.glass_btn_active':opcionsTriades}"> Start </button>
         </div>
     </div>
     <div v-show="!opcionsTriades">
@@ -330,7 +329,7 @@ const partida = Vue.component("partida", {
 
     <div v-if="preguntaActual == 10">
         <section id="slider_final_quiz">
-            <div class="titol_modal game_over">Game <b>Over</b></div>
+            <div class="titol__modal__gameover game_over">Game <b>Over</b></div>
             <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
             <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div> 
             
@@ -521,7 +520,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 1000);
+                }, 000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
