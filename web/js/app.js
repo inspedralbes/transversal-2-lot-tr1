@@ -305,12 +305,13 @@ const partida = Vue.component("partida", {
         <option value="film_and_tv">Film & TV</option>
         <option value="sport_and_leisure">Sport & Leisure</option>
         <option value="general_knowledge">General Knowledge</option>
-        <option value="sport_and_leisure">Geography</option>
-        <option value="sport_and_leisure">Music</option>
-        <option value="sport_and_leisure">Science</option>
-        <option value="sport_and_leisure">Arts & Literature</option>
-        <option value="sport_and_leisure">Food & Drink</option>
-    </select>
+        <option value="geography">Geography</option>
+        <option value="music">Music</option> 
+        <option value="science">Science</option>
+        <option value="arts_and_literature">Arts & Literature</option>
+        <option value="food_and_drink">Food & Drink</option>
+        <option value="society_and_culture">Society & Culture</option>
+        </select>
     <br><br>
         <div v-if="tipus == 'normal'">
             <button @click="buscarQuiz" class="btn glass_btn" :class="{'.glass_btn_active':opcionsTriades}"> Start </button>
