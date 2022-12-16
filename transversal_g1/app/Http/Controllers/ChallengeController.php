@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\challenge;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class ChallengeController extends Controller
 {
@@ -17,5 +19,14 @@ class ChallengeController extends Controller
         $challenge->save();
 
         //
+    }
+    public function checkChallenge(Request $request){
+        DB::table('challenges')-> where('id',$request->idChallenged);
+        
+        $challenged=DB::select(`SELECT nickname AS challengedName, idChallenged FROM challenges JOIN users ON users.id=idChallenged;
+        `);
+        $challenger=DB::select(`SELECT nickname AS challengerName, idChallenger FROM challenges JOIN users ON users.id=idChallenger;
+        `);
+        return response()->json(['challenger'=>$challenger, 'challenged'=>$challenged]);
     }
 }

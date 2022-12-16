@@ -16,7 +16,7 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/checkChallenges',[ChallengeController::class, 'checkChallenge']);
 Route::get('/user-check', [UserController::class , 'sendUser']);
 Route::post('/store-game', [GameController::class , 'store']);
 Route::post('/challengeUser', [ChallengeController::class , 'store']);

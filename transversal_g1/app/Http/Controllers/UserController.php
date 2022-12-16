@@ -26,7 +26,7 @@ class UserController extends Controller
         $user->email=$request->email;
         $user->password=Hash::make($request->password);
         $user->description="";
-
+        
 
         $user->save();
 
@@ -43,7 +43,11 @@ class UserController extends Controller
         ]);
 
         if (Auth::attempt($request->only('email', 'password'))){
+            $user=auth::user();
+            $token=$user->createToken('token')->plainTextToken;
+            $cookie=cookie('cookie_token',$token,60*24);
             return response()->json(Auth::user(), 200);
+
         }
         throw ValidationException::withMessages([
             'email' =>['The provided credentials are incorect.']
