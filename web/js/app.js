@@ -66,7 +66,7 @@ Vue.component("register", {
                 enviar.append('password', this.form.password);
                 enviar.append('descripcio', this.form.descripcio);
 
-                fetch("../transversal_g1/public/api/register-user", {
+                fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/register-user", {
                     method: "POST",
                     body: enviar
                 }).then(() => {
@@ -101,7 +101,7 @@ Vue.component("login", {
             enviar.append('email', this.form.email);
             enviar.append('password', this.form.password);
 
-            fetch("../transversal_g1/public/api/login", {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/login", {
                 method: "POST",
                 body: enviar
             }).then(response => response.json()).then((data) => {
@@ -117,12 +117,13 @@ Vue.component("login", {
 });
 const ranking = Vue.component("ranking", {
     template: `<div>
-
     <navbar></navbar>
     
     <foot></foot>
     </div>`,
-    methods: {}
+    mounted() {
+        
+    }
 });
 Vue.component("navbar", {
     template: `<div>
@@ -145,8 +146,8 @@ Vue.component("navbar", {
                                 class="btn btn-outline-secondary">Play</button></router-link></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ranking"><button type="button"
-                                class="btn btn-outline-secondary">Ranking</button></a></a>
+                        <a class="nav-link" href="/ranking"><router-link to="/ranking"><button type="button"
+                                class="btn btn-outline-secondary">Ranking</button></router-link></a></a>
                     </li>
 
                 </ul>
@@ -177,7 +178,6 @@ Vue.component("navbar", {
     data: function () {
         return {registrar: false, iniciat: false, dadesUsuari: {}};
     },
-    methods: {},
     computed: {
         isLogged() {
             return userStore().logged;
@@ -199,7 +199,6 @@ Vue.component("perfil", {
     </div>
   </b-modal>
   </div>`,
-    methods: {},
     computed: {
         getDataUser() {
             return userStore().data;
@@ -207,22 +206,19 @@ Vue.component("perfil", {
     }
 });
 
-Vue.component("foot", {
-    template: `<div class="footer bg-primary">
+Vue.component("foot", {template: `<div class="footer bg-primary">
     <footer >&copy; Copyright 2022 | Developed by &nbsp;</footer>
 
     <a href="https://www.linkedin.com/in/oscar-leal-garc%C3%ADa-6b366019b/" target="_blank"><button type="button" class="btn btn-secondary">Oscar Leal</button></a>
     <a href="https://www.linkedin.com/in/mart%C3%AD-p%C3%A9rez-ballester-236319256/" target="_blank"><button type="button" class="btn btn-secondary">Marti Sala</button> </a>
     <a href="https://www.linkedin.com/in/gurpreet-singh-0741021b2" target="_blank"><button type="button" class="btn btn-secondary">Gurpreet Singh</button></a>
     
-  </div>`,
-    methods: {}
-});
+  </div>`});
 
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
-    <div class="card_reto">
+    <div v-show="isLogged" class="card_reto">
         <h2>Ranking</h2>
         <div>
         <b-tabs content-class="mt-3" justified>
@@ -240,7 +236,7 @@ const home = Vue.component("home", {
         <a class="btn__play__home">Play</a>
     </router-link>
     
-    <div class="card_gameDay btn-outline-secondary">
+    <div v-show="isLogged" class="card_gameDay btn-outline-secondary">
         <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
     </div>
     <foot></foot>
@@ -248,7 +244,11 @@ const home = Vue.component("home", {
     data: function () {
         return {};
     },
-    methods: {}
+    computed: {
+        isLogged() {
+            return userStore().logged;
+        }
+    }
 });
 
 const partida = Vue.component("partida", {
@@ -271,7 +271,7 @@ const partida = Vue.component("partida", {
     mounted() {
         if (this.tipus == "daily") {
             this.opcionsTriades = true;
-            fetch("../transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
@@ -355,21 +355,25 @@ const partida = Vue.component("partida", {
     methods: {
         onChange() {
             if (this.categoria != "" && this.dificultat != "") {
-                this.opcionsTriades = true;
+                //this.opcionsTriades = true;
             };
         },
         sumarPuntuacio(index, num) {
-            if(num == 1) {
+            if (num == 1) {
                 this.dadesPartida.punts += num;
-                if(userStore().logged) {
-                    document.querySelector(".check:nth-child("+(index + 1)+")").style.backgroundColor = "green";
+                if (userStore().logged) {
+                    document.querySelector(".check:nth-child(" + (
+                        index + 1
+                    ) + ")").style.backgroundColor = "green";
                 }
-            }else {
-                if(userStore().logged) {
-                    document.querySelector(".check:nth-child("+(index + 1)+")").style.backgroundColor = "red";
+            } else {
+                if (userStore().logged) {
+                    document.querySelector(".check:nth-child(" + (
+                        index + 1
+                    ) + ")").style.backgroundColor = "red";
                 }
             }
-            
+
         },
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
@@ -405,7 +409,7 @@ const partida = Vue.component("partida", {
             enviar.append("category", this.preguntesRespostes[0].category);
             enviar.append("json", JSON.stringify(this.preguntesRespostes));
 
-            fetch("../transversal_g1/public/api/store-game", {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
                 method: "POST",
                 body: enviar
             });
