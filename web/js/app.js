@@ -220,6 +220,7 @@ const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
     <div class="cards__home" >
+        <div v-show="!isLogged"></div>
         <div class="card card__ranking" v-show="isLogged">
             <p class="ranking__gameday__neonText">Ranking</p>
             <hr>
