@@ -149,7 +149,8 @@ Vue.component("navbar", {
 
                 </ul>
                 <div v-show="!isLogged">
-                    <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
+                <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
+                <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
                 <div v-show="isLogged">
 
@@ -299,10 +300,10 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="!opcionsTriades" class="card__options">
         <div class="card border-secondary card__options__difficult"> 
-            <div class="card-header">Category</div>
+            <div class="card-header">Difficult</div>
             <fieldset class="card-body" >
-                <input type="radio" v-model="dificultat" id="easy" value="easy"/><label for="easy" class="btn card__options__difficult__btn">Easy</label>
-                <input type="radio" v-model="dificultat" id="medium" value="medium"/><label for="medium" class="btn card__options__difficult__btn">Medium</label>
+                <input type="radio" v-model="dificultat" id="easy" value="easy"/><label for="easy" class="btn card__options__difficult__btn">Easy</label> <br>
+                <input type="radio" v-model="dificultat" id="medium" value="medium"/><label for="medium" class="btn card__options__difficult__btn">Medium</label> <br>
                 <input type="radio" v-model="dificultat" id="hard" value="hard"/><label for="hard" class="btn card__options__difficult__btn">Hard</label>
             </fieldset>
         </div>
