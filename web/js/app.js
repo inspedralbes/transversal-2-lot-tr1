@@ -154,6 +154,7 @@ Vue.component("navbar", {
                     <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
                 </div>
                 <div v-show="isLogged">
+
                     <perfil></perfil>
                 </div>
             </div>
@@ -222,26 +223,33 @@ Vue.component("foot", {
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
-    <div class="card_reto">
-        <h2>Ranking</h2>
-        <div>
-        <b-tabs content-class="mt-3" justified>
-            <b-tab title="First" active><p>I'm the first tab</p></b-tab>
-            <b-tab title="Second"><p>I'm the second tab</p></b-tab>
-            <b-tab title="very, very long title"><p>I'm the tab with the very, very long title</p></b-tab>
-            <b-tab title="disabled"><p>I'm a disabled tab!</p></b-tab>
-        </b-tabs>
+    <div class="cards__home">
+        <div class="card card__ranking">
+            <p class="ranking__gameday__neonText">Ranking</p>
+            <hr>
+            <div class="table_ranking effect__neon__mix">
+            <b-tabs content-class="mt-3 " justified>
+                <b-tab title="First" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
+                <b-tab title="Second"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
+                <b-tab title="very, very long title"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
+                <b-tab title="disabled"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
+            </b-tabs>
+            </div>
         </div>
-    </div>
-    
-    <div class="logo__trivial"><b>T<span>ri</span>vi<span>a</span>L</b></div>
-    <div class="logo__omg"><b><span>O</span><span>M</span><span>G</span></b></div>
-    <router-link to="/partida/normal">
-        <a class="btn__play__home">Play</a>
-    </router-link>
-    
-    <div class="card_gameDay btn-outline-secondary">
-        <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
+        <div class="card card__logo">
+            <div class="logo__trivial"><b>T<span>ri</span>vi<span>a</span>L</b></div>
+            <div class="logo__omg"><b><span>O</span><span>M</span><span>G</span></b></div>
+            <router-link to="/partida/normal" >
+                <a class="btn__play__home">Play</a>
+            </router-link>
+        </div>
+        <div class="card card__gameday">
+            <p class="ranking__gameday__neonText">Game of the day</p>
+            <div class="table_ranking effect__neon__mix">
+                <b-table striped hover :items="global"></b-table>
+            </div>
+            <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
+        </div>
     </div>
     <foot></foot>
     </div>`,
@@ -289,31 +297,31 @@ const partida = Vue.component("partida", {
     <div v-show="!opcionsTriades || preguntaActual == 10">
         <navbar></navbar>
     </div>
-    <div v-show="!opcionsTriades" class="card_despligue">
-    <img src="./img/logo_omg.png" alt="">
-    <select class="desplegue desplegue_difficult" v-model="dificultat" @change="onChange">
-        <option selected value="">Selecciona una dificultat</option>
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-    </select>
-    <select class="desplegue desplegue_category" v-model="categoria">
-        <option selected  value="">Selecciona una categoria</option>
-        <option value="history">History</option>
-        <option value="film_and_tv">Film & TV</option>
-        <option value="sport_and_leisure">Sport & Leisure</option>
-        <option value="general_knowledge">General Knowledge</option>
-        <option value="geography">Geography</option>
-        <option value="music">Music</option> 
-        <option value="science">Science</option>
-        <option value="arts_and_literature">Arts & Literature</option>
-        <option value="food_and_drink">Food & Drink</option>
-        <option value="society_and_culture">Society & Culture</option>
-        </select>
-    <br><br>
-        <div v-if="tipus == 'normal'">
-            <button @click="buscarQuiz" class="btn desplegue__select desplegue__select__btn" :class="{'.glass_btn_active':opcionsTriades}"> Start </button>
+    <div v-show="!opcionsTriades" class="card__options">
+        
+        <div class="card border-secondary card__options__difficult"> 
+            <div class="card-header">Difficult</div>
+            <div class="card-body">
+                <h4 class="card-title">Secondary card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
         </div>
+        <div class="card__options__img">
+            <img src="./img/logo_omg.png" alt="">
+                <div v-if="tipus == 'normal'">
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn" :class="{'.glass_btn_active': (this.dificultat != '')}"> Start </button>
+                </div>
+            </div>
+        <div class="card border-secondary card__options__categoria"> 
+            <div class="card-header">Category</div>
+            <div class="card-body">
+                <h4 class="card-title">Secondary card title</h4>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            </div>
+        </div>
+    
+    <br><br>
+        
     </div>
     <div v-show="!opcionsTriades">
         <foot></foot>
@@ -560,3 +568,4 @@ let app = new Vue({
         ...Pinia.mapState(userStore, ['data', 'logged'])
     }
 });
+
