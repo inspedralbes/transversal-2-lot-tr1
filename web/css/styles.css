@@ -43,6 +43,58 @@ body {
     border-color: var(--clr-neon);
 }
 
+.cards__home{
+  display:grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-column-gap: 0px;
+  padding: 2% 3% 0% 3%;
+}
+.card{
+  margin: 10% 2%;
+  height: 40rem;
+  border-radius: 20px;
+}
+.card__logo{
+  height: 30rem;
+  background: none;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.card__ranking, .card__gameday{
+  box-shadow: 0 0 20px 8px #d0d0d0;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+}
+.card__gameday{
+  justify-content: center;
+}
+
+.effect__neon__mix{
+  box-shadow:
+    inset 0 0 50px #fff,
+    inset 20px 0 80px #f0f,
+    inset -20px 0 80px #0ff,
+    inset 20px 0 300px #f0f,
+    inset -20px 0 300px #0ff,
+    0 0 10px #fff,
+    -10px 0 80px #f0f,
+    10px 0 80px #0ff;
+}
+hr{
+  height: 1px;
+  width: 100%;
+  box-shadow: 0 0 20px 8px #30c4e5;
+}
+
+
+.card__gameday:hover, .card__ranking:hover {
+  background-color: rgba(221, 78, 221, 0.192);
+  transition: color 1s;
+  opacity: 1;
+  box-shadow: 0 0 20px 8px #30c4e5;
+}
 
 /* Index.html Logo */
 .logo__trivial ,.logo__omg{
@@ -50,18 +102,10 @@ body {
     width: 65%;
     height: 250px;
     margin: auto;
-    position: absolute;
-    top: -30%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    user-select: none;
   }
-  .logo__omg{
-    top: 10%;
-  }
+  
   .logo__trivial{
-    font-size: 19vh;
+    font-size: 10vw;
   }
   
   .logo__trivial b, .logo__omg b, .titol__modal__login, .titol__modal__register, .titol__modal__gameover, .titol__modal__gameover>b {
@@ -72,7 +116,7 @@ body {
   }
   
   .logo__omg b, .titol__modal__login, .titol__modal__register,.titol__modal__gameover{
-    font-size: 10vh;
+    font-size: 7vw;
     text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px #000;
   }
 
@@ -121,7 +165,7 @@ body {
 
 
   /* Play play_btn */
-    
+
 .btn__play__home {
 	font-size: 2em;
 	cursor: pointer;
@@ -132,14 +176,12 @@ body {
 	border-radius: 0.25em;
 	text-shadow: 0 0 0.125em var(--clr-white), 0 0 0.5em currentColor;
 	box-shadow: inset 0 0 0.5em 0 var(--clr-neon), 0 0 0.5em 0 var(--clr-neon);
-  position: absolute;
-  top: 60%;
-  left: 46vw ;
+  position: relative;
 }
 
 
 .btn__play__home::before {
-	pointer-events: none;
+  margin-bottom: 10%;
 	content: "";
 	position: absolute;
 	background: var(--clr-neon);
@@ -169,6 +211,7 @@ body {
 
 .btn__play__home:hover,
 .btn__play__home:focus {
+  background-color: var(--clr-neon);
 	color: var(--clr-bg);
 	text-shadow: none;
 }
@@ -188,89 +231,57 @@ body {
 
 
 
-.card_desplegue_options, .card_reto, .card_gameDay {
-  position: absolute;
+.card__options{
+  /* position: absolute;
   left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  height: 65%;
-  width: 60%;
+  top: 50%; */
+  /* transform: translate(-50%, -50%); */
+  height: 195%;
+  width: 80%;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
+  margin: auto;
+  margin-top: 2%;
+  display:grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-column-gap: 0px;
 }
 
-.card_reto{
-  width: 25em;
-  left: 20%;
-  text-align: center;
-}
-
-.card_reto>h2{
-  width: 100%;
-  margin: 5% 0;
-}
-
-.card_gameDay{
-  width: 25em;
-  left: 80%;
-  cursor: pointer;
-  padding: 3px;
-  opacity: 0.5;
-  transition: 3s;
-}
-.card_gameDay:hover, .card_reto:hover {
-  background-color: rgba(221, 78, 221, 0.192);
-  transition: color 1s;
-  opacity: 1;
-}
 .btn-game-day{
-  position: absolute;
-  right: 5%;
-  bottom: 5%;
   border-radius: 20px;
   width: 90%;  
 }
 
-.card_desplegue_options>img{
-  width: fit-content;
-  height: 60%;
+.card__options__img{
   margin: auto auto ;
   display: block;
 }
 
+.card__options__difficult{
+  height:0%;
+}
 
+.card__options__categoria{
+  height:100%;
+}
 
 /* <select> styles */
-.desplegue__select{
+.card__select{
   appearance: none;
   border: 0;
   font: inherit;
-  width: 80%;
-  height: 10%;
-  background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, var(--clr-glass-icon) 3em, var(--clr-glass) 3em);
+  width: 100%;
+  height: 70%;
+  /* background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, var(--clr-glass-icon) 3em, var(--clr-glass) 3em); */
   color: white(0, 0, 0);
   border-radius: 0.25em;
   box-shadow: 0 0 1em 0 rgba(255, 255, 255, 0.2);
   cursor: pointer;
   font-size: 120%;
-  position: absolute;
-  left: 10% ;
+  /* position: absolute;
+  left: 10% ; */
   text-align: center;
   
-}
-
-.desplegue__select>option {
-  color: black;
-}
-
-.desplegue__select:focus {
-  outline: none;
-}
-
-.desplegue__select__difficult{
-  top: 58%;
-}.desplegue__select__category{
-  top: 71%;
 }
 
 
@@ -278,7 +289,7 @@ body {
 
 /* Glass Btn */
 
-.desplegue__select__btn{
+.card__select__btn{
 	font-family: 'Comfortaa', cursive;
 	color: var(--clr-glass);
 	border-radius: 4px;
@@ -289,9 +300,10 @@ body {
 	background-position: right;
 	transition: 1s ease-in-out;
   top: 85%;
+  left: 20%;
 }
 
-.desplegue__select__btn:hover {
+.card__select__btn:hover {
 	background-position: left;
 	color: var(--clr-neon);
 	box-shadow: inset 0px 3px 5px var(--clr-neon), 0px 0px 10px rgba(0,0,0,0.25);
@@ -594,5 +606,33 @@ background-color: rgba(255, 255, 255, 0.125);
   justify-content: center;
   margin: 10px;
 }
+/* Neon text * */
+.ranking__gameday__neonText {
+  font-size: 3rem;
+  text-align: center;
+  text-transform: uppercase;
+  animation: flicker 1.5s infinite alternate;
+  color: var(--clr-white);
+     
+}
 
-/* Cards index.html */
+@keyframes flicker {
+    
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+
+      text-shadow:
+      0 0 7px var(--clr-pink),
+      0 0 10px #fff,
+      0 0 21px rgb(240, 7, 7),
+      0 0 42px var(--clr-neon),
+      0 0 82px var(--clr-pink),
+      0 0 92px var(--clr-pink),
+      0 0 102px var(--clr-pink),
+      0 0 200px var(--clr-neon);
+  
+  }
+  
+  20%, 24%, 55% {        
+      text-shadow: none;
+  }    
+}
