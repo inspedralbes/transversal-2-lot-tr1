@@ -153,7 +153,6 @@ Vue.component("navbar", {
                 <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
                 <div v-show="isLogged">
-
                     <perfil></perfil>
                 </div>
             </div>
@@ -186,7 +185,7 @@ Vue.component("navbar", {
 
 Vue.component("perfil", {
     template: `<div>
-    <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0">Profile</button>
+    <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0"><b-icon icon="person-fill"></b-icon></button>
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
