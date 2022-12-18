@@ -105,12 +105,11 @@ Vue.component("login", {
                 method: "POST",
                 body: enviar
             }).then(response => response.json()).then((data) => {
-                console.log(data);
                 store = userStore()
                 store.data = data;
                 store.logged = true;
             }).catch(() => {
-                console.error('Error:');
+                console.error('Error');
             });
         }
     }
@@ -121,9 +120,7 @@ const ranking = Vue.component("ranking", {
     
     <foot></foot>
     </div>`,
-    mounted() {
-        
-    }
+    mounted() {}
 });
 Vue.component("navbar", {
     template: `<div>
@@ -191,17 +188,23 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">{{ getDataUser.nickname }} Profile</div>
+        <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
         <p>Username: {{ getDataUser.nickname }}</p>
         <p>Description: {{ getDataUser.description }}</p>
         <p>Email: {{ getDataUser.email }}</p>
         <p>Creation date: {{ getDataUser.created_at }}</p>
+        <b-button @click="LogOut(); $bvModal.hide('perfil');">Log Out</b-button>
     </div>
   </b-modal>
   </div>`,
     computed: {
         getDataUser() {
             return userStore().data;
+        }
+    },
+    methods: {
+        LogOut() {
+            userStore().logged = false;
         }
     }
 });
@@ -260,7 +263,8 @@ const partida = Vue.component("partida", {
             preguntesRespostes: [],
             opcionsTriades: false,
             preguntaActual: 0,
-            linkDif: false,
+            gameSaved: "Save Game",
+            puntuacioTotal: 0,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -275,11 +279,6 @@ const partida = Vue.component("partida", {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
-        if (window.location.href.includes("index")) {
-            this.linkDif = true;
-        } else {
-            this.linkDif = false;
-        };
 
         // window.onbeforeunload = function() {
         //    return "Data will be lost if you leave the page, are you sure?";
@@ -331,14 +330,13 @@ const partida = Vue.component("partida", {
         <section id="slider_final_quiz">
             <div class="titol__modal__gameover game_over">Game <b>Over</b></div>
             <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
-            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div> 
+            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
+            <div class="counter2 final_quiz_segons"> {{puntuacioTotal}}</div>
             
-            <router-link v-if="isLogged" to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
-            <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">Save game</b-button>
-                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
-                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
-                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></a>
-                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></a>
+            <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
+            <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
+                <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></router-link to="/">
+                <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></router-link to="/">
         </section>
         <foot></foot>
     </div>
@@ -354,8 +352,7 @@ const partida = Vue.component("partida", {
     },
     methods: {
         onChange() {
-            if (this.categoria != "" && this.dificultat != "") {
-                //this.opcionsTriades = true;
+            if (this.categoria != "" && this.dificultat != "") { // this.opcionsTriades = true; //cambiar variable
             };
         },
         sumarPuntuacio(index, num) {
@@ -373,7 +370,9 @@ const partida = Vue.component("partida", {
                     ) + ")").style.backgroundColor = "red";
                 }
             }
-
+            if (this.dadesPartida.punts > 4) {
+                this.puntuacioTotal = (200 - this.dadesPartida.tempsPartida) * this.dadesPartida.punts;
+            }
         },
         buscarQuiz: function () {
             if (this.categoria != "" && this.dificultat != "") {
@@ -394,6 +393,7 @@ const partida = Vue.component("partida", {
         addGame: function () {
             const enviar = new FormData();
             var numDificultat = 0;
+            this.gameSaved = "Game Saved";
             switch (this.preguntesRespostes[0].difficulty) {
                 case "easy": numDificultat = 1;
                     break;
@@ -403,8 +403,9 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            enviar.append("iduser", userStore().data.id)
-            enviar.append("type", this.tipus)
+            //enviar.append("puntuation", this.puntuacioTotal);
+            enviar.append("iduser", userStore().data.id);
+            enviar.append("type", this.tipus);
             enviar.append("difficulty", numDificultat);
             enviar.append("category", this.preguntesRespostes[0].category);
             enviar.append("json", JSON.stringify(this.preguntesRespostes));
@@ -524,7 +525,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
