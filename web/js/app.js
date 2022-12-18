@@ -355,7 +355,7 @@ const partida = Vue.component("partida", {
     methods: {
         onChange() {
             if (this.categoria != "" && this.dificultat != "") {
-                this.opcionsTriades = true;
+                //this.opcionsTriades = true;
             };
         },
         sumarPuntuacio(index, num) {
