@@ -232,16 +232,11 @@ hr{
 
 
 .card__options{
-  /* position: absolute;
-  left: 50%;
-  top: 50%; */
-  /* transform: translate(-50%, -50%); */
-  height: 195%;
   width: 80%;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
   margin: auto;
-  margin-top: 2%;
+  margin-top: 5%;
   display:grid;
   grid-template-columns: 1fr 2fr 1fr;
   grid-column-gap: 0px;
@@ -258,7 +253,7 @@ hr{
 }
 
 .card__options__difficult{
-  height:0%;
+  height: 100%;
 }
 
 .card__options__categoria{
@@ -283,8 +278,12 @@ hr{
   text-align: center;
   
 }
+.card__options__difficult__btn{
 
-
+}
+input[type="radio"]{
+  display: none;
+}
 
 
 /* Glass Btn */
@@ -586,7 +585,7 @@ background-color: rgba(255, 255, 255, 0.125);
     margin-top: 5px;
  }
 
- @media (max-width: 600px) {
+ @media (max-width: 800px) {
   .card_desplegue_options {
     width: 15em;
   }
