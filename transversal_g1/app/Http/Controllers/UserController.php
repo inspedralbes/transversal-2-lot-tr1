@@ -76,6 +76,7 @@ class UserController extends Controller
         $user->save();
     }
     public function showAllUsers(Request $request){
-        DB::select('SELECT nickname FROM users WHERE NOT id='.$request->userId);
+        $users=DB::select('SELECT nickname FROM users WHERE NOT id='.$request->userId);
+        return response()->json($users);
     }
 }
