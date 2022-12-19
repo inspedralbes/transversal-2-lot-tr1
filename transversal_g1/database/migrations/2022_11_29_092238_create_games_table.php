@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('games', function (Blueprint $table) {
             $table->id();
 
-            $table->enum('type',['diaria','normal','test','challenge']);
+            $table->enum('type',['diaria','normal','test']);
             $table->enum('difficulty', ['1', '2', '3']);
             $table->json('json');
             $table->string('categoria');
