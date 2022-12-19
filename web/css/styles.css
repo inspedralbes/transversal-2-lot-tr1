@@ -630,17 +630,6 @@ background-color: rgba(255, 255, 255, 0.125);
     margin-top: 5px;
  }
 
- @media (max-width: 800px) {
-  .card_desplegue_options {
-    width: 15em;
-  }
-} 
-@media (max-height: 667px) {
-  .card_desplegue_options {
-    height: 25em;
-  }
-}
-
 .check {
   width: 30px;
   height: 30px;
@@ -679,4 +668,16 @@ background-color: rgba(255, 255, 255, 0.125);
   20%, 24%, 55% {        
       text-shadow: none;
   }    
+}
+
+
+@media (max-width: 800px) {
+  .card_desplegue_options {
+    width: 15em;
+  }
+} 
+@media (max-height: 667px) {
+  .card_desplegue_options {
+    height: 25em;
+  }
 }

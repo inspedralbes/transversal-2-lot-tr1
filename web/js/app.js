@@ -239,7 +239,7 @@ const home = Vue.component("home", {
         <div class="card card__logo" >
             <div class="logo__trivial"><b>T<span>ri</span>vi<span>a</span>L</b></div>
             <div class="logo__omg"><b><span>O</span><span>M</span><span>G</span></b></div>
-            <router-link to="/partida/normal" >
+            <router-link to="/partida/normal" style="text-decoration:none">
                 <a class="btn__play__home">Play</a>
             </router-link>
         </div>
