@@ -343,9 +343,8 @@ input[type="radio"]{
 
 /* Glass Btn */
 
-.card__select__btn{
-	font-family: 'Comfortaa', cursive;
-	color: var(--clr-glass);
+.card__select__btn, .card__select__btn--disabled,.card__select__btn--active {
+  font-family: 'Comfortaa', cursive;
 	border-radius: 4px;
 	box-shadow: inset 0px 3px 5px rgba(255,255,255,0.5), 0px 0px 10px rgba(0,0,0,0.15);
 	background: rgb(2,0,36);
@@ -355,8 +354,17 @@ input[type="radio"]{
 	transition: 1s ease-in-out;
 }
 
-.card__select__btn:hover {
-	background-position: left;
+.card__select__btn--disabled{
+	color: var(--clr-glass);
+}
+
+.card__select__btn--active {
+	color: var(--clr-neon);
+  background-position: left;
+}
+
+.card__select__btn--active:hover {
+  background-position: right;
 	color: var(--clr-neon);
 	box-shadow: inset 0px 3px 5px var(--clr-neon), 0px 0px 10px rgba(0,0,0,0.25);
 }
