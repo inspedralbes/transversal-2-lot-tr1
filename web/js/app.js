@@ -274,7 +274,9 @@ const partida = Vue.component("partida", {
             preguntaActual: 0,
             gameSaved: "Save Game",
             puntuacioTotal: 0,
-            a: "primary",
+            selected: "danger",
+            difficulty: 0,
+            unselected: "",
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -302,9 +304,9 @@ const partida = Vue.component("partida", {
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
             <fieldset class="card-body" >
-                <input type="radio" v-model="dificultat" id="easy" value="easy"/><b-button :variant="a" for="easy" class="btn card__options__difficult__btn">Easy</b-button> <br>
-                <input type="radio" v-model="dificultat" id="medium" value="medium"/><b-button for="medium" class="btn card__options__difficult__btn">Medium</b-button> <br>
-                <input type="radio" v-model="dificultat" id="hard" value="hard"/><b-button for="hard" class="btn card__options__difficult__btn">Hard</b-button>
+                <b-button @click="difficulty = 0; dificultat = 'easy'" v-bind:class="[{ difficulty: 0 }, selected]" class="btn card__options__difficult__btn">Easy</b-button> <br>
+                <b-button  @click="difficulty = 1;dificultat = 'medium'" class="btn card__options__difficult__btn">Medium</b-button> <br>
+                <b-button  @click="difficulty = 2;dificultat = 'hard'" class="btn card__options__difficult__btn">Hard</b-button>
             </fieldset>
         </div>
         <div class="card__options__img">
@@ -316,16 +318,16 @@ const partida = Vue.component("partida", {
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
             <div class="card-body">
-                <input type="radio" v-model="categoria" id="history" value="history">                       <b-button class="btn card__options__categoria__btn" for="history">History</b-button>
-                <input type="radio" v-model="categoria" id="film_and_tv" value="film_and_tv">               <b-button class="btn card__options__categoria__btn" for="film_and_tv">Film & TV</b-button>
-                <input type="radio" v-model="categoria" id="sport_and_leisure" value="sport_and_leisure"/>  <b-button class="btn card__options__categoria__btn" for="sport_and_leisure">Sport & Leisure</b-button>
-                <input type="radio" v-model="categoria" id="general_knowledge" value="general_knowledge"/>  <b-button :variant="a" class="btn card__options__categoria__btn" for="general_knowledge">General Knowledge </b-button>
-                <input type="radio" v-model="categoria" id="geography" value="geography"/>                  <b-button class="btn card__options__categoria__btn" for="geography">Geography</b-button>
-                <input type="radio" v-model="categoria" id="music" value="music"/>                          <b-button class="btn card__options__categoria__btn" for="music">Music</b-button>
-                <input type="radio" v-model="categoria" id="science" value="science">                       <b-button class="btn card__options__categoria__btn" for="science">Science</b-button>
-                <input type="radio" v-model="categoria" id="arts_and_literature" value="arts_and_literature"/> <b-button class="btn card__options__categoria__btn" for="arts_and_literature">Arts & Literature</b-button>
-                <input type="radio" v-model="categoria" id="food_and_drink" value="food_and_drink"/>        <b-button class="btn card__options__categoria__btn" for="food_and_drink">Food & Drink</b-button>
-                <input type="radio" v-model="categoria" id="society_and_culture" value="society_and_culture"/><b-button  class="btn card__options__categoria__btn" for="society_and_culture">Society & Culture</b-button>
+                <b-button @click="categoria = 'history'" class="btn card__options__categoria__btn">History</b-button>
+                <b-button @click="categoria = 'film_and_tv'" class="btn card__options__categoria__btn">Film & TV</b-button>
+                <b-button @click="categoria = 'sport_and_leisure'" class="btn card__options__categoria__btn">Sport & Leisure</b-button>
+                <b-button @click="categoria = 'general_knowledge'" class="btn card__options__categoria__btn">General Knowledge </b-button>
+                <b-button @click="categoria = 'geography'" class="btn card__options__categoria__btn">Geography</b-button>
+                <b-button @click="categoria = 'music'" class="btn card__options__categoria__btn">Music</b-button>
+                <b-button @click="categoria = 'science'" class="btn card__options__categoria__btn">Science</b-button>
+                <b-button @click="categoria = 'arts_and_literature'" class="btn card__options__categoria__btn">Arts & Literature</b-button>
+                <b-button @click="categoria = 'food_and_drink'" class="btn card__options__categoria__btn">Food & Drink</b-button>
+                <b-button @click="categoria = 'society_and_culture'" class="btn card__options__categoria__btn">Society & Culture</b-button>
             </div>
         </div>
     
@@ -336,12 +338,12 @@ const partida = Vue.component("partida", {
         <foot></foot>
     </div>
     <div v-show="opcionsTriades">
-    <b-col v-for="(preg, index) in preguntesRespostes"> 
+    <b-col v-for="(preg, index) in preguntesRespostes" v-bind:key="preg.id"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="(n) => sumarPuntuacio(index, n)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
 
     <div>
-        <b-button v-for="param in 10" class="check" disabled></b-button>
+        <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="check" disabled></b-button>
     </div>
 
     <div v-if="preguntaActual == 10">
@@ -410,7 +412,7 @@ const partida = Vue.component("partida", {
             }
         },
         addGame: function () {
-            const enviar = new FormData();
+            const enviarPartida = new FormData();
             var numDificultat = 0;
             this.gameSaved = "Game Saved";
             switch (this.preguntesRespostes[0].difficulty) {
@@ -422,17 +424,26 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            //enviar.append("puntuation", this.puntuacioTotal);
-            enviar.append("iduser", userStore().data.id);
-            enviar.append("type", this.tipus);
-            enviar.append("difficulty", numDificultat);
-            enviar.append("category", this.preguntesRespostes[0].category);
-            enviar.append("json", JSON.stringify(this.preguntesRespostes));
+            enviarPartida.append("iduser", userStore().data.id);
+            enviarPartida.append("type", this.tipus);
+            enviarPartida.append("difficulty", numDificultat);
+            enviarPartida.append("category", this.preguntesRespostes[0].category);
+            enviarPartida.append("json", JSON.stringify(this.preguntesRespostes));
 
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
                 method: "POST",
-                body: enviar
+                body: enviarPartida
             });
+
+            const enviarPuntuacio = new FormData();
+            enviarPuntuacio.append("puntuacio", this.puntuacioTotal);
+            enviarPuntuacio.append("iduser", userStore().data.id);
+
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
+                method: "POST",
+                body: enviarPuntuacio
+            });
+
         }
     }
 });
