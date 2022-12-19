@@ -192,7 +192,7 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
+        <div class="titol__modal__login">{{ getDataUser.nickname }}'s Profile</div>
         <p>Username: {{ getDataUser.nickname }}</p>
         <p>Description: {{ getDataUser.description }}</p>
         <p>Email: {{ getDataUser.email }}</p>
@@ -217,8 +217,8 @@ Vue.component("notificacions", {
     template: `<div>
     <button v-b-modal.notificacions class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
     
-    <b-modal id="notificacions" hide-footer hide-header>
-    <div class="d-block text-center">
+    <b-modal id="notificacions" hide-footer hide-header class="modal__notificacions">
+    <div class="d-block text-center ">
         <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
         <p>Username: {{ getDataUser.nickname }}</p>
         <p>Description: {{ getDataUser.description }}</p>
@@ -341,12 +341,12 @@ const partida = Vue.component("partida", {
         <div class="card__options__img">
             <img src="./img/logo_omg.png" alt="">
                 <div v-if="!botoStart()">
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn--disabled" :class="{'.glass_btn_active': botoStart()}"> Start </button>
+                    <button @click="buscarQuiz" class="btn card__select__btn card__select__btn--disabled" :class="{'.glass_btn_active': botoStart()}"> Start </button>
                 </div>
                 <div v-else>
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn--active"> Start </button>
+                    <button @click="buscarQuiz" class="btn card__select__btn card__select__btn--active"> Start </button>
                 </div>
-            </div>
+        </div>
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
             <div class="card-body">
@@ -361,13 +361,10 @@ const partida = Vue.component("partida", {
                 <b-button @click="selectCategory = 8; categoria = 'food_and_drink'" v-bind:class="selectCategory == 8 ? selected : ''" class="btn card__options__categoria__btn">Food & Drink</b-button>
                 <b-button @click="selectCategory = 9; categoria = 'society_and_culture'" v-bind:class="selectCategory == 9 ? selected : ''" class="btn card__options__categoria__btn">Society & Culture</b-button>
             </div>
-        </div>
-    
-    <br><br>
-        
+        </div>        
     </div>
     <div v-show="!opcionsTriades">
-        <foot></foot>
+    <foot></foot>
     </div>
     <div v-show="opcionsTriades">
     <b-col v-for="(preg, index) in preguntesRespostes" v-bind:key="preg.id"> 
@@ -513,6 +510,7 @@ Vue.component("pregunta", {
     
     <section id="slider">
         <section id="slide1">
+            <h2 class="quiz_index_pregunta"> Pregunta <b> {{ index+1 }}</b> </h2>
             <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
             <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
             <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
@@ -521,7 +519,7 @@ Vue.component("pregunta", {
         </section>
     </section>
     <div>
-        <h2 class="quiz_index_pregunta"> Pregunta {{ index+1 }} </h2>
+    <router-link to="/"><img src="img/logo_omg.png" alt="Logo" class="quiz__img"></router-link>
         <div class="counter"> {{ segons }} </div>    
    </div>
    </div>`,
