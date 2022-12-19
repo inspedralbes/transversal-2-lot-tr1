@@ -20,7 +20,7 @@ class PuntuacioController extends Controller
         }
         
         $idGame=DB::select("SELECT games.id FROM games JOIN users ON users.id= '.$request->idUser.' WHERE games.id = (SELECT MAX(games.id) FROM games) ;");
-        dd($idGame);
+        return response()->json($idGame);
         //$puntuacions->idGame=$idGame->id;
         //$puntuacions->save();
 
