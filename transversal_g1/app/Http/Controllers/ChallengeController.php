@@ -30,4 +30,10 @@ class ChallengeController extends Controller
         $game = DB::select('SELECT DISTINCT `json` from games JOIN challenges ON id=idGame JOIN users ON idChallenged='.$request->idChallenged.' WHERE idChallenger='.$request->idChallenger.' ');
         return response()->json($game,200);
     }
+    public function checkWinner(Request $request){
+
+        $precheck=DB::select('SELECT idChallenger,idChallenged,idGame FROM challenges WHERE idChallenged=".$request->idChallenged."');
+        $
+        $winner = DB::select('UPDATE challenges SET winner=".." WHERE idChallenged = (SELECT id FROM users WHERE id=".$request->idChallenged.") and idGame= (SELECT id FROM games where id=".$request->idGame.")');
+    }
 }
