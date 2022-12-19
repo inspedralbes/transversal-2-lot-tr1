@@ -120,15 +120,15 @@ hr{
   .logo__trivial{
     font-size: 10vw;
   }
-  
-  .logo__trivial b, .logo__omg b, .titol__modal__login, .titol__modal__register, .titol__modal__gameover, .titol__modal__gameover>b, .quiz_index_pregunta{
+
+  .logo__trivial b, .logo__omg b, .titol__modal__login, .titol__modal__register, .titol__modal__profile, .titol__modal__challenge, .titol__modal__notifications, .titol__modal__gameover, .titol__modal__gameover>b, .quiz_index_pregunta{ 
     font-weight: 400;
     font-family: "Vibur";
     color: var(--clr-white);
     text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px rgba(255, 255, 255,0.2);  
   }
   
-  .logo__omg b, .titol__modal__login, .titol__modal__register,.titol__modal__gameover{
+  .logo__omg b, .titol__modal__login, .titol__modal__register, .titol__modal__profile, .titol__modal__challenge, .titol__modal__notifications, .titol__modal__gameover{
     font-size: 7vw;
     text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px rgba(255, 255, 255,0.2);
   }
