@@ -153,11 +153,14 @@ Vue.component("navbar", {
                 <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
                 <div v-show="isLogged">
+                    <notificacions></notificacions>
                     <perfil></perfil>
                 </div>
             </div>
         </div>
     </nav>
+
+
 
     <b-modal id="login" hide-footer hide-header>
     <div class="d-block text-center">
@@ -195,6 +198,32 @@ Vue.component("perfil", {
         <p>Email: {{ getDataUser.email }}</p>
         <p>Creation date: {{ getDataUser.created_at }}</p>
         <b-button @click="LogOut(); $bvModal.hide('perfil');">Log Out</b-button>
+    </div>
+  </b-modal>
+  </div>`,
+    computed: {
+        getDataUser() {
+            return userStore().data;
+        }
+    },
+    methods: {
+        LogOut() {
+            userStore().logged = false;
+        }
+    }
+});
+
+Vue.component("notificacions", {
+    template: `<div>
+    <button v-b-modal.notificacions class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
+    
+    <b-modal id="notificacions" hide-footer hide-header>
+    <div class="d-block text-center">
+        <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
+        <p>Username: {{ getDataUser.nickname }}</p>
+        <p>Description: {{ getDataUser.description }}</p>
+        <p>Email: {{ getDataUser.email }}</p>
+        <p>Creation date: {{ getDataUser.created_at }}</p>
     </div>
   </b-modal>
   </div>`,
@@ -377,7 +406,7 @@ const partida = Vue.component("partida", {
         botoStart() {
             if (this.categoria != "" && this.dificultat != "") {
                 return true;
-            }else {
+            } else {
                 return false;
             };
         },
@@ -401,7 +430,7 @@ const partida = Vue.component("partida", {
             }
         },
         buscarQuiz: function () {
-            console.log(this.categoria+' '+this.dificultat);
+            console.log(this.categoria + ' ' + this.dificultat);
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                     this.preguntesRespostes = data;
@@ -439,17 +468,16 @@ const partida = Vue.component("partida", {
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
                 method: "POST",
                 body: enviarPartida
+            }).then(() => {
+                const enviarPuntuacio = new FormData();
+                enviarPuntuacio.append("puntuacio", this.puntuacioTotal);
+                enviarPuntuacio.append("idUser", userStore().data.id);
+
+                fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
+                    method: "POST",
+                    body: enviarPuntuacio
+                });
             });
-
-            const enviarPuntuacio = new FormData();
-            enviarPuntuacio.append("puntuacio", this.puntuacioTotal);
-            enviarPuntuacio.append("iduser", userStore().data.id);
-
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
-                method: "POST",
-                body: enviarPuntuacio
-            });
-
         }
     }
 });
@@ -601,4 +629,3 @@ let app = new Vue({
         ...Pinia.mapState(userStore, ['data', 'logged'])
     }
 });
-
