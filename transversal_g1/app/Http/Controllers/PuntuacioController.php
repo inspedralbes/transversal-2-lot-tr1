@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\puntuacions;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+
 
 class PuntuacioController extends Controller
 {
@@ -13,7 +15,10 @@ class PuntuacioController extends Controller
         $puntuacions=new puntuacions;
 
         $puntuacions->idUser=$request->idUser;
-        $puntuacions->idGame=$request->idGame;
+        if($request->challenge==true){
+
+        }
+        $puntuacions->idGame=DB::select("SELECT games.id FROM games JOIN users ON users.id= ? WHERE games.id = (SELECT MAX(games.id) FROM games;" , [$request->idUser]);
         $puntuacions->puntuacio=$request->puntuacio;
         $puntuacions->save();
 

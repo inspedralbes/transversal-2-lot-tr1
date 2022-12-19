@@ -126,7 +126,7 @@ Vue.component("navbar", {
     template: `<div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./index.html"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></a>
+            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></router-link></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -274,7 +274,9 @@ const partida = Vue.component("partida", {
             preguntaActual: 0,
             gameSaved: "Save Game",
             puntuacioTotal: 0,
-            a: "primary",
+            selected: "selected",
+            selectDifficulty: -1,
+            selectCategory: -1,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -302,30 +304,33 @@ const partida = Vue.component("partida", {
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
             <fieldset class="card-body" >
-                <input type="radio" v-model="dificultat" id="easy" value="easy"/><b-button :variant="a" for="easy" class="btn card__options__difficult__btn">Easy</b-button> <br>
-                <input type="radio" v-model="dificultat" id="medium" value="medium"/><b-button for="medium" class="btn card__options__difficult__btn">Medium</b-button> <br>
-                <input type="radio" v-model="dificultat" id="hard" value="hard"/><b-button for="hard" class="btn card__options__difficult__btn">Hard</b-button>
+                <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button> <br>
+                <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> <br>
+                <b-button  @click="selectDifficulty = 2; dificultat = 'hard'" v-bind:class="selectDifficulty == 2 ? selected : ''" class="btn card__options__difficult__btn">Hard</b-button>
             </fieldset>
         </div>
         <div class="card__options__img">
             <img src="./img/logo_omg.png" alt="">
-                <div v-if="tipus == 'normal'">
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn" :class="{'.glass_btn_active': (this.dificultat != '')}"> Start </button>
+                <div v-if="botoStart()">
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn" :class="{'.glass_btn_active': botoStart()}"> Start </button>
+                </div>
+                <div v-else>
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn"> Start </button>
                 </div>
             </div>
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
             <div class="card-body">
-                <input type="radio" v-model="categoria" id="history" value="history">                       <b-button class="btn card__options__categoria__btn" for="history">History</b-button>
-                <input type="radio" v-model="categoria" id="film_and_tv" value="film_and_tv">               <b-button class="btn card__options__categoria__btn" for="film_and_tv">Film & TV</b-button>
-                <input type="radio" v-model="categoria" id="sport_and_leisure" value="sport_and_leisure"/>  <b-button class="btn card__options__categoria__btn" for="sport_and_leisure">Sport & Leisure</b-button>
-                <input type="radio" v-model="categoria" id="general_knowledge" value="general_knowledge"/>  <b-button :variant="a" class="btn card__options__categoria__btn" for="general_knowledge">General Knowledge </b-button>
-                <input type="radio" v-model="categoria" id="geography" value="geography"/>                  <b-button class="btn card__options__categoria__btn" for="geography">Geography</b-button>
-                <input type="radio" v-model="categoria" id="music" value="music"/>                          <b-button class="btn card__options__categoria__btn" for="music">Music</b-button>
-                <input type="radio" v-model="categoria" id="science" value="science">                       <b-button class="btn card__options__categoria__btn" for="science">Science</b-button>
-                <input type="radio" v-model="categoria" id="arts_and_literature" value="arts_and_literature"/> <b-button class="btn card__options__categoria__btn" for="arts_and_literature">Arts & Literature</b-button>
-                <input type="radio" v-model="categoria" id="food_and_drink" value="food_and_drink"/>        <b-button class="btn card__options__categoria__btn" for="food_and_drink">Food & Drink</b-button>
-                <input type="radio" v-model="categoria" id="society_and_culture" value="society_and_culture"/><b-button  class="btn card__options__categoria__btn" for="society_and_culture">Society & Culture</b-button>
+                <b-button @click="selectCategory = 0; categoria = 'history'" v-bind:class="selectCategory == 0 ? selected : ''" class="btn card__options__categoria__btn">History</b-button>
+                <b-button @click="selectCategory = 1; categoria = 'film_and_tv'" v-bind:class="selectCategory == 1 ? selected : ''" class="btn card__options__categoria__btn">Film & TV</b-button>
+                <b-button @click="selectCategory = 2; categoria = 'sport_and_leisure'" v-bind:class="selectCategory == 2 ? selected : ''" class="btn card__options__categoria__btn">Sport & Leisure</b-button>
+                <b-button @click="selectCategory = 3; categoria = 'general_knowledge'" v-bind:class="selectCategory == 3 ? selected : ''" class="btn card__options__categoria__btn">General Knowledge </b-button>
+                <b-button @click="selectCategory = 4; categoria = 'geography'" v-bind:class="selectCategory == 4 ? selected : ''" class="btn card__options__categoria__btn">Geography</b-button>
+                <b-button @click="selectCategory = 5; categoria = 'music'" v-bind:class="selectCategory == 5 ? selected : ''" class="btn card__options__categoria__btn">Music</b-button>
+                <b-button @click="selectCategory = 6; categoria = 'science'" v-bind:class="selectCategory == 6 ? selected : ''" class="btn card__options__categoria__btn">Science</b-button>
+                <b-button @click="selectCategory = 7; categoria = 'arts_and_literature'" v-bind:class="selectCategory == 7 ? selected : ''" class="btn card__options__categoria__btn">Arts & Literature</b-button>
+                <b-button @click="selectCategory = 8; categoria = 'food_and_drink'" v-bind:class="selectCategory == 8 ? selected : ''" class="btn card__options__categoria__btn">Food & Drink</b-button>
+                <b-button @click="selectCategory = 9; categoria = 'society_and_culture'" v-bind:class="selectCategory == 9 ? selected : ''" class="btn card__options__categoria__btn">Society & Culture</b-button>
             </div>
         </div>
     
@@ -336,12 +341,12 @@ const partida = Vue.component("partida", {
         <foot></foot>
     </div>
     <div v-show="opcionsTriades">
-    <b-col v-for="(preg, index) in preguntesRespostes"> 
+    <b-col v-for="(preg, index) in preguntesRespostes" v-bind:key="preg.id"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="(n) => sumarPuntuacio(index, n)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
 
     <div>
-        <b-button v-for="param in 10" class="check" disabled></b-button>
+        <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="check" disabled></b-button>
     </div>
 
     <div v-if="preguntaActual == 10">
@@ -369,8 +374,11 @@ const partida = Vue.component("partida", {
         }
     },
     methods: {
-        onChange() {
-            if (this.categoria != "" && this.dificultat != "") { // this.opcionsTriades = true; //cambiar variable
+        botoStart() {
+            if (this.categoria != "" && this.dificultat != "") {
+                return true;
+            }else {
+                return false;
             };
         },
         sumarPuntuacio(index, num) {
@@ -410,7 +418,7 @@ const partida = Vue.component("partida", {
             }
         },
         addGame: function () {
-            const enviar = new FormData();
+            const enviarPartida = new FormData();
             var numDificultat = 0;
             this.gameSaved = "Game Saved";
             switch (this.preguntesRespostes[0].difficulty) {
@@ -422,17 +430,26 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            //enviar.append("puntuation", this.puntuacioTotal);
-            enviar.append("iduser", userStore().data.id);
-            enviar.append("type", this.tipus);
-            enviar.append("difficulty", numDificultat);
-            enviar.append("category", this.preguntesRespostes[0].category);
-            enviar.append("json", JSON.stringify(this.preguntesRespostes));
+            enviarPartida.append("iduser", userStore().data.id);
+            enviarPartida.append("type", this.tipus);
+            enviarPartida.append("difficulty", numDificultat);
+            enviarPartida.append("category", this.preguntesRespostes[0].category);
+            enviarPartida.append("json", JSON.stringify(this.preguntesRespostes));
 
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
                 method: "POST",
-                body: enviar
+                body: enviarPartida
             });
+
+            const enviarPuntuacio = new FormData();
+            enviarPuntuacio.append("puntuacio", this.puntuacioTotal);
+            enviarPuntuacio.append("iduser", userStore().data.id);
+
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
+                method: "POST",
+                body: enviarPuntuacio
+            });
+
         }
     }
 });

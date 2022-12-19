@@ -299,8 +299,8 @@ hr{
   width: 100%;
   color: var(--glow-color);
   font-size: 1.5em;
-  background-color: black;
   border-radius: 20px;
+  background-color: black;
   border: .01em solid var(--glow-color); 
   box-shadow: 
       0 0 1em .05em var(--glow-color),
@@ -308,10 +308,17 @@ hr{
       inset 0 0 .75em .25em var(--glow-color);
   text-shadow: 
       0 0 .5em var(--glow-color);
-
 }
-.card__options__difficult__btn:hover, .card__options__difficult__btn:focus,
-.card__options__categoria__btn:hover, .card__options__categoria__btn:focus {
+
+.selected {
+  color: var(--btn-color);
+  background-color: var(--glow-color);
+  box-shadow: 
+      0 0 1em .25em var(--glow-color),
+      0 0 4em 2em var(--glow-spread-color),
+      inset 0 0 .75em .25em var(--glow-color);
+}
+.card__options__difficult__btn:hover, .card__options__categoria__btn:hover {
   color: var(--btn-color);
   background-color: var(--glow-color);
   box-shadow: 

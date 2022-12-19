@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('puntuacio');
             $table->primary(['idGame','idUser']);
             $table->foreign('idUser')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('idGame')->references('id')->on('games')->onDelete('cascade');
+            $table->foreign('idGame')->references('id')->on('games')->onDelete('cascade')->nullable();
             $table->timestamps();
         });
     }
