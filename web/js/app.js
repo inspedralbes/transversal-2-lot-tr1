@@ -311,11 +311,11 @@ const partida = Vue.component("partida", {
         </div>
         <div class="card__options__img">
             <img src="./img/logo_omg.png" alt="">
-                <div v-if="botoStart()">
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn" :class="{'.glass_btn_active': botoStart()}"> Start </button>
+                <div v-if="!botoStart()">
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn--disabled" :class="{'.glass_btn_active': botoStart()}"> Start </button>
                 </div>
                 <div v-else>
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn"> Start </button>
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn--active"> Start </button>
                 </div>
             </div>
         <div class="card border-secondary card__options__categoria"> 
