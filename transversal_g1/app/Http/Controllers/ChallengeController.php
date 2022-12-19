@@ -27,13 +27,13 @@ class ChallengeController extends Controller
         //uwu
     }
     public function sendGame(Request $request){
-        $game = DB::select('SELECT `json` FROM games WHERE id="$request->idGame"');
+        $game = DB::select('SELECT  `json` from games where id='.$request->idGame.'');
         return response()->json($game,200);
     }
     public function checkWinner(Request $request){
 
 
-        $puntsChallenger=DB::select('SELECT puntuacio FROM puntuacions JOIN challenges ON idChallenged=".$request->idChallenged." ');
+        $puntsChallenger=DB::select('SELECT puntuacio FROM puntuacions JOIN challenges ON idChallenged='.$request->idChallenged.' ');
         $winner = DB::update(DB::raw('UPDATE challenges SET winner=".." WHERE idChallenged = (SELECT id FROM users WHERE id=".$request->idChallenged.") and idGame= (SELECT id FROM games where id=".$request->idGame.")'));
     }
 }
