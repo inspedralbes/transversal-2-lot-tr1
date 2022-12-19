@@ -216,7 +216,8 @@ Vue.component("perfil", {
 Vue.component("notificacions", {
     data: function () {
         return {
-            items: "",
+            llistaChallenge: "",
+            infoChallenge: "",
         };
     },
     template: `<div>
@@ -224,9 +225,10 @@ Vue.component("notificacions", {
     
     <b-modal id="notificacions" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">Notifications</div>
-        <div v-if="items != ''">
-            <b-button v-for="item in items">{{ item.challengerName }}</b-button>
+        <div class="titol__modal__notifications">Notifications</div>
+        <div v-for="(challenge, index) in llistaChallenge.challenger" v-if="llistaChallenge.challenger != ''">
+            {{ challenge.challengerName }}
+            <b-button @click="infoChallenges(index)">Accept</b-button><br>
         </div>
         <div v-else>
             <h2>You haven't recieved any challenge yet!</h2>
@@ -242,8 +244,13 @@ Vue.component("notificacions", {
     methods: {
         llistaChallenges() {
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/checkChallenges?idChallenged="+userStore().data.id).then((response) => response.json()).then((data) => {
-                this.items = data.challenger;
+                this.llistaChallenge = data;
             });
+        },
+        infoChallenges(index) {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame="+this.llistaChallenge.challenger[index].idGame).then((response) => response.json()).then((data) => {
+                infoChallenge = data;
+            })
         }
     }
 });
@@ -267,10 +274,10 @@ const home = Vue.component("home", {
             <hr>
             <div class="table_ranking effect__neon__mix">
             <b-tabs content-class="mt-3 " justified>
-                <b-tab title="First" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
-                <b-tab title="Second"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
-                <b-tab title="very, very long title"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
-                <b-tab title="disabled"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
+                <b-tab title="Global" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
+                <b-tab title="Easy"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
+                <b-tab title="Medium"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
+                <b-tab title="Hard"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
             </b-tabs>
             </div>
         </div>
@@ -623,7 +630,7 @@ Vue.component("challenge", {
     
     <b-modal id="challenge" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">Notifications</div>
+        <div class="titol__modal__challenge">Challenge</div>
         <div v-if="usuaris != ''">
             <div v-for="usuari in usuaris">
             {{ usuari.nickname }}
@@ -643,6 +650,11 @@ Vue.component("challenge", {
     },
     methods: {
         llistaUsuaris() {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId="+userStore().data.id).then((response) => response.json()).then((data) => {
+                this.usuaris = data;
+            });
+        },
+        enviarChallenge() {
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId="+userStore().data.id).then((response) => response.json()).then((data) => {
                 this.usuaris = data;
             });
