@@ -27,7 +27,7 @@ class ChallengeController extends Controller
         //uwu
     }
     public function sendGame(Request $request){
-        $game = DB::select('');
+        $game = DB::select('SELECT DISTINCT `json` from games JOIN challenges ON id=idGame JOIN users ON idChallenged='.$request->idChallenged.' WHERE idChallenger='.$request->idChallenger.' ');
         return response()->json($game,200);
     }
 }
