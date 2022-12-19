@@ -274,6 +274,7 @@ const partida = Vue.component("partida", {
             preguntaActual: 0,
             gameSaved: "Save Game",
             puntuacioTotal: 0,
+            a: "primary",
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -299,11 +300,11 @@ const partida = Vue.component("partida", {
     </div>
     <div v-show="!opcionsTriades" class="card__options">
         <div class="card border-secondary card__options__difficult"> 
-            <div class="card-header">Difficult</div>
+            <div class="card-header">Difficulty</div>
             <fieldset class="card-body" >
-                <input type="radio" v-model="dificultat" id="easy" value="easy"/><label for="easy" class="btn card__options__difficult__btn">Easy</label> <br>
-                <input type="radio" v-model="dificultat" id="medium" value="medium"/><label for="medium" class="btn card__options__difficult__btn">Medium</label> <br>
-                <input type="radio" v-model="dificultat" id="hard" value="hard"/><label for="hard" class="btn card__options__difficult__btn">Hard</label>
+                <input type="radio" v-model="dificultat" id="easy" value="easy"/><b-button :variant="a" for="easy" class="btn card__options__difficult__btn">Easy</b-button> <br>
+                <input type="radio" v-model="dificultat" id="medium" value="medium"/><b-button for="medium" class="btn card__options__difficult__btn">Medium</b-button> <br>
+                <input type="radio" v-model="dificultat" id="hard" value="hard"/><b-button for="hard" class="btn card__options__difficult__btn">Hard</b-button>
             </fieldset>
         </div>
         <div class="card__options__img">
@@ -315,16 +316,16 @@ const partida = Vue.component("partida", {
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
             <div class="card-body">
-                <input type="radio" v-model="categoria" id="history" value="history">                       <label class="btn card__options__categoria__btn" for="history">History</label>
-                <input type="radio" v-model="categoria" id="film_and_tv" value="film_and_tv">               <label class="btn card__options__categoria__btn" for="film_and_tv">Film & TV</label>
-                <input type="radio" v-model="categoria" id="sport_and_leisure" value="sport_and_leisure"/>  <label class="btn card__options__categoria__btn" for="sport_and_leisure">Sport & Leisure</label>
-                <input type="radio" v-model="categoria" id="general_knowledge" value="general_knowledge"/>  <label class="btn card__options__categoria__btn" for="general_knowledge">General Knowledge </label>
-                <input type="radio" v-model="categoria" id="geography" value="geography"/>                  <label class="btn card__options__categoria__btn" for="geography">Geography</label>
-                <input type="radio" v-model="categoria" id="music" value="music"/>                          <label class="btn card__options__categoria__btn" for="music">Music</label>
-                <input type="radio" v-model="categoria" id="science" value="science">                       <label class="btn card__options__categoria__btn" for="science">Science</label>
-                <input type="radio" v-model="categoria" id="arts_and_literature" value="arts_and_literature"/> <label class="btn card__options__categoria__btn" for="arts_and_literature">Arts & Literature</label>
-                <input type="radio" v-model="categoria" id="food_and_drink" value="food_and_drink"/>        <label class="btn card__options__categoria__btn" for="food_and_drink">Food & Drink</label>
-                <input type="radio" v-model="categoria" id="society_and_culture" value="society_and_culture"/><label  class="btn card__options__categoria__btn" for="society_and_culture">Society & Culture</label>
+                <input type="radio" v-model="categoria" id="history" value="history">                       <b-button class="btn card__options__categoria__btn" for="history">History</b-button>
+                <input type="radio" v-model="categoria" id="film_and_tv" value="film_and_tv">               <b-button class="btn card__options__categoria__btn" for="film_and_tv">Film & TV</b-button>
+                <input type="radio" v-model="categoria" id="sport_and_leisure" value="sport_and_leisure"/>  <b-button class="btn card__options__categoria__btn" for="sport_and_leisure">Sport & Leisure</b-button>
+                <input type="radio" v-model="categoria" id="general_knowledge" value="general_knowledge"/>  <b-button :variant="a" class="btn card__options__categoria__btn" for="general_knowledge">General Knowledge </b-button>
+                <input type="radio" v-model="categoria" id="geography" value="geography"/>                  <b-button class="btn card__options__categoria__btn" for="geography">Geography</b-button>
+                <input type="radio" v-model="categoria" id="music" value="music"/>                          <b-button class="btn card__options__categoria__btn" for="music">Music</b-button>
+                <input type="radio" v-model="categoria" id="science" value="science">                       <b-button class="btn card__options__categoria__btn" for="science">Science</b-button>
+                <input type="radio" v-model="categoria" id="arts_and_literature" value="arts_and_literature"/> <b-button class="btn card__options__categoria__btn" for="arts_and_literature">Arts & Literature</b-button>
+                <input type="radio" v-model="categoria" id="food_and_drink" value="food_and_drink"/>        <b-button class="btn card__options__categoria__btn" for="food_and_drink">Food & Drink</b-button>
+                <input type="radio" v-model="categoria" id="society_and_culture" value="society_and_culture"/><b-button  class="btn card__options__categoria__btn" for="society_and_culture">Society & Culture</b-button>
             </div>
         </div>
     
