@@ -105,12 +105,11 @@ Vue.component("login", {
                 method: "POST",
                 body: enviar
             }).then(response => response.json()).then((data) => {
-                console.log(data);
                 store = userStore()
                 store.data = data;
                 store.logged = true;
             }).catch(() => {
-                console.error('Error:');
+                console.error('Error');
             });
         }
     }
@@ -121,15 +120,13 @@ const ranking = Vue.component("ranking", {
     
     <foot></foot>
     </div>`,
-    mounted() {
-        
-    }
+    mounted() {}
 });
 Vue.component("navbar", {
     template: `<div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./index.html"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></a>
+            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></router-link></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -152,14 +149,18 @@ Vue.component("navbar", {
 
                 </ul>
                 <div v-show="!isLogged">
-                    <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
+                <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
+                <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
                 <div v-show="isLogged">
+                    <notificacions></notificacions>
                     <perfil></perfil>
                 </div>
             </div>
         </div>
     </nav>
+
+
 
     <b-modal id="login" hide-footer hide-header>
     <div class="d-block text-center">
@@ -187,11 +188,38 @@ Vue.component("navbar", {
 
 Vue.component("perfil", {
     template: `<div>
-    <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0">Profile</button>
+    <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0"><b-icon icon="person-fill"></b-icon></button>
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">{{ getDataUser.nickname }} Profile</div>
+        <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
+        <p>Username: {{ getDataUser.nickname }}</p>
+        <p>Description: {{ getDataUser.description }}</p>
+        <p>Email: {{ getDataUser.email }}</p>
+        <p>Creation date: {{ getDataUser.created_at }}</p>
+        <b-button @click="LogOut(); $bvModal.hide('perfil');">Log Out</b-button>
+    </div>
+  </b-modal>
+  </div>`,
+    computed: {
+        getDataUser() {
+            return userStore().data;
+        }
+    },
+    methods: {
+        LogOut() {
+            userStore().logged = false;
+        }
+    }
+});
+
+Vue.component("notificacions", {
+    template: `<div>
+    <button v-b-modal.notificacions class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
+    
+    <b-modal id="notificacions" hide-footer hide-header>
+    <div class="d-block text-center">
+        <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
         <p>Username: {{ getDataUser.nickname }}</p>
         <p>Description: {{ getDataUser.description }}</p>
         <p>Email: {{ getDataUser.email }}</p>
@@ -202,6 +230,11 @@ Vue.component("perfil", {
     computed: {
         getDataUser() {
             return userStore().data;
+        }
+    },
+    methods: {
+        LogOut() {
+            userStore().logged = false;
         }
     }
 });
@@ -218,26 +251,34 @@ Vue.component("foot", {template: `<div class="footer bg-primary">
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
-    <div v-show="isLogged" class="card_reto">
-        <h2>Ranking</h2>
-        <div>
-        <b-tabs content-class="mt-3" justified>
-            <b-tab title="First" active><p>I'm the first tab</p></b-tab>
-            <b-tab title="Second"><p>I'm the second tab</p></b-tab>
-            <b-tab title="very, very long title"><p>I'm the tab with the very, very long title</p></b-tab>
-            <b-tab title="disabled"><p>I'm a disabled tab!</p></b-tab>
-        </b-tabs>
+    <div class="cards__home" >
+        <div v-show="!isLogged"></div>
+        <div class="card card__ranking" v-show="isLogged">
+            <p class="ranking__gameday__neonText">Ranking</p>
+            <hr>
+            <div class="table_ranking effect__neon__mix">
+            <b-tabs content-class="mt-3 " justified>
+                <b-tab title="First" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
+                <b-tab title="Second"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
+                <b-tab title="very, very long title"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
+                <b-tab title="disabled"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
+            </b-tabs>
+            </div>
         </div>
-    </div>
-    
-    <div class="logo__trivial"><b>T<span>ri</span>vi<span>a</span>L</b></div>
-    <div class="logo__omg"><b><span>O</span><span>M</span><span>G</span></b></div>
-    <router-link to="/partida/normal">
-        <a class="btn__play__home">Play</a>
-    </router-link>
-    
-    <div v-show="isLogged" class="card_gameDay btn-outline-secondary">
-        <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
+        <div class="card card__logo" >
+            <div class="logo__trivial"><b>T<span>ri</span>vi<span>a</span>L</b></div>
+            <div class="logo__omg"><b><span>O</span><span>M</span><span>G</span></b></div>
+            <router-link to="/partida/normal" style="text-decoration:none">
+                <a class="btn__play__home">Play</a>
+            </router-link>
+        </div>
+        <div class="card card__gameday" v-show="isLogged">
+            <p class="ranking__gameday__neonText">Game of the day</p>
+            <div class="table_ranking effect__neon__mix">
+                <b-table striped hover :items="global"></b-table>
+            </div>
+            <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
+        </div>
     </div>
     <foot></foot>
     </div>`,
@@ -260,7 +301,11 @@ const partida = Vue.component("partida", {
             preguntesRespostes: [],
             opcionsTriades: false,
             preguntaActual: 0,
-            linkDif: false,
+            gameSaved: "Save Game",
+            puntuacioTotal: 0,
+            selected: "selected",
+            selectDifficulty: -1,
+            selectCategory: -1,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -275,11 +320,6 @@ const partida = Vue.component("partida", {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
-        if (window.location.href.includes("index")) {
-            this.linkDif = true;
-        } else {
-            this.linkDif = false;
-        };
 
         // window.onbeforeunload = function() {
         //    return "Data will be lost if you leave the page, are you sure?";
@@ -289,56 +329,66 @@ const partida = Vue.component("partida", {
     <div v-show="!opcionsTriades || preguntaActual == 10">
         <navbar></navbar>
     </div>
-    <div v-show="!opcionsTriades" class="card_despligue">
-    <img src="./img/logo_omg.png" alt="">
-    <select class="desplegue desplegue_difficult" v-model="dificultat" @change="onChange">
-        <option selected value="">Selecciona una dificultat</option>
-        <option value="easy">Easy</option>
-        <option value="medium">Medium</option>
-        <option value="hard">Hard</option>
-    </select>
-    <select class="desplegue desplegue_category" v-model="categoria">
-        <option selected  value="">Selecciona una categoria</option>
-        <option value="history">History</option>
-        <option value="film_and_tv">Film & TV</option>
-        <option value="sport_and_leisure">Sport & Leisure</option>
-        <option value="general_knowledge">General Knowledge</option>
-        <option value="geography">Geography</option>
-        <option value="music">Music</option> 
-        <option value="science">Science</option>
-        <option value="arts_and_literature">Arts & Literature</option>
-        <option value="food_and_drink">Food & Drink</option>
-        <option value="society_and_culture">Society & Culture</option>
-        </select>
-    <br><br>
-        <div v-if="tipus == 'normal'">
-            <button @click="buscarQuiz" class="btn desplegue__select desplegue__select__btn" :class="{'.glass_btn_active':opcionsTriades}"> Start </button>
+    <div v-show="!opcionsTriades" class="card__options">
+        <div class="card border-secondary card__options__difficult"> 
+            <div class="card-header">Difficulty</div>
+            <fieldset class="card-body" >
+                <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button>
+                <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> 
+                <b-button  @click="selectDifficulty = 2; dificultat = 'hard'" v-bind:class="selectDifficulty == 2 ? selected : ''" class="btn card__options__difficult__btn">Hard</b-button>
+            </fieldset>
         </div>
+        <div class="card__options__img">
+            <img src="./img/logo_omg.png" alt="">
+                <div v-if="!botoStart()">
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn--disabled" :class="{'.glass_btn_active': botoStart()}"> Start </button>
+                </div>
+                <div v-else>
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn--active"> Start </button>
+                </div>
+            </div>
+        <div class="card border-secondary card__options__categoria"> 
+            <div class="card-header">Category</div>
+            <div class="card-body">
+                <b-button @click="selectCategory = 0; categoria = 'history'" v-bind:class="selectCategory == 0 ? selected : ''" class="btn card__options__categoria__btn">History</b-button>
+                <b-button @click="selectCategory = 1; categoria = 'film_and_tv'" v-bind:class="selectCategory == 1 ? selected : ''" class="btn card__options__categoria__btn">Film & TV</b-button>
+                <b-button @click="selectCategory = 2; categoria = 'sport_and_leisure'" v-bind:class="selectCategory == 2 ? selected : ''" class="btn card__options__categoria__btn">Sport & Leisure</b-button>
+                <b-button @click="selectCategory = 3; categoria = 'general_knowledge'" v-bind:class="selectCategory == 3 ? selected : ''" class="btn card__options__categoria__btn">General Knowledge </b-button>
+                <b-button @click="selectCategory = 4; categoria = 'geography'" v-bind:class="selectCategory == 4 ? selected : ''" class="btn card__options__categoria__btn">Geography</b-button>
+                <b-button @click="selectCategory = 5; categoria = 'music'" v-bind:class="selectCategory == 5 ? selected : ''" class="btn card__options__categoria__btn">Music</b-button>
+                <b-button @click="selectCategory = 6; categoria = 'science'" v-bind:class="selectCategory == 6 ? selected : ''" class="btn card__options__categoria__btn">Science</b-button>
+                <b-button @click="selectCategory = 7; categoria = 'arts_and_literature'" v-bind:class="selectCategory == 7 ? selected : ''" class="btn card__options__categoria__btn">Arts & Literature</b-button>
+                <b-button @click="selectCategory = 8; categoria = 'food_and_drink'" v-bind:class="selectCategory == 8 ? selected : ''" class="btn card__options__categoria__btn">Food & Drink</b-button>
+                <b-button @click="selectCategory = 9; categoria = 'society_and_culture'" v-bind:class="selectCategory == 9 ? selected : ''" class="btn card__options__categoria__btn">Society & Culture</b-button>
+            </div>
+        </div>
+    
+    <br><br>
+        
     </div>
     <div v-show="!opcionsTriades">
         <foot></foot>
     </div>
     <div v-show="opcionsTriades">
-    <b-col v-for="(preg, index) in preguntesRespostes"> 
+    <b-col v-for="(preg, index) in preguntesRespostes" v-bind:key="preg.id"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="(n) => sumarPuntuacio(index, n)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
 
     <div>
-        <b-button v-for="param in 10" class="check" disabled></b-button>
+        <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="check" disabled></b-button>
     </div>
 
     <div v-if="preguntaActual == 10">
         <section id="slider_final_quiz">
             <div class="titol__modal__gameover game_over">Game <b>Over</b></div>
             <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
-            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div> 
+            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
+            <div class="counter2 final_quiz_segons"> {{puntuacioTotal}}</div>
             
-            <router-link v-if="isLogged" to="/"><b-button @click="addGame" class="final_quiz_save_btn">Save game</b-button></router-link>
-            <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">Save game</b-button>
-                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'normal'" class="final_quiz_play_btn">Play Again</b-button></a>
-                <a v-if="linkDif" href="/transversal-2-lot-tr1/web/#/partida/normal"><b-button v-if="tipus == 'daily'">Play normal game</b-button></a>
-                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></a>
-                <a v-else href="/transversal-2-lot-tr1/web/index.html#/partida/normal"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></a>
+            <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
+            <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
+                <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></router-link to="/">
+                <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></router-link to="/">
         </section>
         <foot></foot>
     </div>
@@ -353,9 +403,11 @@ const partida = Vue.component("partida", {
         }
     },
     methods: {
-        onChange() {
+        botoStart() {
             if (this.categoria != "" && this.dificultat != "") {
-                //this.opcionsTriades = true;
+                return true;
+            } else {
+                return false;
             };
         },
         sumarPuntuacio(index, num) {
@@ -373,9 +425,12 @@ const partida = Vue.component("partida", {
                     ) + ")").style.backgroundColor = "red";
                 }
             }
-
+            if (this.dadesPartida.punts > 4) {
+                this.puntuacioTotal = (200 - this.dadesPartida.tempsPartida) * this.dadesPartida.punts;
+            }
         },
         buscarQuiz: function () {
+            console.log(this.categoria + ' ' + this.dificultat);
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                     this.preguntesRespostes = data;
@@ -392,8 +447,9 @@ const partida = Vue.component("partida", {
             }
         },
         addGame: function () {
-            const enviar = new FormData();
+            const enviarPartida = new FormData();
             var numDificultat = 0;
+            this.gameSaved = "Game Saved";
             switch (this.preguntesRespostes[0].difficulty) {
                 case "easy": numDificultat = 1;
                     break;
@@ -403,15 +459,24 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            enviar.append("iduser", userStore().data.id)
-            enviar.append("type", this.tipus)
-            enviar.append("difficulty", numDificultat);
-            enviar.append("category", this.preguntesRespostes[0].category);
-            enviar.append("json", JSON.stringify(this.preguntesRespostes));
+            enviarPartida.append("iduser", userStore().data.id);
+            enviarPartida.append("type", this.tipus);
+            enviarPartida.append("difficulty", numDificultat);
+            enviarPartida.append("category", this.preguntesRespostes[0].category);
+            enviarPartida.append("json", JSON.stringify(this.preguntesRespostes));
 
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
                 method: "POST",
-                body: enviar
+                body: enviarPartida
+            }).then(() => {
+                const enviarPuntuacio = new FormData();
+                enviarPuntuacio.append("puntuacio", this.puntuacioTotal);
+                enviarPuntuacio.append("idUser", userStore().data.id);
+
+                fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
+                    method: "POST",
+                    body: enviarPuntuacio
+                });
             });
         }
     }
@@ -524,7 +589,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);

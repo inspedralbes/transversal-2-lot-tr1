@@ -31,6 +31,10 @@
     <link rel="stylesheet" href="./asset/vapor_bootstrap.min.css">
     <link rel="stylesheet" href="./css/styles.css">
 
+    
+    <!-- BoxIcons v2.1.2 -->
+    <link href="https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css" rel="stylesheet">
+
 </head>
 
 <body>
@@ -44,61 +48,6 @@
     <script src="https://unpkg.com/@vue/composition-api"></script>
     <script src="https://unpkg.com/vue-demi"></script>
     <script src="https://unpkg.com/pinia"></script>
-
-    <!-- CHARTS -->
-    <script>
-        import {
-            Chart as ChartJS,
-            Title,
-            Tooltip,
-            Legend,
-            BarElement,
-            CategoryScale,
-            LinearScale
-        } from 'chart.js'
-        import { Bar } from 'vue-chartjs'
-        import * as chartConfig from './chartConfig.js'
-
-        ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
-
-        export default {
-            name: 'App',
-            components: {
-                Bar
-            },
-            data() {
-                //Hardcodet
-                const data = {
-                    labels: [
-                        'January',
-                        'February',
-                        'March',
-                        'April',
-                        'May',
-                        'June',
-                        'July',
-                        'August',
-                        'September',
-                        'October',
-                        'November',
-                        'December'
-                    ],
-                    datasets: [
-                        {
-                            label: 'Data One',
-                            backgroundColor: '#f87979',
-                            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11]
-                        }
-                    ]
-                }
-
-
-                return data
-            }
-        }
-
-    </script>
-
 
     <script src="./js/app.js"></script>
 </body>

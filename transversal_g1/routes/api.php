@@ -16,13 +16,19 @@ use App\Http\Controllers\UserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//Challenges
 Route::get('/checkChallenges',[ChallengeController::class, 'checkChallenge']);
+Route::post('/challengeUser', [ChallengeController::class , 'store']);
+Route::get('sendChallengeGame',[ChallengeController::class, 'sendGame']);
+//Users
 Route::get('/user-check', [UserController::class , 'sendUser']);
 Route::get('/sendAllUsers', [UserController::class , 'showAllUsers']);
-Route::post('/store-game', [GameController::class , 'store']);
-Route::post('/challengeUser', [ChallengeController::class , 'store']);
 Route::post('/register-user',[UserController::class, 'store']);
 Route::post('/edit-profile',[UserController::class, 'profileUpdate']);
 Route::post('/login',[UserController::class, 'login']);
+//Puntuacions
 Route::post('/store-points', [PuntuacioController::class , 'store']);
+//Game
+Route::post('/store-game', [GameController::class , 'store']);
 Route::get('/daily', [GameController::class , 'sendDailyGame']);
+

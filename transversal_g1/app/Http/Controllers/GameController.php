@@ -18,6 +18,9 @@ class GameController extends Controller
         $game->categoria=$request->category;
         $game->json=json_encode($request->json);
         $game->iduser= $request->iduser;
+        if($request->type=='challenge'){
+            DB::table('challenge')->update([]);
+        } 
         $game->save();
 
         //
