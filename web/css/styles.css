@@ -242,15 +242,49 @@ hr{
   
 }
 
+@media (max-width: 800px) {
+  .cards__home {
+    display: block;
+  }
+  .logo__trivial{
+    position: absolute;
+    top: 1vw;
+    font-size: 25vw;
+  }
+  .logo__omg{
+    position: absolute;
+    top: 10vw;
+    font-size: 29vw;
+  }
+  .logo__trivial ,.logo__omg{
+    width: 100%;
+  }
+  .logo__omg b{
+    font-size: 15vw;
+  }
+  .btn__play__home{
+    position: absolute;
+    top: 50vw;
+    left: 27vw;
+    font-size: 9vw;
+  }
+
+  .card__ranking, .card__gameday{
+    display: none;
+  }
+} 
+
+
+
 
 
 .card__options{
-  width: 90%;
+  width: 80%;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
   margin: 1% auto;
   display:grid;
-  grid-template-columns: 2fr 0.5fr 2fr;
+  grid-template-columns: 2fr 1fr 2fr;
   grid-column-gap: 1px;
 }
 
@@ -258,7 +292,6 @@ hr{
   width: 35vw;
   display: flex;
   flex-direction: column;
-  
 }
 
 .card__options__difficult{
@@ -308,17 +341,10 @@ hr{
       inset 0 0 .75em .25em var(--glow-color);
   text-shadow: 
       0 0 .5em var(--glow-color);
+    margin-bottom: 5px;
 }
 
-.selected {
-  color: var(--btn-color);
-  background-color: var(--glow-color);
-  box-shadow: 
-      0 0 1em .25em var(--glow-color),
-      0 0 4em 2em var(--glow-spread-color),
-      inset 0 0 .75em .25em var(--glow-color);
-}
-.card__options__difficult__btn:hover, .card__options__categoria__btn:hover {
+.card__options__difficult__btn:hover, .card__options__categoria__btn:hover, .selected{
   color: var(--btn-color);
   background-color: var(--glow-color);
   box-shadow: 
@@ -327,11 +353,40 @@ hr{
       inset 0 0 .75em .25em var(--glow-color);
 }
 
-@media (max-width: 1050px) {
+@media (max-width: 950px) {
   .card__options{
-    width: 95%;
+    width: 90%;
+    height: fit-content;
+    display: flex;
   }
+  .card__options__categoria{
+    height: fit-content;
+    position: absolute;
+    top: 60vw;
+    width: 85%; 
+    
+  }
+  .card__options__difficult{
+    width: 85%;
+    height: fit-content ;
+    position: absolute;
+    top: 25vw;
 
+  }
+  .card-body{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+  }
+  .card__options__img{}  
+  .card__select__btn{
+    position: absolute;
+    top: 150vw;
+    left: 5vw;
+
+  }
+  
 }
 
 
@@ -667,31 +722,4 @@ background-color: rgba(255, 255, 255, 0.125);
   }    
 }
 
-@media (max-width: 800px) {
-  .cards__home {
-    display: block;
-  }
-  .logo__trivial{
-    position: absolute;
-    top: 1vw;
-    font-size: 25vw;
-  }
-  .logo__omg{
-    position: absolute;
-    top: 10vw;
-    font-size: 29vw;
-  }
-  .logo__trivial ,.logo__omg{
-    width: 100%;
-  }
-  .btn__play__home{
-    position: absolute;
-    top: 50vw;
-    left: 27vw;
-    font-size: 9vw;
-  }
 
-  .card__ranking, .card__gameday{
-    display: none;
-  }
-} 
