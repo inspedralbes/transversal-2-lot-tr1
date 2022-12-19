@@ -75,6 +75,7 @@ body {
   background: none;
   display: flex;
   align-items: center;
+  border: none;
   justify-content: flex-end;
 }
 .card__ranking, .card__gameday{
@@ -305,7 +306,7 @@ hr{
   width: 100%;
   color: var(--glow-color);
   font-size: 1.5em;
-  /* background-color: var(--btn-color); */
+  background-color: black;
   border-radius: 20px;
   border: .01em solid var(--glow-color); 
   box-shadow: 
