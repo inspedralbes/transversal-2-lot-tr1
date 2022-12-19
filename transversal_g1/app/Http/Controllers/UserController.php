@@ -25,6 +25,7 @@ class UserController extends Controller
 
         $user->nickname = $request->nickname;
         $user->email = $request->email;
+        $user->exp=0;
         $user->password = Hash::make($request->password);
         $user->description = "";
 
