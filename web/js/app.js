@@ -214,16 +214,23 @@ Vue.component("perfil", {
 });
 
 Vue.component("notificacions", {
+    data: function () {
+        return {
+            items: "",
+        };
+    },
     template: `<div>
-    <button v-b-modal.notificacions class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
+    <button v-b-modal.notificacions @click="llistaChallenges" class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
     
     <b-modal id="notificacions" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
-        <p>Username: {{ getDataUser.nickname }}</p>
-        <p>Description: {{ getDataUser.description }}</p>
-        <p>Email: {{ getDataUser.email }}</p>
-        <p>Creation date: {{ getDataUser.created_at }}</p>
+        <div class="titol__modal__profile">Notifications</div>
+        <div v-if="items != ''">
+            <b-button v-for="item in items">{{ item.challengerName }}</b-button>
+        </div>
+        <div v-else>
+            <h2>You haven't recieved any challenge yet!</h2>
+        </div>
     </div>
   </b-modal>
   </div>`,
@@ -233,8 +240,10 @@ Vue.component("notificacions", {
         }
     },
     methods: {
-        LogOut() {
-            userStore().logged = false;
+        llistaChallenges() {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/checkChallenges?idChallenged="+userStore().data.id).then((response) => response.json()).then((data) => {
+                this.items = data.challenger;
+            });
         }
     }
 });
@@ -384,11 +393,11 @@ const partida = Vue.component("partida", {
             <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
             <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
             <div class="counter2 final_quiz_segons"> {{puntuacioTotal}}</div>
-            
+            <challenge v-if="isLogged"></challenge>
             <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
             <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
-                <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></router-link to="/">
-                <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></router-link to="/">
+            <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></router-link to="/">
+            <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></router-link to="/">
         </section>
         <foot></foot>
     </div>
@@ -589,7 +598,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 1000);
+                }, 000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
@@ -600,6 +609,44 @@ Vue.component("pregunta", {
     },
     created() {
         this.countDownTimer();
+    }
+});
+
+Vue.component("challenge", {
+    data: function () {
+        return {
+            usuaris: "",
+        };
+    },
+    template: `<div>
+    <button v-b-modal.challenge @click="llistaUsuaris" class="btn btn-secondary" style="border-radius: 10%">Challenge user</button>
+    
+    <b-modal id="challenge" hide-footer hide-header>
+    <div class="d-block text-center">
+        <div class="titol__modal__profile">Notifications</div>
+        <div v-if="usuaris != ''">
+            <div v-for="usuari in usuaris">
+            {{ usuari.nickname }}
+            <b-button> Challenge </b-button>
+            </div>
+        </div>
+        <div v-else>
+            <h2>There are not more users!</h2>
+        </div>
+    </div>
+  </b-modal>
+  </div>`,
+    computed: {
+        getDataUser() {
+            return userStore().data;
+        }
+    },
+    methods: {
+        llistaUsuaris() {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId="+userStore().data.id).then((response) => response.json()).then((data) => {
+                this.usuaris = data;
+            });
+        }
     }
 });
 
