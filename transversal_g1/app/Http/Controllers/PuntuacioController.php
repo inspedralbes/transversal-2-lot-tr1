@@ -13,7 +13,9 @@ class PuntuacioController extends Controller
         $puntuacions=new puntuacions;
 
         $puntuacions->idUser=$request->idUser;
-        $puntuacions->idGame=$request->idGame;
+        if($request->challenge==true){
+            
+        }
         $puntuacions->puntuacio=$request->puntuacio;
         $puntuacions->save();
 
