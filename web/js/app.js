@@ -126,7 +126,7 @@ Vue.component("navbar", {
     template: `<div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand" href="./index.html"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></a>
+            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></router-link></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -274,9 +274,9 @@ const partida = Vue.component("partida", {
             preguntaActual: 0,
             gameSaved: "Save Game",
             puntuacioTotal: 0,
-            selected: "danger",
-            difficulty: 0,
-            unselected: "",
+            selected: "selected",
+            selectDifficulty: -1,
+            selectCategory: -1,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -304,30 +304,33 @@ const partida = Vue.component("partida", {
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
             <fieldset class="card-body" >
-                <b-button @click="difficulty = 0; dificultat = 'easy'" v-bind:class="[{ difficulty: 0 }, selected]" class="btn card__options__difficult__btn">Easy</b-button> <br>
-                <b-button  @click="difficulty = 1;dificultat = 'medium'" class="btn card__options__difficult__btn">Medium</b-button> <br>
-                <b-button  @click="difficulty = 2;dificultat = 'hard'" class="btn card__options__difficult__btn">Hard</b-button>
+                <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button> <br>
+                <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> <br>
+                <b-button  @click="selectDifficulty = 2; dificultat = 'hard'" v-bind:class="selectDifficulty == 2 ? selected : ''" class="btn card__options__difficult__btn">Hard</b-button>
             </fieldset>
         </div>
         <div class="card__options__img">
             <img src="./img/logo_omg.png" alt="">
-                <div v-if="tipus == 'normal'">
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn" :class="{'.glass_btn_active': (this.dificultat != '')}"> Start </button>
+                <div v-if="botoStart()">
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn" :class="{'.glass_btn_active': botoStart()}"> Start </button>
+                </div>
+                <div v-else>
+                    <button @click="buscarQuiz" class="btn card__select card__select__btn"> Start </button>
                 </div>
             </div>
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
             <div class="card-body">
-                <b-button @click="categoria = 'history'" class="btn card__options__categoria__btn">History</b-button>
-                <b-button @click="categoria = 'film_and_tv'" class="btn card__options__categoria__btn">Film & TV</b-button>
-                <b-button @click="categoria = 'sport_and_leisure'" class="btn card__options__categoria__btn">Sport & Leisure</b-button>
-                <b-button @click="categoria = 'general_knowledge'" class="btn card__options__categoria__btn">General Knowledge </b-button>
-                <b-button @click="categoria = 'geography'" class="btn card__options__categoria__btn">Geography</b-button>
-                <b-button @click="categoria = 'music'" class="btn card__options__categoria__btn">Music</b-button>
-                <b-button @click="categoria = 'science'" class="btn card__options__categoria__btn">Science</b-button>
-                <b-button @click="categoria = 'arts_and_literature'" class="btn card__options__categoria__btn">Arts & Literature</b-button>
-                <b-button @click="categoria = 'food_and_drink'" class="btn card__options__categoria__btn">Food & Drink</b-button>
-                <b-button @click="categoria = 'society_and_culture'" class="btn card__options__categoria__btn">Society & Culture</b-button>
+                <b-button @click="selectCategory = 0; categoria = 'history'" v-bind:class="selectCategory == 0 ? selected : ''" class="btn card__options__categoria__btn">History</b-button>
+                <b-button @click="selectCategory = 1; categoria = 'film_and_tv'" v-bind:class="selectCategory == 1 ? selected : ''" class="btn card__options__categoria__btn">Film & TV</b-button>
+                <b-button @click="selectCategory = 2; categoria = 'sport_and_leisure'" v-bind:class="selectCategory == 2 ? selected : ''" class="btn card__options__categoria__btn">Sport & Leisure</b-button>
+                <b-button @click="selectCategory = 3; categoria = 'general_knowledge'" v-bind:class="selectCategory == 3 ? selected : ''" class="btn card__options__categoria__btn">General Knowledge </b-button>
+                <b-button @click="selectCategory = 4; categoria = 'geography'" v-bind:class="selectCategory == 4 ? selected : ''" class="btn card__options__categoria__btn">Geography</b-button>
+                <b-button @click="selectCategory = 5; categoria = 'music'" v-bind:class="selectCategory == 5 ? selected : ''" class="btn card__options__categoria__btn">Music</b-button>
+                <b-button @click="selectCategory = 6; categoria = 'science'" v-bind:class="selectCategory == 6 ? selected : ''" class="btn card__options__categoria__btn">Science</b-button>
+                <b-button @click="selectCategory = 7; categoria = 'arts_and_literature'" v-bind:class="selectCategory == 7 ? selected : ''" class="btn card__options__categoria__btn">Arts & Literature</b-button>
+                <b-button @click="selectCategory = 8; categoria = 'food_and_drink'" v-bind:class="selectCategory == 8 ? selected : ''" class="btn card__options__categoria__btn">Food & Drink</b-button>
+                <b-button @click="selectCategory = 9; categoria = 'society_and_culture'" v-bind:class="selectCategory == 9 ? selected : ''" class="btn card__options__categoria__btn">Society & Culture</b-button>
             </div>
         </div>
     
@@ -371,8 +374,11 @@ const partida = Vue.component("partida", {
         }
     },
     methods: {
-        onChange() {
-            if (this.categoria != "" && this.dificultat != "") { // this.opcionsTriades = true; //cambiar variable
+        botoStart() {
+            if (this.categoria != "" && this.dificultat != "") {
+                return true;
+            }else {
+                return false;
             };
         },
         sumarPuntuacio(index, num) {
