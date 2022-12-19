@@ -18,10 +18,10 @@ class PuntuacioController extends Controller
         if($request->challenge==true){
 
         }
-        $sql  = "SELECT games.id FROM games JOIN users ON users.id= '.$request->idUser.' WHERE games.id = (SELECT MAX(games.id) FROM games) ;";
+        $sql  = "SELECT games.id FROM games JOIN users ON users.id= '$request->idUser' WHERE games.id = (SELECT MAX(games.id) FROM games) ;";
         $idGame=DB::select($sql);
 
-        return response()->json($sql);
+        return response()->json($idGame);
         //$puntuacions->idGame=$idGame->id;
         //$puntuacions->save();
 
