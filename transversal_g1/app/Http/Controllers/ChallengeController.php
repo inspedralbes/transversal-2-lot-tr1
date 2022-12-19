@@ -27,7 +27,7 @@ class ChallengeController extends Controller
         //uwu
     }
     public function sendGame(Request $request){
-        $game = DB::select('');
+        $game = DB::select('SELECT json FROM games WHERE id='.$request->idGame);
         return response()->json($game,200);
     }
 }
