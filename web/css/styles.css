@@ -47,17 +47,13 @@ body {
     border-color: var(--clr-neon);
 }
 
-.navbar {
-  position: relative;
-}
-.brand {
-  position: absolute;
-  left: 50%;
-  margin-left: -50px !important;  /* 50% of your logo width */
-  display: block;
-}
 
 /* Cards center */
+.card{
+  margin: 10% 2%;
+  height: 35rem;
+  border-radius: 20px;
+}
 
 .cards__home{
   display:grid;
@@ -65,11 +61,7 @@ body {
   grid-column-gap: 0px;
   padding: 2% 3% 0% 3%;
 }
-.card{
-  margin: 10% 2%;
-  height: 40rem;
-  border-radius: 20px;
-}
+
 .card__logo{
   height: 30rem;
   background: none;
@@ -112,6 +104,10 @@ hr{
   opacity: 1;
   box-shadow: 0 0 20px 8px #30c4e5;
 }
+.btn-game-day{
+  border-radius: 20px;
+  width: 90%;  
+}
 
 /* Index.html Logo */
 .logo__trivial ,.logo__omg{
@@ -129,12 +125,12 @@ hr{
     font-weight: 400;
     font-family: "Vibur";
     color: var(--clr-white);
-    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px #000;  
+    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-neon), 0 0 0.5em var(--clr-neon), 0 0 0.1em var(--clr-neon), 0 10px 3px rgba(255, 255, 255,0.2);  
   }
   
   .logo__omg b, .titol__modal__login, .titol__modal__register,.titol__modal__gameover{
     font-size: 7vw;
-    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px #000;
+    text-shadow: 0 -40px 100px, 0 0 2px, 0 0 1em var(--clr-pink), 0 0 0.5em var(--clr-pink), 0 0 0.1em var(--clr-pink), 0 10px 3px rgba(255, 255, 255,0.2);
   }
 
   .logo__trivial b span, .logo__omg b span{
@@ -249,27 +245,24 @@ hr{
 
 
 .card__options{
-  width: 70%;
+  width: 90%;
   border-radius: 20px;
   box-shadow: 0 0 20px 8px #d0d0d0;
   margin: 1% auto;
   display:grid;
-  grid-template-columns: 2fr 1fr 2fr;
+  grid-template-columns: 2fr 0.5fr 2fr;
   grid-column-gap: 1px;
 }
 
-.btn-game-day{
-  border-radius: 20px;
-  width: 90%;  
-}
-
 .card__options__img{
-  margin: auto auto ;
-  display: block;
+  width: 35vw;
+  display: flex;
+  flex-direction: column;
+  
 }
 
 .card__options__difficult{
-  height: 100%;
+  height: 90%;
   display: flex;
   align-items: center;
 }
@@ -282,7 +275,7 @@ hr{
 }
 
 .card__options__categoria{
-  height:100%;
+  height:90%;
   display: flex;
   align-items: center;
 }
@@ -334,10 +327,11 @@ hr{
       inset 0 0 .75em .25em var(--glow-color);
 }
 
+@media (max-width: 1050px) {
+  .card__options{
+    width: 95%;
+  }
 
-
-input[type="radio"]{
-  display: none;
 }
 
 
@@ -639,12 +633,7 @@ background-color: rgba(255, 255, 255, 0.125);
     justify-content:  center;
     padding: 1%;
  }
- footer{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    margin-top: 5px;
- }
+ 
 
 .check {
   width: 30px;
@@ -657,7 +646,7 @@ background-color: rgba(255, 255, 255, 0.125);
 }
 /* Neon text * */
 .ranking__gameday__neonText, .card-header{
-  font-size: 3rem;
+  font-size: 3vw;
   text-align: center;
   text-transform: uppercase;
   animation: flicker 1.5s infinite alternate;
@@ -686,14 +675,31 @@ background-color: rgba(255, 255, 255, 0.125);
   }    
 }
 
-
 @media (max-width: 800px) {
-  .card_desplegue_options {
-    width: 15em;
+  .cards__home {
+    display: block;
+  }
+  .logo__trivial{
+    position: absolute;
+    top: 1vw;
+    font-size: 25vw;
+  }
+  .logo__omg{
+    position: absolute;
+    top: 10vw;
+    font-size: 29vw;
+  }
+  .logo__trivial ,.logo__omg{
+    width: 100%;
+  }
+  .btn__play__home{
+    position: absolute;
+    top: 50vw;
+    left: 27vw;
+    font-size: 9vw;
+  }
+
+  .card__ranking, .card__gameday{
+    display: none;
   }
 } 
-@media (max-height: 667px) {
-  .card_desplegue_options {
-    height: 25em;
-  }
-}
