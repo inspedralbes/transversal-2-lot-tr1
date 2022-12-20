@@ -43,7 +43,7 @@ class PuntuacioController extends Controller
                             return response()->json($ranking);
                             break;
                         default:
-                        $ranking=null;
+                        $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame  ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
                         return response()->json($ranking);
                     }
                 break;
