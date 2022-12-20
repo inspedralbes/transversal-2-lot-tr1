@@ -529,7 +529,7 @@ Vue.component("pregunta", {
     
     <section id="slider">
         <section id="slide1">
-            <h2 class="quiz_index_pregunta"> Pregunta <b> {{ index+1 }}</b> </h2>
+            <h2 class="quiz_index_pregunta"> Question <b> {{ index+1 }}</b> </h2>
             <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
             <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
             <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
