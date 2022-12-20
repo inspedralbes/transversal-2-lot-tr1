@@ -124,9 +124,9 @@ const ranking = Vue.component("ranking", {
 });
 Vue.component("navbar", {
     template: `<div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></router-link></a>
+            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" class="navbar__img"></router-link></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -152,8 +152,8 @@ Vue.component("navbar", {
                 <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
                 <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
-                <div v-show="isLogged">
-                    <notificacions></notificacions>
+                <div v-show="isLogged" >
+                    <notificacions style="display: block"></notificacions>
                     <perfil></perfil>
                 </div>
             </div>
@@ -192,7 +192,7 @@ Vue.component("perfil", {
     
     <b-modal id="perfil" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">{{ getDataUser.nickname }}'s Profile</div>
+        <div class="titol__modal__login">{{ getDataUser.nickname }}'s Profile</div>
         <p>Username: {{ getDataUser.nickname }}</p>
         <p>Description: {{ getDataUser.description }}</p>
         <p>Email: {{ getDataUser.email }}</p>
@@ -215,18 +215,17 @@ Vue.component("perfil", {
 
 Vue.component("notificacions", {
     data: function () {
-        return {
-            items: "",
-        };
+        return {llistaChallenge: ""};
     },
     template: `<div>
     <button v-b-modal.notificacions @click="llistaChallenges" class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
     
     <b-modal id="notificacions" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">Notifications</div>
-        <div v-if="items != ''">
-            <b-button v-for="item in items">{{ item.challengerName }}</b-button>
+        <div class="titol__modal__notifications">Notifications</div>
+        <div v-for="(challenge, index) in llistaChallenge.challenger" v-if="llistaChallenge.challenger != ''">
+            {{ challenge.challengerName }}
+            <router-link v-bind:to="{path:'/partida/challenge', query: {idGame: challenge.idGame}}"><b-button>Accept</b-button></router-link><br>
         </div>
         <div v-else>
             <h2>You haven't recieved any challenge yet!</h2>
@@ -241,8 +240,8 @@ Vue.component("notificacions", {
     },
     methods: {
         llistaChallenges() {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/checkChallenges?idChallenged="+userStore().data.id).then((response) => response.json()).then((data) => {
-                this.items = data.challenger;
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/checkChallenges?idChallenged=" + userStore().data.id).then((response) => response.json()).then((data) => {
+                this.llistaChallenge = data;
             });
         }
     }
@@ -265,13 +264,13 @@ const home = Vue.component("home", {
         <div class="card card__ranking" v-show="isLogged">
             <p class="ranking__gameday__neonText">Ranking</p>
             <hr>
-            <div class="table_ranking effect__neon__mix">
-            <b-tabs content-class="mt-3 " justified>
-                <b-tab title="First" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
-                <b-tab title="Second"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
-                <b-tab title="very, very long title"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
-                <b-tab title="disabled"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
-            </b-tabs>
+            <div class=" effect__neon__mix">
+                <b-tabs content-class="mt-3 " justified>
+                    <b-tab title="Global" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
+                    <b-tab title="Easy"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
+                    <b-tab title="Medium"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
+                    <b-tab title="Hard"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
+                </b-tabs>
             </div>
         </div>
         <div class="card card__logo" >
@@ -283,7 +282,7 @@ const home = Vue.component("home", {
         </div>
         <div class="card card__gameday" v-show="isLogged">
             <p class="ranking__gameday__neonText">Game of the day</p>
-            <div class="table_ranking effect__neon__mix">
+            <div class="effect__neon__mix">
                 <b-table striped hover :items="global"></b-table>
             </div>
             <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
@@ -315,6 +314,7 @@ const partida = Vue.component("partida", {
             selected: "selected",
             selectDifficulty: -1,
             selectCategory: -1,
+            idGame: -1,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -329,6 +329,12 @@ const partida = Vue.component("partida", {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
+        if (this.tipus == "challenge") {
+            this.opcionsTriades = true;
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame=" + this.$route.query.idGame).then((response) => response.json()).then((data) => {
+                this.preguntesRespostes = JSON.parse(data[0].json);
+            });
+        }
 
         // window.onbeforeunload = function() {
         //    return "Data will be lost if you leave the page, are you sure?";
@@ -341,7 +347,8 @@ const partida = Vue.component("partida", {
     <div v-show="!opcionsTriades" class="card__options">
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
-            <fieldset class="card-body" >
+            <hr>
+            <fieldset class="card-body">
                 <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button>
                 <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> 
                 <b-button  @click="selectDifficulty = 2; dificultat = 'hard'" v-bind:class="selectDifficulty == 2 ? selected : ''" class="btn card__options__difficult__btn">Hard</b-button>
@@ -350,14 +357,15 @@ const partida = Vue.component("partida", {
         <div class="card__options__img">
             <img src="./img/logo_omg.png" alt="">
                 <div v-if="!botoStart()">
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn--disabled" :class="{'.glass_btn_active': botoStart()}"> Start </button>
+                    <button @click="buscarQuiz" class="btn card__select__btn card__select__btn--disabled" :class="{'.glass_btn_active': botoStart()}"> Start </button>
                 </div>
                 <div v-else>
-                    <button @click="buscarQuiz" class="btn card__select card__select__btn--active"> Start </button>
+                    <button @click="buscarQuiz" class="btn card__select__btn card__select__btn--active"> Start </button>
                 </div>
-            </div>
+        </div>
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
+            <hr>
             <div class="card-body">
                 <b-button @click="selectCategory = 0; categoria = 'history'" v-bind:class="selectCategory == 0 ? selected : ''" class="btn card__options__categoria__btn">History</b-button>
                 <b-button @click="selectCategory = 1; categoria = 'film_and_tv'" v-bind:class="selectCategory == 1 ? selected : ''" class="btn card__options__categoria__btn">Film & TV</b-button>
@@ -370,30 +378,27 @@ const partida = Vue.component("partida", {
                 <b-button @click="selectCategory = 8; categoria = 'food_and_drink'" v-bind:class="selectCategory == 8 ? selected : ''" class="btn card__options__categoria__btn">Food & Drink</b-button>
                 <b-button @click="selectCategory = 9; categoria = 'society_and_culture'" v-bind:class="selectCategory == 9 ? selected : ''" class="btn card__options__categoria__btn">Society & Culture</b-button>
             </div>
-        </div>
-    
-    <br><br>
-        
+        </div>        
     </div>
     <div v-show="!opcionsTriades">
-        <foot></foot>
+    <foot></foot>
     </div>
     <div v-show="opcionsTriades">
     <b-col v-for="(preg, index) in preguntesRespostes" v-bind:key="preg.id"> 
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="(n) => sumarPuntuacio(index, n)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
 
-    <div>
-        <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="check" disabled></b-button>
+    <div v-if="preguntaActual != 10" class="progess__ball">
+        <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="progess__ball__individual" disabled></b-button>
     </div>
 
     <div v-if="preguntaActual == 10">
         <section id="slider_final_quiz">
             <div class="titol__modal__gameover game_over">Game <b>Over</b></div>
-            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
-            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
-            <div class="counter2 final_quiz_segons"> {{puntuacioTotal}}</div>
-            <challenge v-if="isLogged"></challenge>
+            <div class="final_quiz_punts"> {{dadesPartida.punts}}/10</div> 
+            <div class="final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
+            <div class="final_quiz_pts_total"> {{puntuacioTotal}} </div>
+            <challenge v-if="gameSaved != 'Save Game'" :idGame=idGame></challenge>
             <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
             <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
             <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></router-link to="/">
@@ -423,13 +428,13 @@ const partida = Vue.component("partida", {
             if (num == 1) {
                 this.dadesPartida.punts += num;
                 if (userStore().logged) {
-                    document.querySelector(".check:nth-child(" + (
+                    document.querySelector(".progess__ball__individual:nth-child(" + (
                         index + 1
                     ) + ")").style.backgroundColor = "green";
                 }
             } else {
                 if (userStore().logged) {
-                    document.querySelector(".check:nth-child(" + (
+                    document.querySelector(".progess__ball__individual:nth-child(" + (
                         index + 1
                     ) + ")").style.backgroundColor = "red";
                 }
@@ -439,7 +444,6 @@ const partida = Vue.component("partida", {
             }
         },
         buscarQuiz: function () {
-            console.log(this.categoria + ' ' + this.dificultat);
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                     this.preguntesRespostes = data;
@@ -449,7 +453,7 @@ const partida = Vue.component("partida", {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Escull la dificultat y la categoria ',
+                    title: 'Choose the difficulty and the category ',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -477,9 +481,11 @@ const partida = Vue.component("partida", {
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
                 method: "POST",
                 body: enviarPartida
+            }).then((response) => response.json()).then((data) => {
+                this.idGame = data;
             }).then(() => {
                 const enviarPuntuacio = new FormData();
-                enviarPuntuacio.append("puntuacio", this.puntuacioTotal);
+                enviarPuntuacio.append("puntuacio", (this.puntuacioTotal * numDificultat));
                 enviarPuntuacio.append("idUser", userStore().data.id);
 
                 fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
@@ -522,6 +528,7 @@ Vue.component("pregunta", {
     
     <section id="slider">
         <section id="slide1">
+            <h2 class="quiz_index_pregunta"> Question <b> {{ index+1 }}</b> </h2>
             <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
             <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
             <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>
@@ -530,7 +537,7 @@ Vue.component("pregunta", {
         </section>
     </section>
     <div>
-        <h2 class="quiz_index_pregunta"> Pregunta {{ index+1 }} </h2>
+    <router-link to="/"><img src="img/logo_omg.png" alt="Logo" class="quiz__img"></router-link>
         <div class="counter"> {{ segons }} </div>    
    </div>
    </div>`,
@@ -598,7 +605,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
@@ -613,21 +620,22 @@ Vue.component("pregunta", {
 });
 
 Vue.component("challenge", {
+    props: [
+        "idGame"
+    ],
     data: function () {
-        return {
-            usuaris: "",
-        };
+        return {usuaris: ""};
     },
     template: `<div>
-    <button v-b-modal.challenge @click="llistaUsuaris" class="btn btn-secondary" style="border-radius: 10%">Challenge user</button>
+    <button v-b-modal.challenge @click="llistaUsuaris" class="btn btn-secondary final_quiz_challenge_btn">Challenge user</button>
     
     <b-modal id="challenge" hide-footer hide-header>
     <div class="d-block text-center">
-        <div class="titol__modal__profile">Notifications</div>
+        <div class="titol__modal__challenge">Challenge</div>
         <div v-if="usuaris != ''">
             <div v-for="usuari in usuaris">
             {{ usuari.nickname }}
-            <b-button> Challenge </b-button>
+            <b-button @click="enviarChallenge(usuari.id)"> Challenge </b-button>
             </div>
         </div>
         <div v-else>
@@ -643,8 +651,19 @@ Vue.component("challenge", {
     },
     methods: {
         llistaUsuaris() {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId="+userStore().data.id).then((response) => response.json()).then((data) => {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId=" + userStore().data.id).then((response) => response.json()).then((data) => {
                 this.usuaris = data;
+            });
+        },
+        enviarChallenge(index) {
+            const challenge = new FormData();
+            challenge.append("idGame", this.idGame);
+            challenge.append("idChallenged", index);
+            challenge.append("idChallenger", userStore().data.id);
+
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/challengeUser", {
+                method: "POST",
+                body: challenge
             });
         }
     }

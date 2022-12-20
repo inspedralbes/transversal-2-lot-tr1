@@ -16,13 +16,13 @@ class GameController extends Controller
         $game->type=$request->type;
         $game->difficulty=$request->difficulty;
         $game->categoria=$request->category;
-        $game->json=json_encode($request->json);
+        $game->json=$request->json;
         $game->iduser= $request->iduser;
         if($request->type=='challenge'){
             DB::table('challenge')->update([]);
         } 
         $game->save();
-
+        return response()->json($game->id,200);
         //
     }
     public function sendDailyGame(){
