@@ -277,6 +277,10 @@ hr{
   .navbar__img{
     width: 25vw;
   }
+  .footer>a>.btn{
+    font-size: 2vw;
+    margin: 0 2%;
+  }
   
 } 
 
@@ -693,7 +697,7 @@ margin: 5vh auto;
 width: 50vw;
 height: 35vw;
 }
-@media (max-width: 1050px) {
+@media (max-width: 980px) {
   .quiz__img{
     display: none;
   }

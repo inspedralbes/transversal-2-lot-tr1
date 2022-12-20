@@ -430,13 +430,13 @@ const partida = Vue.component("partida", {
             if (num == 1) {
                 this.dadesPartida.punts += num;
                 if (userStore().logged) {
-                    document.querySelector(".check:nth-child(" + (
+                    document.querySelector(".progess__ball__individual:nth-child(" + (
                         index + 1
                     ) + ")").style.backgroundColor = "green";
                 }
             } else {
                 if (userStore().logged) {
-                    document.querySelector(".check:nth-child(" + (
+                    document.querySelector(".progess__ball__individual:nth-child(" + (
                         index + 1
                     ) + ")").style.backgroundColor = "red";
                 }
