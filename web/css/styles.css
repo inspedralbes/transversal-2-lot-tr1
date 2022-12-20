@@ -704,13 +704,16 @@ height: 35vw;
     left: 50%;
     transform: translate(-50%, -40%);
   }
+  .quiz_index_pregunta{
+    font-size: 6vw ;
+  }
   #slide1{
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   .slide1_pregunta{
-    font-size:4vw ;
+    font-size: 6vw ;
     margin-top: 8%;
 
   }
