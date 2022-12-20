@@ -23,3 +23,15 @@ Com hem de desplegar aquesta aplicació en un hosting, hem de fer un CRON que en
 Haurem d'iniciar sessió en el compte on tinguem el projecte desplegat, i anar a CRON, quan entrem a CRON li donem a Add Job
 
 ![image Cron](CRON.PNG)
+
+
+
+# Usuaris per defecte
+
+Usuari: Ausias
+Email: ausias@ausias.cat
+password: ausiasausias01
+
+Usuari: Pedra
+Email: pedra@pedra.cat
+password: pedrapedra01

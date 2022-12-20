@@ -21,9 +21,9 @@ class GameController extends Controller
         if($request->type=='challenge'){
             return response()->json($game->id,200);
         } else{
-
+            $game->save();
         }
-        $game->save();
+
 
         //
     }
