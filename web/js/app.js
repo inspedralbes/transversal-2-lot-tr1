@@ -215,10 +215,7 @@ Vue.component("perfil", {
 
 Vue.component("notificacions", {
     data: function () {
-        return {
-            llistaChallenge: "",
-            infoChallenge: "",
-        };
+        return {llistaChallenge: "", jsonChallenge: "", infoChallenge: ""};
     },
     template: `<div>
     <button v-b-modal.notificacions @click="llistaChallenges" class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
@@ -228,7 +225,7 @@ Vue.component("notificacions", {
         <div class="titol__modal__notifications">Notifications</div>
         <div v-for="(challenge, index) in llistaChallenge.challenger" v-if="llistaChallenge.challenger != ''">
             {{ challenge.challengerName }}
-            <b-button @click="infoChallenges(index)">Accept</b-button><br>
+            <router-link v-bind:to="{path:'/partida/challenge', query: {idGame: challenge.idGame}}"><b-button @click="infoChallenges(index)">Accept</b-button></router-link><br>
         </div>
         <div v-else>
             <h2>You haven't recieved any challenge yet!</h2>
@@ -243,13 +240,13 @@ Vue.component("notificacions", {
     },
     methods: {
         llistaChallenges() {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/checkChallenges?idChallenged="+userStore().data.id).then((response) => response.json()).then((data) => {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/checkChallenges?idChallenged=" + userStore().data.id).then((response) => response.json()).then((data) => {
                 this.llistaChallenge = data;
             });
         },
         infoChallenges(index) {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame="+this.llistaChallenge.challenger[index].idGame).then((response) => response.json()).then((data) => {
-                infoChallenge = data;
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame=" + this.llistaChallenge.challenger[index].idGame).then((response) => response.json()).then((data) => {
+                this.jsonChallenge = data;
             })
         }
     }
@@ -333,6 +330,12 @@ const partida = Vue.component("partida", {
         if (this.tipus == "daily") {
             this.opcionsTriades = true;
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
+                this.preguntesRespostes = data;
+            });
+        }
+        if (this.tipus == "challenge") {
+            this.opcionsTriades = true;
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame="+this.$route.query.idGame).then((response) => response.json()).then((data) => {
                 this.preguntesRespostes = JSON.parse(data);
             });
         }
@@ -387,7 +390,7 @@ const partida = Vue.component("partida", {
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="(n) => sumarPuntuacio(index, n)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
 
-    <div>
+    <div v-if="preguntaActual != 10">
         <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="check" disabled></b-button>
     </div>
 
@@ -603,7 +606,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
@@ -619,9 +622,7 @@ Vue.component("pregunta", {
 
 Vue.component("challenge", {
     data: function () {
-        return {
-            usuaris: "",
-        };
+        return {usuaris: ""};
     },
     template: `<div>
     <button v-b-modal.challenge @click="llistaUsuaris" class="btn btn-secondary" style="border-radius: 10%">Challenge user</button>
@@ -648,12 +649,12 @@ Vue.component("challenge", {
     },
     methods: {
         llistaUsuaris() {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId="+userStore().data.id).then((response) => response.json()).then((data) => {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId=" + userStore().data.id).then((response) => response.json()).then((data) => {
                 this.usuaris = data;
             });
         },
         enviarChallenge() {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendAllUsers?userId="+userStore().data.id).then((response) => response.json()).then((data) => {
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/challengeUser?idGame=" + userStore().data.id).then((response) => response.json()).then((data) => {
                 this.usuaris = data;
             });
         }
