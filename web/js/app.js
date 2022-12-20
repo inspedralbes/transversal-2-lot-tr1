@@ -387,16 +387,16 @@ const partida = Vue.component("partida", {
         <pregunta @sumarTemps="(s) => dadesPartida.tempsPartida += s" @sumaPunts="(n) => sumarPuntuacio(index, n)" @next-question="preguntaActual++" v-if="preguntaActual==index" :estatP=dadesPartida :infoPreguntes=preg :index=index></pregunta>
     </b-col>
 
-    <div>
-        <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="check" disabled></b-button>
+    <div v-if="preguntaActual != 10" class="progess__ball">
+        <b-button v-for="item in preguntesRespostes" v-bind:key="item.id" class="progess__ball__individual" disabled></b-button>
     </div>
 
     <div v-if="preguntaActual == 10">
         <section id="slider_final_quiz">
             <div class="titol__modal__gameover game_over">Game <b>Over</b></div>
-            <div class="counter1 final_quiz_segons"> {{dadesPartida.punts}}/10</div> 
-            <div class="counter2 final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
-            <div class="counter2 final_quiz_segons"> {{puntuacioTotal}}</div>
+            <div class="final_quiz_punts"> {{dadesPartida.punts}}/10</div> 
+            <div class="final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
+            <div class="final_quiz_pts_total"> {{puntuacioTotal}} </div>
             <challenge v-if="isLogged"></challenge>
             <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
             <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
@@ -453,7 +453,7 @@ const partida = Vue.component("partida", {
                 Swal.fire({
                     position: 'center',
                     icon: 'error',
-                    title: 'Escull la dificultat y la categoria ',
+                    title: 'Choose the difficulty and the category ',
                     showConfirmButton: false,
                     timer: 1500
                 })
@@ -603,7 +603,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
@@ -624,7 +624,7 @@ Vue.component("challenge", {
         };
     },
     template: `<div>
-    <button v-b-modal.challenge @click="llistaUsuaris" class="btn btn-secondary" style="border-radius: 10%">Challenge user</button>
+    <button v-b-modal.challenge @click="llistaUsuaris" class="btn btn-secondary final_quiz_challenge_btn">Challenge user</button>
     
     <b-modal id="challenge" hide-footer hide-header>
     <div class="d-block text-center">
