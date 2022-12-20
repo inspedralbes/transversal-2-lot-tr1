@@ -29,6 +29,7 @@ Route::post('/edit-profile',[UserController::class, 'profileUpdate']);
 Route::post('/login',[UserController::class, 'login']);
 //Puntuacions
 Route::post('/store-points', [PuntuacioController::class , 'store']);
+Route::get('getRanking',[PuntuacioController::class,'sendRanking']);
 //Game
 Route::post('/store-game', [GameController::class , 'store']);
 Route::get('/daily', [GameController::class , 'sendDailyGame']);

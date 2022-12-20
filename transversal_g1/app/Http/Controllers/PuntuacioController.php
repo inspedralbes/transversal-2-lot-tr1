@@ -33,15 +33,15 @@ class PuntuacioController extends Controller
             case 'normal':
                     switch($request->dificultat){
                         case 1:
-                            $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame WHERE games.difficulty=1 ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
+                            $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame WHERE games.difficulty=1 and games.type="normal" ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
                             return response()->json($ranking);
                             break;
                         case 2:
-                            $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame WHERE games.difficulty=2 ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
+                            $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame WHERE games.difficulty=2 and games.type="normal" ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
                             return response()->json($ranking);
                             break;
                         case 3:
-                            $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame WHERE games.difficulty=3 ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
+                            $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame WHERE games.difficulty=3 and games.type="normal" ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
                             return response()->json($ranking);
                             break;
                         default:
@@ -50,6 +50,8 @@ class PuntuacioController extends Controller
                     }
                 break;
             case 'diaria':
+                $ranking=DB::select('SELECT users.nickname,games.categoria, puntuacions.puntuacio FROM puntuacions JOIN users ON users.id=puntuacions.idUser JOIN games ON games.id=puntuacions.idGame WHERE games.type="diaria" ORDER BY `puntuacions`.`puntuacio` DESC LIMIT 3');
+                return response()->json($ranking);
                 break;
             default:
             break;
