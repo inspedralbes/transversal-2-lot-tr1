@@ -717,7 +717,7 @@ height: 35vw;
   .slide1_btn{
     min-height: 10%;
     height: fit-content;
-    min-width: 43%;
+    min-width: 80%;
     width: fit-content;
     font-size:4vw;
   }
