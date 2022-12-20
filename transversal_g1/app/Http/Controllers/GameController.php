@@ -19,14 +19,16 @@ class GameController extends Controller
         $game->json=$request->json;
         $game->iduser= $request->iduser;
         if($request->type=='challenge'){
-            DB::table('challenge')->update([]);
-        } 
+            return response()->json($game->id,200);
+        } else{
+
+        }
         $game->save();
-        return response()->json($game->id,200);
+
         //
     }
     public function sendDailyGame(){
-        $game=DB::table('games')->where('id',0)->value('json');       
+        $game=DB::table('games')->where('id',0)->value('json');
         return response()->json($game,200);
     }
 }
