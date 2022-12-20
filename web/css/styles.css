@@ -484,6 +484,7 @@ hr{
   align-items: center;
   justify-content: center;
   width: 43%;
+  font-size: 2.5vh;
 }
 .slide1_btn{
   height: 20%;
@@ -717,7 +718,7 @@ height: 35vw;
     min-height: 10%;
     height: fit-content;
     min-width: 43%;
-    width: 76vh;
+    width: fit-content;
     font-size:4vw;
   }
   .progess__ball{
@@ -727,10 +728,7 @@ height: 35vw;
     justify-content: center;
     flex-direction: row;
   } 
-  .progess__ball__individual{
-    width: 20px;
-    height: 20px;
-  }
+  
 
 }
 
