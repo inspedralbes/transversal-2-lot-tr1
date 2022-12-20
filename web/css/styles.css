@@ -717,7 +717,8 @@ height: 35vw;
     min-height: 10%;
     height: fit-content;
     min-width: 43%;
-    width: fit-content;
+    width: 76vh;
+    font-size:4vw;
   }
   .progess__ball{
     height: 98vh;
@@ -732,10 +733,6 @@ height: 35vw;
   }
 
 }
-
-
-
-
 
 
 .d-block{
