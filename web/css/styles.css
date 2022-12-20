@@ -75,11 +75,11 @@ body {
 .card__ranking, .card__gameday{
   box-shadow: 0 0 20px 8px #d0d0d0;
   display: flex;
-  align-items: center;
   justify-content: start;
 }
 .card__gameday{
   justify-content: center;
+  align-items: center;
 }
 
 .effect__neon__mix{
@@ -327,7 +327,8 @@ hr{
 .card__select__btn{
   appearance: none;
   border: 0;
-  font: inherit;
+  font: 180% 'vibur';
+  font-weight: 900;
   width: 100%;
   height: 100%;
   background: url(https://upload.wikimedia.org/wikipedia/commons/9/9d/Caret_down_font_awesome_whitevariation.svg) no-repeat right 0.8em center / 1.4em, linear-gradient(to left, var(--clr-glass-icon) 3em, var(--clr-glass) 3em);
@@ -335,14 +336,12 @@ hr{
   border-radius: 0.25em;
   box-shadow: 0 0 1em 0 rgba(255, 255, 255, 0.2);
   cursor: pointer;
-  font-size: 180%;
   
 }
 .card__options__difficult__btn, .card__options__categoria__btn{
   position: relative;
   width: 16vw;
   color: var(--glow-color);
-  font-size: 1.2vw;
   border-radius: 20px;
   background-color: black;
   border: .01em solid var(--glow-color); 
@@ -368,7 +367,6 @@ hr{
 
 .card__select__btn, .card__select__btn--disabled,.card__select__btn--active {
   height: 4vw;
-  font-family: 'Comfortaa', cursive;
 	border-radius: 4px;
 	box-shadow: inset 0px 3px 5px rgba(255,255,255,0.5), 0px 0px 10px rgba(0,0,0,0.15);
 	background: rgb(2,0,36);
@@ -399,25 +397,26 @@ hr{
     height: fit-content;
     display: flex;
     flex-direction: column;
-    padding-bottom: 20%;
     box-shadow: none;
+   
   }
   .card__options__img{
-    display: block;
+    /* display: block;
     position: absolute;
     height: 120vh;
     width: 80%;
-    left: 5%;
+    left: 5%; */
     
   }
   .card__options__img>img{
     display: none;
   } 
-  .card__options__difficult{
+  /* .card__options__difficult{
     height: fit-content ;
-  }
+  } */
   .card__options__categoria{
     height: fit-content;
+    margin-bottom: 15vh;
   }
   .card-body{
     display: block;
@@ -433,10 +432,11 @@ hr{
   
   .card__select__btn{
     /* display: block; */
-    position: absolute;
-    top: 950px;
+    /* position: absolute;
+    top: 105vh;
     left: 4vw;
     height: 5vh;
+    margin-top: 10%; */
     
   }
   
@@ -570,7 +570,7 @@ hr{
   width: 12vmin;
   height: 12vmin;
   font-size: 5vmin;
-
+  box-shadow: 0 0 0 .5vmin, inset 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125), 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125);
 }
 .counter{
   width: 20vmin;
@@ -590,12 +590,10 @@ hr{
   font-size: 8vmin;
   top: 40%;
   left: 50%;
+  
 }
 
 @media (min-width: 600px) {
-.counter, .final_quiz_punts, .final_quiz_segons,  .final_quiz_pts_total{
-  box-shadow: 0 0 0 .5vmin, inset 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125), 2.5vmin 2.5vmin 5vmin rgba(0, 0, 0, 0.125);
-}
 .counter{
   font-size: 15vmin;
 }
@@ -762,6 +760,7 @@ height: 35vw;
 
 /* Neon text * */
 .ranking__gameday__neonText, .card-header{
+  font-family: 'vibur';
   font-size: 3vw;
   text-align: center;
   text-transform: uppercase;

@@ -152,8 +152,8 @@ Vue.component("navbar", {
                 <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
                 <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
-                <div v-show="isLogged">
-                    <notificacions></notificacions>
+                <div v-show="isLogged" >
+                    <notificacions style="display: block"></notificacions>
                     <perfil></perfil>
                 </div>
             </div>
@@ -269,13 +269,13 @@ const home = Vue.component("home", {
         <div class="card card__ranking" v-show="isLogged">
             <p class="ranking__gameday__neonText">Ranking</p>
             <hr>
-            <div class="table_ranking effect__neon__mix">
-            <b-tabs content-class="mt-3 " justified>
-                <b-tab title="Global" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
-                <b-tab title="Easy"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
-                <b-tab title="Medium"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
-                <b-tab title="Hard"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
-            </b-tabs>
+            <div class=" effect__neon__mix">
+                <b-tabs content-class="mt-3 " justified>
+                    <b-tab title="Global" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
+                    <b-tab title="Easy"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
+                    <b-tab title="Medium"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
+                    <b-tab title="Hard"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
+                </b-tabs>
             </div>
         </div>
         <div class="card card__logo" >
@@ -287,7 +287,7 @@ const home = Vue.component("home", {
         </div>
         <div class="card card__gameday" v-show="isLogged">
             <p class="ranking__gameday__neonText">Game of the day</p>
-            <div class="table_ranking effect__neon__mix">
+            <div class="effect__neon__mix">
                 <b-table striped hover :items="global"></b-table>
             </div>
             <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
@@ -352,7 +352,7 @@ const partida = Vue.component("partida", {
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
             <hr>
-            <fieldset class="card-body" >
+            <fieldset class="card-body">
                 <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button>
                 <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> 
                 <b-button  @click="selectDifficulty = 2; dificultat = 'hard'" v-bind:class="selectDifficulty == 2 ? selected : ''" class="btn card__options__difficult__btn">Hard</b-button>
