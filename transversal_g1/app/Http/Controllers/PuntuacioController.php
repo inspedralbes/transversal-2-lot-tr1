@@ -15,12 +15,10 @@ class PuntuacioController extends Controller
         $puntuacions=new puntuacions;
 
         $puntuacions->idUser=$request->idUser;
-        if($request->challenge==true){
 
-        }
         $sql  = "SELECT games.id FROM games JOIN users ON users.id= '$request->idUser' WHERE games.id = (SELECT MAX(games.id) FROM games) ;";
         $idGame=DB::select($sql);
-
+        $puntuacions->puntuacio=$request->puntuacio;
         //return response()->json();
         $puntuacions->idGame=$idGame[0]->id;
         $puntuacions->save();
@@ -28,7 +26,7 @@ class PuntuacioController extends Controller
         //
     }
     public function sendRanking( Request $request ){
-         
+
         switch($request->tipus){
             case 'normal':
                     switch($request->dificultat){
