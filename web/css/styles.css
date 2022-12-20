@@ -484,6 +484,7 @@ hr{
   align-items: center;
   justify-content: center;
   width: 43%;
+  font-size: 2.5vh;
 }
 .slide1_btn{
   height: 20%;
@@ -703,21 +704,25 @@ height: 35vw;
     left: 50%;
     transform: translate(-50%, -40%);
   }
+  .quiz_index_pregunta{
+    font-size: 8vw ;
+  }
   #slide1{
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   .slide1_pregunta{
-    font-size:4vw ;
+    font-size: 6vw ;
     margin-top: 8%;
 
   }
   .slide1_btn{
-    min-height: 10%;
+    min-height: 15%;
     height: fit-content;
-    min-width: 43%;
+    min-width: 80%;
     width: fit-content;
+    font-size:4vw;
   }
   .progess__ball{
     height: 98vh;
@@ -726,16 +731,9 @@ height: 35vw;
     justify-content: center;
     flex-direction: row;
   } 
-  .progess__ball__individual{
-    width: 20px;
-    height: 20px;
-  }
+  
 
 }
-
-
-
-
 
 
 .d-block{
