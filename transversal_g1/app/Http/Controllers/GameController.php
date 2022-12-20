@@ -22,6 +22,7 @@ class GameController extends Controller
             return response()->json($game->id,200);
         } else{
             $game->save();
+            return response()->json($game->id,200);
         }
 
 
