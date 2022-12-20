@@ -268,7 +268,7 @@ const home = Vue.component("home", {
                 <b-tabs content-class="mt-3 " justified>
                     <b-tab title="Global" class="titol__first__ranking" active><canvas class="ranking" id="ranking-global"></b-tab>
                     <b-tab title="Easy"><canvas class="ranking" id="ranking-facil"></canvas></b-tab>
-                    <b-tab title="Medium"><canvas class="ranking" id="ranking-normal"></canvas></b-table></b-tab>
+                    <b-tab title="Medium"><canvas class="ranking" id="ranking-normal"></canvas></b-tab>
                     <b-tab title="Hard"><canvas class="ranking" id="ranking-dificil"></canvas></b-tab>
                 </b-tabs>
             </div>
@@ -283,8 +283,9 @@ const home = Vue.component("home", {
         <div class="card card__gameday" v-show="isLogged">
             <p class="ranking__gameday__neonText">Game of the day</p>
             <div class="effect__neon__mix">
-                <canvas class="ranking" id="ranking-diari"></canvas>
+                <canvas class="ranking" id="ranking-diaria"></canvas>
             </div>
+            <br>
             <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
         </div>
     </div>
@@ -405,6 +406,37 @@ const home = Vue.component("home", {
         });
 
         fetch(`http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/getRanking?tipus=normal&dificultat=3`).then(response => response.json()).then(data => {
+            namesHard[0] = data[0].nickname;
+            namesHard[1] = data[1].nickname;
+            namesHard[2] = data[2].nickname;
+            puntuacioHard[0] = data[0].puntuacio;
+            puntuacioHard[1] = data[1].puntuacio;
+            puntuacioHard[2] = data[2].puntuacio;
+
+            const ChartScore = document.getElementById('ranking-dificil');
+            new Chart(ChartScore, {
+                type: 'bar',
+                data: {
+                    labels: namesHard,
+                    datasets: [
+                        {
+                            label: 'Hard',
+                            data: puntuacioHard,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        fetch(`http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/getRanking?tipus=diaria`).then(response => response.json()).then(data => {
             namesDaily[0] = data[0].nickname;
             namesDaily[1] = data[1].nickname;
             namesDaily[2] = data[2].nickname;
@@ -412,7 +444,7 @@ const home = Vue.component("home", {
             puntuacioDaily[1] = data[1].puntuacio;
             puntuacioDaily[2] = data[2].puntuacio;
 
-            const ChartScore = document.getElementById('ranking-dificil');
+            const ChartScore = document.getElementById('ranking-diaria');
             new Chart(ChartScore, {
                 type: 'bar',
                 data: {
@@ -433,41 +465,6 @@ const home = Vue.component("home", {
                     }
                 }
             });
-        });
-
-        fetch(`http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/getRanking?tipus=normal`).then(response => response.json()).then(data => {
-            namesGlobal[0] = data[0].nickname;
-            namesGlobal[1] = data[1].nickname;
-            namesGlobal[2] = data[2].nickname;
-            puntuacioGlobal[0] = data[0].puntuacio;
-            puntuacioGlobal[1] = data[1].puntuacio;
-            puntuacioGlobal[2] = data[2].puntuacio;
-
-            const ChartScore = document.getElementById('ranking-global');
-            new Chart(ChartScore, {
-                type: 'bar',
-                data: {
-                    labels: namesGlobal,
-                    datasets: [
-                        {
-                            label: 'Global',
-                            data: puntuacioGlobal,
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
-        });
-
-        fetch(`http://trivial6.alumnes.inspedralbes.cat/transversal-2-lot-tr6/web/public/api/search-top-games`).then(response => response.json()).then(data => {
-            this.ranking = data;
         });
     }
 });
