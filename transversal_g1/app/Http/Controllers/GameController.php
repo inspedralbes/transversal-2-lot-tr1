@@ -24,7 +24,7 @@ class GameController extends Controller
 
 
         if($request->type=='challenge'){
-            $sql  = "SELECT games.id FROM games JOIN users ON users.id= '$request->idUser' WHERE games.id = (SELECT MAX(games.id) FROM games) ;";
+            $sql  = "SELECT games.id FROM games JOIN users ON users.id= '$request->iduser' WHERE games.id = (SELECT MAX(games.id) FROM games) ;";
             $idGame=DB::select($sql);
             $idgame2=$idGame[0]->id;
 
