@@ -224,7 +224,7 @@ Vue.component("notificacions", {
     <div class="d-block text-center">
         <div class="titol__modal__notifications">Notifications</div>
         <div v-for="(challenge, index) in llistaChallenge.challenger" v-if="llistaChallenge.challenger != ''">
-            {{ challenge.challengerName }} challenged you you!
+            {{ challenge.challengerName }} challenged you!
             <router-link v-bind:to="{path:'/partida/challenge', query: {idGame: challenge.idGame}}"><b-button>Accept</b-button></router-link><br>
         </div>
         <div v-else>
@@ -266,10 +266,10 @@ const home = Vue.component("home", {
             <hr>
             <div class=" effect__neon__mix">
                 <b-tabs content-class="mt-3 " justified>
-                    <b-tab title="Global" class="titol__first__ranking" active><canvas class="ranking" id="topScore"></canvas></b-tab>
-                    <b-tab title="Easy"><p>I'm the second tab</p>    </b-tab>
-                    <b-tab title="Medium"><p>I'm the tab with the very, very long title</p>    </b-table></b-tab>
-                    <b-tab title="Hard"><p>I'm a disabled tab!</p>   </b-tab>
+                    <b-tab title="Global" class="titol__first__ranking" active></b-tab>
+                    <b-tab title="Easy"><canvas class="ranking" id="ranking-facil"></canvas></b-tab>
+                    <b-tab title="Medium"><canvas class="ranking" id="ranking-normal"></canvas></b-table></b-tab>
+                    <b-tab title="Hard"><canvas class="ranking" id="ranking-dificil"></canvas></b-tab>
                 </b-tabs>
             </div>
         </div>
@@ -299,38 +299,92 @@ const home = Vue.component("home", {
         }
     },
     mounted() {
-        let users;
-        let topScores;
+        let namesEasy = [];
+        let puntuacioEasy = [];
+        let namesMedium = [];
+        let puntuacioMedium = [];
+        let namesHard = [];
+        let puntuacioHard = [];
 
-        fetch(`http://trivial6.alumnes.inspedralbes.cat/transversal-2-lot-tr6/web/public/api/search-top-scores`).then(response => response.json()).then(data => {
-            users = [data[0].name];
-            topScores = [data[0].score];
+        fetch(`http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/getRanking?tipus=normal&dificultat=1`).then(response => response.json()).then(data => {
+            namesEasy[0] = data[0].nickname;
+            namesEasy[1] = data[1].nickname;
+            namesEasy[2] = data[2].nickname;
+            puntuacioEasy[0] = data[0].puntuacio;
+            puntuacioEasy[1] = data[1].puntuacio;
+            puntuacioEasy[2] = data[2].puntuacio;
 
-            for (let i = 0; i < data.length; i++) {
-                let error = false;
-                for (let y = 0; y < users.length; y++) {
-                    if (data[i].name == users[y]) {
-                        error = true;
-                        topScores[y] += data[i].score;
-                    }
-                }
-
-                if (! error) {
-                    users.push(data[i].name);
-                    topScores.push(data[i].score);
-                }
-            }
-
-            const ChartScore = document.getElementById('topScore');
-
+            const ChartScore = document.getElementById('ranking-facil');
             new Chart(ChartScore, {
                 type: 'bar',
                 data: {
-                    labels: users,
+                    labels: namesEasy,
+                    datasets: [
+                        {
+                            label: 'Easy',
+                            data: puntuacioEasy,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        fetch(`http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/getRanking?tipus=normal&dificultat=2`).then(response => response.json()).then(data => {
+            namesMedium[0] = data[0].nickname;
+            namesMedium[1] = data[1].nickname;
+            namesMedium[2] = data[2].nickname;
+            puntuacioMedium[0] = data[0].puntuacio;
+            puntuacioMedium[1] = data[1].puntuacio;
+            puntuacioMedium[2] = data[2].puntuacio;
+
+            const ChartScore = document.getElementById('ranking-normal');
+            new Chart(ChartScore, {
+                type: 'bar',
+                data: {
+                    labels: namesMedium,
+                    datasets: [
+                        {
+                            label: 'Medium',
+                            data: puntuacioMedium,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        fetch(`http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/getRanking?tipus=normal&dificultat=3`).then(response => response.json()).then(data => {
+            namesHard[0] = data[0].nickname;
+            namesHard[1] = data[1].nickname;
+            namesHard[2] = data[2].nickname;
+            puntuacioHard[0] = data[0].puntuacio;
+            puntuacioHard[1] = data[1].puntuacio;
+            puntuacioHard[2] = data[2].puntuacio;
+
+            const ChartScore = document.getElementById('ranking-dificil');
+            new Chart(ChartScore, {
+                type: 'bar',
+                data: {
+                    labels: namesHard,
                     datasets: [
                         {
                             label: 'Global',
-                            data: topScores,
+                            data: puntuacioHard,
                             borderWidth: 1
                         }
                     ]
@@ -366,6 +420,7 @@ const partida = Vue.component("partida", {
             selectDifficulty: -1,
             selectCategory: -1,
             idGame: -1,
+            idChallenger: -1,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -450,8 +505,14 @@ const partida = Vue.component("partida", {
             <div class="final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
             <div class="final_quiz_pts_total"> {{puntuacioTotal}} </div>
             <challenge v-if="gameSaved != 'Save Game'" :idGame=idGame></challenge>
-            <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
-            <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
+            <div v-if="gameSaved != 'Game Saved'">
+                <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
+                <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
+            </div>
+            <div v-else>
+                <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn" disabled>{{ gameSaved }}</b-button>
+                <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn" disabled>{{ gameSaved }}</b-button>
+            </div>
             <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></router-link to="/">
             <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'daily'">Play normal game</b-button></router-link to="/">
         </section>
@@ -533,7 +594,13 @@ const partida = Vue.component("partida", {
                 method: "POST",
                 body: enviarPartida
             }).then((response) => response.json()).then((data) => {
-                this.idGame = data;
+                if (this.tipus != "challenge") {
+                    this.idGame = data[0];
+                    this.idChallenger = data[1];
+                } else {
+                    this.idGame = data.idGame;
+                    this.idChallenger = data.idChallenger;
+                }
             }).then(() => {
                 const enviarPuntuacio = new FormData();
                 enviarPuntuacio.append("puntuacio", (this.puntuacioTotal * numDificultat));
@@ -543,6 +610,18 @@ const partida = Vue.component("partida", {
                     method: "POST",
                     body: enviarPuntuacio
                 });
+
+                if (this.tipus == "challenge") {
+                    const enviarGuanyador = new FormData();
+                    enviarGuanyador.append("idChallenger", this.idChallenger);
+                    enviarGuanyador.append("idChallenged", userStore().data.id);
+                    enviarGuanyador.append("idGame", this.idGame);
+
+                    fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/setWinner", {
+                        method: "POST",
+                        body: enviarGuanyador
+                    });
+                }
 
 
             });
