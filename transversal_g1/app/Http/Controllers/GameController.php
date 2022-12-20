@@ -24,7 +24,7 @@ class GameController extends Controller
 
 
         if($request->type=='challenge'){
-            return response()->json(['idGame'=>$game->id,'idChallenger'=>$game->iduser],200);
+            return response()->json(['idGame'=>$game->id, 'idChallenger'=>$game->iduser],200);
         } else{
             $game->save();
 
