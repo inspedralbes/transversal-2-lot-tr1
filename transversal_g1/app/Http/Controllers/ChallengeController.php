@@ -23,7 +23,7 @@ class ChallengeController extends Controller
     }
     public function checkChallenge(Request $request){
         $challenged=DB::select('SELECT DISTINCT nickname AS challengedName, idChallenged FROM challenges JOIN users ON id=idChallenged WHERE id='.$request->idChallenged);
-        $challenger=DB::select('SELECT nickname AS challengerName, idChallenger, idGame FROM challenges JOIN users ON id=idChallenger WHERE idChallenged='.$request->idChallenged);
+        $challenger=DB::select('SELECT nickname AS challengerName, idChallenger, idGame, winner FROM challenges JOIN users ON id='.$request->idChallenged);
         return response()->json(['challenger'=>$challenger, 'challenged'=>$challenged]);
         //uwu
     }
@@ -33,8 +33,7 @@ class ChallengeController extends Controller
     }
     public function checkWinner(Request $request){
 
-        $puntsChallenged=DB::select('SELECT puntuacio
-         FROM puntuacions WHERE idUser='.$request->idChallenged.' and idGame='.$request->idGame.' ');
+        $puntsChallenged=DB::select('SELECT puntuacio FROM puntuacions WHERE idUser='.$request->idChallenged.' and idGame='.$request->idGame.' ');
         $puntsChallenger=DB::select('SELECT puntuacio FROM puntuacions WHERE idUser='.$request->idChallenger.' and idGame='.$request->idGame.' ');
         if($puntsChallenged[0]->puntuacio >$puntsChallenger[0]->puntuacio){
             $winner=$request->idChallenged;
