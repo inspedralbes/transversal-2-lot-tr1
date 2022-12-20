@@ -34,6 +34,6 @@ class ChallengeController extends Controller
 
 
         $puntsChallenger=DB::select('SELECT puntuacio FROM puntuacions JOIN challenges ON idChallenged='.$request->idChallenged.' ');
-        $winner = DB::update(DB::raw('UPDATE challenges SET winner=".." WHERE idChallenged = (SELECT id FROM users WHERE id=".$request->idChallenged.") and idGame= (SELECT id FROM games where id=".$request->idGame.")'));
+        $winner = DB::update(DB::raw('UPDATE challenges SET winner='.$request->winner.' WHERE idChallenged = (SELECT id FROM users WHERE id='.$request->idChallenged.') and idGame= (SELECT id FROM games where id='.$request->idGame.''));
     }
 }
