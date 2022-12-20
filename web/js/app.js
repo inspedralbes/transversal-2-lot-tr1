@@ -124,7 +124,7 @@ const ranking = Vue.component("ranking", {
 });
 Vue.component("navbar", {
     template: `<div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" class="navbar__img"></router-link></a>
 
