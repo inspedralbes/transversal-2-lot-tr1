@@ -526,10 +526,10 @@ const partida = Vue.component("partida", {
         </div>
         <div class="card__options__img">
             <img src="./img/logo_omg.png" alt="">
-                <div v-if="!botoStart()">
+                <div v-if="!botoStart()" class="card__select">
                     <button @click="buscarQuiz" class="btn card__select__btn card__select__btn--disabled" :class="{'.glass_btn_active': botoStart()}"> Start </button>
                 </div>
-                <div v-else>
+                <div v-else class="card__select">
                     <button @click="buscarQuiz" class="btn card__select__btn card__select__btn--active"> Start </button>
                 </div>
         </div>
@@ -551,7 +551,7 @@ const partida = Vue.component("partida", {
         </div>        
     </div>
     <div v-show="!opcionsTriades">
-    <foot></foot>
+    
     </div>
     <div v-show="opcionsTriades">
     <b-col v-for="(preg, index) in preguntesRespostes" v-bind:key="preg.id"> 
