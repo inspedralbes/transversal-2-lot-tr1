@@ -32,8 +32,13 @@ class ChallengeController extends Controller
     }
     public function checkWinner(Request $request){
 
-
-        $puntsChallenger=DB::select('SELECT puntuacio FROM puntuacions JOIN challenges ON idChallenged='.$request->idChallenged.' ');
-        $winner = DB::update(DB::raw('UPDATE challenges SET winner=".." WHERE idChallenged = (SELECT id FROM users WHERE id=".$request->idChallenged.") and idGame= (SELECT id FROM games where id=".$request->idGame.")'));
+        $puntsChallenged=DB::select('SELECT puntuacio FROM puntuacions WHERE idUser='.$request->idChallenged.' and idGame='.$request->idGame.' ');
+        $puntsChallenger=DB::select('SELECT puntuacio FROM puntuacions WHERE idUser='.$request->idChallenger.' and idGame='.$request->idGame.' ');
+        if($puntsChallenged[0]->puntuacio >$puntsChallenger[0]->puntuacio){
+            $winner=$request->idChallenged;
+        }else{
+            $winner=$request->idChallenger;
+        }
+        $winner = DB::update(DB::raw('UPDATE challenges SET winner='.$winner.' WHERE idChallenged = (SELECT id FROM users WHERE id='.$request->idChallenged.') and idGame= (SELECT id FROM games where id='.$request->idGame.')'));
     }
 }
