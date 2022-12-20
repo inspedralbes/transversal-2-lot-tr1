@@ -351,6 +351,7 @@ const partida = Vue.component("partida", {
     <div v-show="!opcionsTriades" class="card__options">
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
+            <hr>
             <fieldset class="card-body" >
                 <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button>
                 <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> 
@@ -368,6 +369,7 @@ const partida = Vue.component("partida", {
         </div>
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
+            <hr>
             <div class="card-body">
                 <b-button @click="selectCategory = 0; categoria = 'history'" v-bind:class="selectCategory == 0 ? selected : ''" class="btn card__options__categoria__btn">History</b-button>
                 <b-button @click="selectCategory = 1; categoria = 'film_and_tv'" v-bind:class="selectCategory == 1 ? selected : ''" class="btn card__options__categoria__btn">Film & TV</b-button>
