@@ -46,7 +46,9 @@ body {
     background-color: var(--clr-neon);
     border-color: var(--clr-neon);
 }
-
+.navbar__img{
+  width: 5vw;
+}
 
 /* Cards center */
 .card{
@@ -272,6 +274,10 @@ hr{
   .card__ranking, .card__gameday{
     display: none;
   }
+  .navbar__img{
+    width: 25vw;
+  }
+  
 } 
 
 
@@ -696,7 +702,7 @@ height: 35vw;
     top: 10vw;
     left: 6%;
     width: 86%;
-    min-height: 65vh;
+    min-height: 62vh;
   }
   .counter{
     position: absolute;
@@ -730,6 +736,7 @@ height: 35vw;
     align-items: flex-end;
     justify-content: center;
     flex-direction: row;
+    margin: 0 2vw;
   } 
   
 

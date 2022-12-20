@@ -126,7 +126,7 @@ Vue.component("navbar", {
     template: `<div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></router-link></a>
+            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" class="navbar__img"></router-link></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
