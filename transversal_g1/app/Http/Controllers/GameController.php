@@ -22,7 +22,7 @@ class GameController extends Controller
             DB::table('challenge')->update([]);
         } 
         $game->save();
-
+        return response()->json($game->id,200);
         //
     }
     public function sendDailyGame(){
