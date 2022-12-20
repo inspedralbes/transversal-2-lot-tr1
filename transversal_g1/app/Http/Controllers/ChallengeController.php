@@ -17,13 +17,12 @@ class ChallengeController extends Controller
         $challenge->idChallenged=$request->idChallenged;
         $challenge->idGame=$request->idGame;
         $challenge->save();
-        return response()->json('Challenge done',200);
 
         //
     }
     public function checkChallenge(Request $request){
         $challenged=DB::select('SELECT DISTINCT nickname AS challengedName, idChallenged FROM challenges JOIN users ON id=idChallenged WHERE id='.$request->idChallenged);
-        $challenger=DB::select('SELECT nickname AS challengerName, idChallenger, idGame, winner FROM challenges JOIN users ON users.id=idChallenger WHERE users.id='.$request->idChallenged);
+        $challenger=DB::select('SELECT nickname AS challengerName, idChallenger, idGame FROM challenges JOIN users ON id=idChallenger WHERE idChallenged='.$request->idChallenged);
         return response()->json(['challenger'=>$challenger, 'challenged'=>$challenged]);
         //uwu
     }
@@ -41,6 +40,5 @@ class ChallengeController extends Controller
             $winner=$request->idChallenger;
         }
         $winner = DB::update(DB::raw('UPDATE challenges SET winner='.$winner.' WHERE idChallenged = (SELECT id FROM users WHERE id='.$request->idChallenged.') and idGame= (SELECT id FROM games where id='.$request->idGame.')'));
-        return response()->json('Winner set',200);
-    }
+        return response()->json('Winner set',200); }
 }
