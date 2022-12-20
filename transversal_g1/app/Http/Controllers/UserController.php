@@ -34,6 +34,13 @@ class UserController extends Controller
 
         //
     }
+    public function setExp(Request $request){
+        $expRaw=DB::select('SELECT SUM(puntuacio)as puntuacioTotal from puntuacions WHERE idUser='.$request->idUser.'');
+        $exp=$expRaw[0]->puntuacioTotal/2000;
+        DB::table('users')->where('id',$request->idUser)->update(['exp',$exp]);
+
+    }
+
     public function login(Request $request)
     {
 
