@@ -22,10 +22,14 @@ class GameController extends Controller
 
 
 
-        $idgame=$game->id;
-        $iduser=$game->iduser;
+
         if($request->type=='challenge'){
-            return response()->json(['idGame'=>$idgame, 'idChallenger'=>$iduser],200);
+            $sql  = "SELECT games.id FROM games JOIN users ON users.id= '$request->idUser' WHERE games.id = (SELECT MAX(games.id) FROM games) ;";
+            $idGame=DB::select($sql);
+            $idgame2=$idGame[0]->id;
+
+            $iduser=$game->iduser;
+            return response()->json(['idGame'=>$idgame2, 'idChallenger'=>$iduser],200);
         } else{
             $game->save();
 
