@@ -551,7 +551,7 @@ const partida = Vue.component("partida", {
         </div>        
     </div>
     <div v-show="!opcionsTriades">
-    
+    <foot></foot>
     </div>
     <div v-show="opcionsTriades">
     <b-col v-for="(preg, index) in preguntesRespostes" v-bind:key="preg.id"> 

@@ -404,10 +404,10 @@ hr{
   .card__options__img>img{
     display: none;
   } 
-  
+
   .card__options__categoria{
     height: fit-content;
-    margin-bottom: 15vh;
+    margin-bottom: 7vh;
     position: relative;
     top: 100%;
   }
