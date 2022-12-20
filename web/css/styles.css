@@ -46,7 +46,9 @@ body {
     background-color: var(--clr-neon);
     border-color: var(--clr-neon);
 }
-
+.navbar__img{
+  width: 5vw;
+}
 
 /* Cards center */
 .card{
@@ -272,6 +274,14 @@ hr{
   .card__ranking, .card__gameday{
     display: none;
   }
+  .navbar__img{
+    width: 25vw;
+  }
+  .footer>a>.btn{
+    font-size: 2vw;
+    margin: 0 2%;
+  }
+  
 } 
 
 
@@ -386,43 +396,48 @@ hr{
 @media (max-width: 950px) {
   .card__options{
     width: 90%;
-    height: 900px;
-    margin-bottom: 3cm;
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20%;
+    box-shadow: none;
   }
   .card__options__img{
-    width: 100%;
-  } 
+    display: block;
+    position: absolute;
+    height: 120vh;
+    width: 80%;
+    left: 5%;
+    
+  }
   .card__options__img>img{
-    width: 40%;
-    position: absolute;
+    display: none;
   } 
-
-  /* .card__select__btn{
-      
-  }  */
   .card__options__difficult{
-    width: 85%;
     height: fit-content ;
-    position: absolute;
-    top: 29vh;
   }
   .card__options__categoria{
     height: fit-content;
-    position: absolute;
-    top: 400px;
-    width: 85%; 
-    
   }
-  
   .card-body{
     display: block;
     width: 100%;
   }
   
   .card__options__difficult__btn, .card__options__categoria__btn{
-    width: 200px;
-    font-size: 2vw;
+    min-width: 100%;
+    width: fit-content;
+    font-size: 20px ;
     margin: 1% 1%;
+  }
+  
+  .card__select__btn{
+    /* display: block; */
+    position: absolute;
+    top: 950px;
+    left: 4vw;
+    height: 5vh;
+    
   }
   
 } 
@@ -519,77 +534,16 @@ hr{
   border-radius: 25%;
 }
 
-#slide1,
-#slide2,
-#slide3,
-#slide4,
-#slide5{
+#slide1{
     background: rgb(41, 40, 40);z-index: 10;
 }
 
-/* Slider Functionality */
-
 /* Active Slide */
-#s1:not(:checked)~#slide1 h1~button,
-#s2:not(:checked)~#slide2 h1~button,
-#s3:not(:checked)~#slide3 h1~button,
-#s4:not(:checked)~#slide4 h1~button,
-#s5:not(:checked)~#slide5 h1~button{
-  opacity: 0.5;
-  pointer-events: none;
-
-}
-
-/* Active Slide */
-#s1:checked~#slide1,
-#s2:checked~#slide2,
-#s3:checked~#slide3,
-#s4:checked~#slide4,
-#s5:checked~#slide5 {
-    box-shadow: 0 13px 26px var(--clr-white), 0 12px 6px var(--clr-ºrkgrey);
+#s1:checked~#slide1{
+    box-shadow: 0 19px 26px var(--clr-white), 0 12px 6px var(--clr-bg);
     transform: translate3d(0%, 0, 0px);
 }
 
-/* Next Slide */
-#s1:checked~#slide2,
-#s2:checked~#slide3,
-#s3:checked~#slide4,
-#s4:checked~#slide5,
-#s5:checked~#slide1 {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3), 0 2px 2px rgba(0, 0, 0, 0.2);
-    transform: translate3d(15%, 0, -100px);
-}
-
-
-/* Next to Next Slide */
-#s1:checked~#slide3,
-#s2:checked~#slide4,
-#s3:checked~#slide5,
-#s4:checked~#slide1,
-#s5:checked~#slide2 {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-    transform: translate3d(30%, 0, -250px);
-}
-
-/* Previous to Previous Slide */
-#s1:checked~#slide4,
-#s2:checked~#slide5,
-#s3:checked~#slide1,
-#s4:checked~#slide2,
-#s5:checked~#slide3 {
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
-    transform: translate3d(-30%, 0, -250px);
-}
-
-/* Previous Slide */
-#s1:checked~#slide5,
-#s2:checked~#slide1,
-#s3:checked~#slide2,
-#s4:checked~#slide3,
-#s5:checked~#slide4 {
-    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3), 0 2px 2px rgba(0, 0, 0, 0.2);
-    transform: translate3d(-15%, 0, -100px);
-}
 
 .quiz_index_pregunta{
   position: absolute;
@@ -687,7 +641,7 @@ margin: 5vh auto;
 width: 50vw;
 height: 35vw;
 }
-@media (max-width: 1050px) {
+@media (max-width: 980px) {
   .quiz__img{
     display: none;
   }
@@ -696,7 +650,7 @@ height: 35vw;
     top: 10vw;
     left: 6%;
     width: 86%;
-    min-height: 65vh;
+    min-height: 62vh;
   }
   .counter{
     position: absolute;
@@ -704,20 +658,23 @@ height: 35vw;
     left: 50%;
     transform: translate(-50%, -40%);
   }
+  .quiz_index_pregunta{
+    font-size: 8vw ;
+  }
   #slide1{
     display: flex;
     flex-direction: column;
     align-items: center;
   }
   .slide1_pregunta{
-    font-size:4vw ;
+    font-size: 6vw ;
     margin-top: 8%;
 
   }
   .slide1_btn{
-    min-height: 10%;
+    min-height: 15%;
     height: fit-content;
-    min-width: 43%;
+    min-width: 80%;
     width: fit-content;
     font-size:4vw;
   }
@@ -727,6 +684,7 @@ height: 35vw;
     align-items: flex-end;
     justify-content: center;
     flex-direction: row;
+    margin: 0 2vw;
   } 
   
 

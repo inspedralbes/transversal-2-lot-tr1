@@ -126,7 +126,7 @@ Vue.component("navbar", {
     template: `<div>
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
-            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" style="width: 5vw;"></router-link></a>
+            <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" class="navbar__img"></router-link></a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -347,6 +347,7 @@ const partida = Vue.component("partida", {
     <div v-show="!opcionsTriades" class="card__options">
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
+            <hr>
             <fieldset class="card-body" >
                 <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button>
                 <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> 
@@ -364,6 +365,7 @@ const partida = Vue.component("partida", {
         </div>
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
+            <hr>
             <div class="card-body">
                 <b-button @click="selectCategory = 0; categoria = 'history'" v-bind:class="selectCategory == 0 ? selected : ''" class="btn card__options__categoria__btn">History</b-button>
                 <b-button @click="selectCategory = 1; categoria = 'film_and_tv'" v-bind:class="selectCategory == 1 ? selected : ''" class="btn card__options__categoria__btn">Film & TV</b-button>
@@ -426,13 +428,13 @@ const partida = Vue.component("partida", {
             if (num == 1) {
                 this.dadesPartida.punts += num;
                 if (userStore().logged) {
-                    document.querySelector(".check:nth-child(" + (
+                    document.querySelector(".progess__ball__individual:nth-child(" + (
                         index + 1
                     ) + ")").style.backgroundColor = "green";
                 }
             } else {
                 if (userStore().logged) {
-                    document.querySelector(".check:nth-child(" + (
+                    document.querySelector(".progess__ball__individual:nth-child(" + (
                         index + 1
                     ) + ")").style.backgroundColor = "red";
                 }
@@ -526,7 +528,7 @@ Vue.component("pregunta", {
     
     <section id="slider">
         <section id="slide1">
-            <h2 class="quiz_index_pregunta"> Pregunta <b> {{ index+1 }}</b> </h2>
+            <h2 class="quiz_index_pregunta"> Question <b> {{ index+1 }}</b> </h2>
             <h1 class="slide1_pregunta">{{ infoPreguntes.question }}</h1>
             <b-button :variant="b0" @click="respostaCorrecte(0)" class="slide1_btn" type="button">{{ respostesDesordenades[0] }}</b-button>
             <b-button :variant="b1" @click="respostaCorrecte(1)" class="slide1_btn" type="button">{{ respostesDesordenades[1] }}</b-button>

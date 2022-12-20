@@ -27,6 +27,7 @@ Route::get('/sendAllUsers', [UserController::class , 'showAllUsers']);
 Route::post('/register-user',[UserController::class, 'store']);
 Route::post('/edit-profile',[UserController::class, 'profileUpdate']);
 Route::post('/login',[UserController::class, 'login']);
+Route::post('/setExp',[UserController::class,'setExp']);
 //Puntuacions
 Route::post('/store-points', [PuntuacioController::class , 'store']);
 Route::get('getRanking',[PuntuacioController::class,'sendRanking']);
