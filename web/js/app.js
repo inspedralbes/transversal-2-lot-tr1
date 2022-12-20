@@ -124,7 +124,7 @@ const ranking = Vue.component("ranking", {
 });
 Vue.component("navbar", {
     template: `<div>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" class="navbar__img"></router-link></a>
 
@@ -152,8 +152,8 @@ Vue.component("navbar", {
                 <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
                 <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
-                <div v-show="isLogged">
-                    <notificacions></notificacions>
+                <div v-show="isLogged" >
+                    <notificacions style="display: block"></notificacions>
                     <perfil></perfil>
                 </div>
             </div>
@@ -215,7 +215,7 @@ Vue.component("perfil", {
 
 Vue.component("notificacions", {
     data: function () {
-        return {llistaChallenge: "", jsonChallenge: "", infoChallenge: ""};
+        return {llistaChallenge: ""};
     },
     template: `<div>
     <button v-b-modal.notificacions @click="llistaChallenges" class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
@@ -225,7 +225,7 @@ Vue.component("notificacions", {
         <div class="titol__modal__notifications">Notifications</div>
         <div v-for="(challenge, index) in llistaChallenge.challenger" v-if="llistaChallenge.challenger != ''">
             {{ challenge.challengerName }}
-            <router-link v-bind:to="{path:'/partida/challenge', query: {idGame: challenge.idGame}}"><b-button @click="infoChallenges(index)">Accept</b-button></router-link><br>
+            <router-link v-bind:to="{path:'/partida/challenge', query: {idGame: challenge.idGame}}"><b-button>Accept</b-button></router-link><br>
         </div>
         <div v-else>
             <h2>You haven't recieved any challenge yet!</h2>
@@ -243,11 +243,6 @@ Vue.component("notificacions", {
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/checkChallenges?idChallenged=" + userStore().data.id).then((response) => response.json()).then((data) => {
                 this.llistaChallenge = data;
             });
-        },
-        infoChallenges(index) {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame=" + this.llistaChallenge.challenger[index].idGame).then((response) => response.json()).then((data) => {
-                this.jsonChallenge = data;
-            })
         }
     }
 });
@@ -269,13 +264,13 @@ const home = Vue.component("home", {
         <div class="card card__ranking" v-show="isLogged">
             <p class="ranking__gameday__neonText">Ranking</p>
             <hr>
-            <div class="table_ranking effect__neon__mix">
-            <b-tabs content-class="mt-3 " justified>
-                <b-tab title="Global" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
-                <b-tab title="Easy"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
-                <b-tab title="Medium"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
-                <b-tab title="Hard"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
-            </b-tabs>
+            <div class=" effect__neon__mix">
+                <b-tabs content-class="mt-3 " justified>
+                    <b-tab title="Global" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
+                    <b-tab title="Easy"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
+                    <b-tab title="Medium"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
+                    <b-tab title="Hard"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
+                </b-tabs>
             </div>
         </div>
         <div class="card card__logo" >
@@ -287,7 +282,7 @@ const home = Vue.component("home", {
         </div>
         <div class="card card__gameday" v-show="isLogged">
             <p class="ranking__gameday__neonText">Game of the day</p>
-            <div class="table_ranking effect__neon__mix">
+            <div class="effect__neon__mix">
                 <b-table striped hover :items="global"></b-table>
             </div>
             <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
@@ -319,6 +314,7 @@ const partida = Vue.component("partida", {
             selected: "selected",
             selectDifficulty: -1,
             selectCategory: -1,
+            idGame: -1,
             dadesPartida: {
                 punts: 0,
                 tempsPartida: 0,
@@ -330,13 +326,13 @@ const partida = Vue.component("partida", {
         if (this.tipus == "daily") {
             this.opcionsTriades = true;
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/daily").then((response) => response.json()).then((data) => {
-                this.preguntesRespostes = data;
+                this.preguntesRespostes = JSON.parse(data);
             });
         }
         if (this.tipus == "challenge") {
             this.opcionsTriades = true;
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame="+this.$route.query.idGame).then((response) => response.json()).then((data) => {
-                this.preguntesRespostes = JSON.parse(data);
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/sendChallengeGame?idGame=" + this.$route.query.idGame).then((response) => response.json()).then((data) => {
+                this.preguntesRespostes = JSON.parse(data[0].json);
             });
         }
 
@@ -351,7 +347,8 @@ const partida = Vue.component("partida", {
     <div v-show="!opcionsTriades" class="card__options">
         <div class="card border-secondary card__options__difficult"> 
             <div class="card-header">Difficulty</div>
-            <fieldset class="card-body" >
+            <hr>
+            <fieldset class="card-body">
                 <b-button @click="selectDifficulty = 0; dificultat = 'easy'" v-bind:class="selectDifficulty == 0 ? selected : ''" class="btn card__options__difficult__btn">Easy</b-button>
                 <b-button  @click="selectDifficulty = 1; dificultat = 'medium'" v-bind:class="selectDifficulty == 1 ? selected : ''" class="btn card__options__difficult__btn">Medium</b-button> 
                 <b-button  @click="selectDifficulty = 2; dificultat = 'hard'" v-bind:class="selectDifficulty == 2 ? selected : ''" class="btn card__options__difficult__btn">Hard</b-button>
@@ -368,6 +365,7 @@ const partida = Vue.component("partida", {
         </div>
         <div class="card border-secondary card__options__categoria"> 
             <div class="card-header">Category</div>
+            <hr>
             <div class="card-body">
                 <b-button @click="selectCategory = 0; categoria = 'history'" v-bind:class="selectCategory == 0 ? selected : ''" class="btn card__options__categoria__btn">History</b-button>
                 <b-button @click="selectCategory = 1; categoria = 'film_and_tv'" v-bind:class="selectCategory == 1 ? selected : ''" class="btn card__options__categoria__btn">Film & TV</b-button>
@@ -400,7 +398,7 @@ const partida = Vue.component("partida", {
             <div class="final_quiz_punts"> {{dadesPartida.punts}}/10</div> 
             <div class="final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
             <div class="final_quiz_pts_total"> {{puntuacioTotal}} </div>
-            <challenge v-if="isLogged"></challenge>
+            <challenge v-if="gameSaved != 'Save Game'" :idGame=idGame></challenge>
             <b-button v-if="isLogged" @click="addGame();" class="final_quiz_save_btn">{{ gameSaved }}</b-button>
             <b-button v-if="!isLogged" v-b-modal.login class="final_quiz_save_btn">{{ gameSaved }}</b-button>
             <router-link to="/"><b-button class="final_quiz_play_btn" v-if="tipus == 'normal'">Play Again</b-button></router-link to="/">
@@ -446,7 +444,6 @@ const partida = Vue.component("partida", {
             }
         },
         buscarQuiz: function () {
-            console.log(this.categoria + ' ' + this.dificultat);
             if (this.categoria != "" && this.dificultat != "") {
                 fetch("https://the-trivia-api.com/api/questions?categories=" + this.categoria + "&limit=10&difficulty=" + this.dificultat).then((response) => response.json()).then((data) => {
                     this.preguntesRespostes = data;
@@ -484,9 +481,11 @@ const partida = Vue.component("partida", {
             fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
                 method: "POST",
                 body: enviarPartida
+            }).then((response) => response.json()).then((data) => {
+                this.idGame = data;
             }).then(() => {
                 const enviarPuntuacio = new FormData();
-                enviarPuntuacio.append("puntuacio", this.puntuacioTotal);
+                enviarPuntuacio.append("puntuacio", (this.puntuacioTotal * numDificultat));
                 enviarPuntuacio.append("idUser", userStore().data.id);
 
                 fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
@@ -621,6 +620,9 @@ Vue.component("pregunta", {
 });
 
 Vue.component("challenge", {
+    props: [
+        "idGame"
+    ],
     data: function () {
         return {usuaris: ""};
     },
@@ -633,7 +635,7 @@ Vue.component("challenge", {
         <div v-if="usuaris != ''">
             <div v-for="usuari in usuaris">
             {{ usuari.nickname }}
-            <b-button> Challenge </b-button>
+            <b-button @click="enviarChallenge(usuari.id)"> Challenge </b-button>
             </div>
         </div>
         <div v-else>
@@ -653,9 +655,15 @@ Vue.component("challenge", {
                 this.usuaris = data;
             });
         },
-        enviarChallenge() {
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/challengeUser?idGame=" + userStore().data.id).then((response) => response.json()).then((data) => {
-                this.usuaris = data;
+        enviarChallenge(index) {
+            const challenge = new FormData();
+            challenge.append("idGame", this.idGame);
+            challenge.append("idChallenged", index);
+            challenge.append("idChallenger", userStore().data.id);
+
+            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/challengeUser", {
+                method: "POST",
+                body: challenge
             });
         }
     }
