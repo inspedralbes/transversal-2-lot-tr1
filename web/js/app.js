@@ -153,7 +153,7 @@ Vue.component("navbar", {
                 <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
                 <div v-show="isLogged" >
-                    <notificacions style="display: block"></notificacions>
+                    <notificacions style="display: inline-block"></notificacions>
                     <perfil></perfil>
                 </div>
             </div>
@@ -224,7 +224,7 @@ Vue.component("notificacions", {
     <div class="d-block text-center">
         <div class="titol__modal__notifications">Notifications</div>
         <div v-for="(challenge, index) in llistaChallenge.challenger" v-if="llistaChallenge.challenger != ''">
-            {{ challenge.challengerName }}
+            {{ challenge.challengerName }} challenged you you!
             <router-link v-bind:to="{path:'/partida/challenge', query: {idGame: challenge.idGame}}"><b-button>Accept</b-button></router-link><br>
         </div>
         <div v-else>
@@ -266,10 +266,10 @@ const home = Vue.component("home", {
             <hr>
             <div class=" effect__neon__mix">
                 <b-tabs content-class="mt-3 " justified>
-                    <b-tab title="Global" class="titol__first__ranking" active><b-table striped hover :items="global"></b-table></b-tab>
-                    <b-tab title="Easy"><p>I'm the second tab</p><b-table striped hover :items="facil"></b-table></b-tab>
-                    <b-tab title="Medium"><p>I'm the tab with the very, very long title</p><b-table striped hover :items="normal"></b-table></b-tab>
-                    <b-tab title="Hard"><p>I'm a disabled tab!</p><b-table striped hover :items="dificil"></b-table></b-tab>
+                    <b-tab title="Global" class="titol__first__ranking" active><canvas class="ranking" id="topScore"></canvas></b-tab>
+                    <b-tab title="Easy"><p>I'm the second tab</p>    </b-tab>
+                    <b-tab title="Medium"><p>I'm the tab with the very, very long title</p>    </b-table></b-tab>
+                    <b-tab title="Hard"><p>I'm a disabled tab!</p>   </b-tab>
                 </b-tabs>
             </div>
         </div>
@@ -283,7 +283,7 @@ const home = Vue.component("home", {
         <div class="card card__gameday" v-show="isLogged">
             <p class="ranking__gameday__neonText">Game of the day</p>
             <div class="effect__neon__mix">
-                <b-table striped hover :items="global"></b-table>
+                
             </div>
             <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
         </div>
@@ -297,6 +297,57 @@ const home = Vue.component("home", {
         isLogged() {
             return userStore().logged;
         }
+    },
+    mounted() {
+        let users;
+        let topScores;
+
+        fetch(`http://trivial6.alumnes.inspedralbes.cat/transversal-2-lot-tr6/web/public/api/search-top-scores`).then(response => response.json()).then(data => {
+            users = [data[0].name];
+            topScores = [data[0].score];
+
+            for (let i = 0; i < data.length; i++) {
+                let error = false;
+                for (let y = 0; y < users.length; y++) {
+                    if (data[i].name == users[y]) {
+                        error = true;
+                        topScores[y] += data[i].score;
+                    }
+                }
+
+                if (! error) {
+                    users.push(data[i].name);
+                    topScores.push(data[i].score);
+                }
+            }
+
+            const ChartScore = document.getElementById('topScore');
+
+            new Chart(ChartScore, {
+                type: 'bar',
+                data: {
+                    labels: users,
+                    datasets: [
+                        {
+                            label: 'Global',
+                            data: topScores,
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        });
+
+        fetch(`http://trivial6.alumnes.inspedralbes.cat/transversal-2-lot-tr6/web/public/api/search-top-games`).then(response => response.json()).then(data => {
+            this.ranking = data;
+        });
     }
 });
 
@@ -492,6 +543,8 @@ const partida = Vue.component("partida", {
                     method: "POST",
                     body: enviarPuntuacio
                 });
+
+
             });
         }
     }
@@ -620,9 +673,7 @@ Vue.component("pregunta", {
 });
 
 Vue.component("challenge", {
-    props: [
-        "idGame"
-    ],
+    props: ["idGame"],
     data: function () {
         return {usuaris: ""};
     },
