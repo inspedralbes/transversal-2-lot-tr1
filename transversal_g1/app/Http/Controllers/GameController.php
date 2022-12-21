@@ -41,20 +41,6 @@ class GameController extends Controller
             return response()->json([$game->id,$game->iduser],200);
                 break;
         }
-        if($request->type=='challenge'){
-            $sql  = "SELECT games.id FROM games JOIN users ON users.id= '$request->iduser' WHERE games.id = (SELECT MAX(games.id) FROM games) ;";
-            $idGame=DB::select($sql);
-            $idgame2=$idGame[0]->id;
-
-            $iduser=$game->iduser;
-            return response()->json(['idGame'=>$idgame2, 'idChallenger'=>$iduser],200);
-        } else{
-
-            $game->save();
-
-            return response()->json([$game->id,$game->iduser],200);
-        }
-
 
         //
     }
