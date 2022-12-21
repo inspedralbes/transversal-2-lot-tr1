@@ -34,11 +34,10 @@ class GameController extends Controller
             case 'daily':
                 return response()->json(200);
                 break;
-            case 'normal':
+            default:
+                $game->save();
 
-            $game->save();
-
-            return response()->json([$game->id,$game->iduser],200);
+                return response()->json([$game->id,$game->iduser],200);
                 break;
         }
 
