@@ -50,7 +50,9 @@ Dins d'aquesta carpeta haurem de fer un git clone, i amb aixo tots els fitxers d
 Una vegada el projecte estigui clonat, hem de fer dins de la carpeta transversal_g1 un composer install. Aixo el que fara, sera instalar totes les dependencies i carpetes de laravel per a que el projecte carregui.
 
 ![image composer install](composer_install.PNG )
+
 Haurem de agafar el .env.example, ja que el .env no es clona, i haurem de canviar els respectius per la base de dades que tu vulguis utilitzar.
 
 ![image Cron](env.example.PNG)
+
 Quan tinguem fet tot aixo, farem un php artisan migrate, i ja tindrem el projecte muntat
