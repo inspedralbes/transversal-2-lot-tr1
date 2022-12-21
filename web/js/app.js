@@ -124,6 +124,7 @@ const ranking = Vue.component("ranking", {
 });
 Vue.component("navbar", {
     template: `<div>
+    
     <nav class="navbar navbar-expand navbar-dark bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand"><router-link to="/"><img src="img/logo_omg_navbar.png" alt="Logo" class="navbar__img"></router-link></a>
@@ -134,23 +135,22 @@ Vue.component("navbar", {
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
+                    <li class="nav-item" >
                         <a class="nav-link" > <router-link to="/"><button type="button"
-                        class="btn btn-outline-secondary">Home</button></router-link>    </a>
+                        class="btn btn-outline-secondary navbar__btn__home">Home</button></router-link>    </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" >
                         <a class="nav-link" ><router-link to="/partida/normal"><button type="button"
-                                class="btn btn-outline-secondary">Play</button></router-link></a>
+                                class="btn btn-outline-secondary navbar__btn__play">Play</button></router-link></a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" >
                         <a class="nav-link" href="/ranking"><router-link to="/ranking"><button type="button"
-                                class="btn btn-outline-secondary">Ranking</button></router-link></a></a>
+                                class="btn btn-outline-secondary navbar__btn__ranking">Ranking</button></router-link></a></a>
                     </li>
 
                 </ul>
                 <div v-show="!isLogged">
                 <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
-                <button v-b-modal.navbar class="btn btn-secondary" style="border-radius: 10%"><i class='bx bx-menu'></i></button>
                 </div>
                 <div v-show="isLogged" >
                     <notificacions style="display: inline-block"></notificacions>
@@ -801,7 +801,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 000);
+                }, 1000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);

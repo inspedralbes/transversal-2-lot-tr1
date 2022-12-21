@@ -46,8 +46,10 @@ body {
     background-color: var(--clr-neon);
     border-color: var(--clr-neon);
 }
+
+
 .navbar__img{
-  width: 5vw;
+  width: 7vw;
 }
 
 /* Cards center */
@@ -275,7 +277,11 @@ hr{
     display: none;
   }
   .navbar__img{
-    width: 25vw;
+    width: 10vw;
+  }
+  .navbar__btn__home, .navbar__btn__play, .navbar__btn__ranking{
+    width: fit-content;
+    font-size: 2vw;
   }
   .footer>a>.btn{
     font-size: 2vw;
