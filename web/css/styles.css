@@ -47,6 +47,9 @@ body {
     border-color: var(--clr-neon);
 }
 
+.navbar__btn__daily, .navbar__btn__ranking{
+  display: none;
+}
 
 .navbar__img{
   width: 7vw;
@@ -279,9 +282,22 @@ hr{
   .navbar__img{
     width: 10vw;
   }
-  .navbar__btn__home, .navbar__btn__play, .navbar__btn__ranking{
-    width: fit-content;
+  .navbar__btn__home, .navbar__btn__play{
+    display: none;
+  }
+  .navbar__btn__daily, .navbar__btn__ranking{
+    display: inline-block;
+    position: absolute;
+    top: 3vh;
+    left: 30%;
     font-size: 2vw;
+  }
+  .navbar__btn__daily{
+    width: 25vw;
+  }
+  .navbar__btn__ranking{
+    left: 15%;
+    width: 13vw;
   }
   .footer>a>.btn{
     font-size: 2vw;
@@ -289,7 +305,6 @@ hr{
   }
   
 } 
-
 
 .card__options{
   height: fit-content;

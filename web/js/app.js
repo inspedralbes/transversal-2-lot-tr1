@@ -114,14 +114,7 @@ Vue.component("login", {
         }
     }
 });
-const ranking = Vue.component("ranking", {
-    template: `<div>
-    <navbar></navbar>
-    
-    <foot></foot>
-    </div>`,
-    mounted() {}
-});
+
 Vue.component("navbar", {
     template: `<div>
     
@@ -135,19 +128,17 @@ Vue.component("navbar", {
             </button>
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav me-auto">
-                    <li class="nav-item" >
-                        <a class="nav-link" > <router-link to="/"><button type="button"
-                        class="btn btn-outline-secondary navbar__btn__home">Home</button></router-link>    </a>
+                    <li class="nav-item" v-show="isLogged"> <router-link to="/partida/daily"><button type="button"
+                        class="btn btn-outline-secondary navbar__btn__daily">Daily Game</button></router-link> 
                     </li>
                     <li class="nav-item" >
-                        <a class="nav-link" ><router-link to="/partida/normal"><button type="button"
-                                class="btn btn-outline-secondary navbar__btn__play">Play</button></router-link></a>
+                    <router-link to="/"><button type="button"
+                        class="btn btn-outline-secondary navbar__btn__home">Home</button></router-link>  
                     </li>
                     <li class="nav-item" >
-                        <a class="nav-link" href="/ranking"><router-link to="/ranking"><button type="button"
-                                class="btn btn-outline-secondary navbar__btn__ranking">Ranking</button></router-link></a></a>
+                        <router-link to="/partida/normal"><button type="button"
+                                class="btn btn-outline-secondary navbar__btn__play">Play</button></router-link>
                     </li>
-
                 </ul>
                 <div v-show="!isLogged">
                 <button v-b-modal.login class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="person-fill"></b-icon></button>
@@ -159,8 +150,9 @@ Vue.component("navbar", {
             </div>
         </div>
     </nav>
-
-
+    
+    
+    
 
     <b-modal id="login" hide-footer hide-header>
     <div class="d-block text-center">
@@ -191,15 +183,15 @@ Vue.component("perfil", {
     <button v-b-modal.perfil block @click="$bvModal.show('perfil')" class="btn btn-secondary my-2 my-sm-0"><b-icon icon="person-fill"></b-icon></button>
     
     <b-modal id="perfil" hide-footer hide-header>
-    <div class="d-block text-center">
-        <div class="titol__modal__login">{{ getDataUser.nickname }}'s Profile</div>
-        <p>Username: {{ getDataUser.nickname }}</p>
-        <p>Description: {{ getDataUser.description }}</p>
-        <p>Email: {{ getDataUser.email }}</p>
-        <p>Creation date: {{ getDataUser.created_at }}</p>
-        <b-button @click="LogOut(); $bvModal.hide('perfil');">Log Out</b-button>
-    </div>
-  </b-modal>
+        <div class="d-block text-center">
+            <div class="titol__modal__login">{{ getDataUser.nickname }}'s Profile</div>
+            <p>Username: {{ getDataUser.nickname }}</p>
+            <p>Description: {{ getDataUser.description }}</p>
+            <p>Email: {{ getDataUser.email }}</p>
+            <p>Creation date: {{ getDataUser.created_at }}</p>
+            <b-button @click="LogOut(); $bvModal.hide('perfil');">Log Out</b-button>
+        </div>
+    </b-modal>
   </div>`,
     computed: {
         getDataUser() {
@@ -260,6 +252,9 @@ Vue.component("foot", {template: `<div class="footer bg-primary">
 const home = Vue.component("home", {
     template: `<div>
     <navbar></navbar>
+    <li class="nav-item"  v-show="isLogged">
+        <a class="nav-link" > <button v-b-modal.ranking block @click="$bvModal.show('ranking')" type="button" class="btn btn-outline-secondary navbar__btn__ranking">Ranking</button></a>
+    </li>
     <div class="cards__home" >
         <div v-show="!isLogged"></div>
         <div class="card card__ranking" v-show="isLogged">
@@ -295,6 +290,18 @@ const home = Vue.component("home", {
             </div>
         </div>
     </div>
+    <b-modal id="ranking" hide-footer hide-header>
+            <p class="ranking__gameday__neonText">Ranking</p>
+            <hr>
+            <div class=" effect__neon__mix">
+                <b-tabs content-class="mt-3 " justified>
+                    <b-tab title="Global" class="titol__first__ranking" active><canvas class="ranking" id="ranking-global"></canvas></b-tab>
+                    <b-tab title="Easy"><canvas class="ranking" id="ranking-facil"></canvas></b-tab>
+                    <b-tab title="Medium"><canvas class="ranking" id="ranking-normal"></canvas></b-tab>
+                    <b-tab title="Hard"><canvas class="ranking" id="ranking-dificil"></canvas></b-tab>
+                </b-tabs>
+            </div>
+    </b-modal>
     <foot></foot>
     </div>`,
     data: function () {
@@ -525,6 +532,9 @@ const partida = Vue.component("partida", {
     template: `<div>
     <div v-show="!opcionsTriades || preguntaActual == 10">
         <navbar></navbar>
+        <li class="nav-item"  v-show="isLogged">
+        <a class="nav-link" > <button v-b-modal.ranking block @click="$bvModal.show('ranking')" type="button" class="btn btn-outline-secondary navbar__btn__ranking">Ranking</button></a>
+    </li>
     </div>
     <div v-show="!opcionsTriades" class="card__options">
         <div class="card border-secondary card__options__difficult"> 
@@ -896,10 +906,7 @@ const routes = [
         path: "/partida/:tipus",
         component: partida,
         props: true
-    }, {
-        path: "/ranking",
-        component: ranking
-    },
+    }
 ];
 
 const router = new VueRouter({routes});
