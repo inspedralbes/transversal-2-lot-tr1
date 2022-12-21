@@ -36,7 +36,7 @@ Usuari: Pedra
 Email: pedra@pedra.cat
 password: pedrapedra01
 
-# Swagger: <a href="https://app.swaggerhub.com/apis/OscarLealVeyeta/tr2/0.1#/"></a>
+# Swagger: <a href="https://app.swaggerhub.com/apis/OscarLealVeyeta/tr2/0.1#/">link Swagger</a>
 
 
 # Documentacio Desplegament:
