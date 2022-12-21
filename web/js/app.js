@@ -563,7 +563,7 @@ const partida = Vue.component("partida", {
     </div>
 
     <div v-if="preguntaActual == 10">
-        <section id="slider_final_quiz">
+        <section class="slider_final_quiz">
             <div class="titol__modal__gameover game_over">Game <b>Over</b></div>
             <div class="final_quiz_punts"> {{dadesPartida.punts}}/10</div> 
             <div class="final_quiz_segons"> {{dadesPartida.tempsPartida}}s</div>
@@ -801,7 +801,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 1000);
+                }, 000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
