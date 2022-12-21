@@ -1,6 +1,6 @@
 const userStore = Pinia.defineStore('usuario', {
     state() {
-        return {logged: false, data: {}}
+        return {logged: false, data: {}, daily: false}
     }
 })
 
@@ -218,7 +218,7 @@ Vue.component("notificacions", {
         return {llistaChallenge: ""};
     },
     template: `<div>
-    <button v-b-modal.notificacions @click="llistaChallenges" class="btn btn-secondary" style="border-radius: 10%"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
+    <button v-b-modal.notificacions @click="llistaChallenges" class="btn btn-secondary" style="border-radius: 10%; position: absolute; top: 42%; right: 60px;"><b-icon icon="bell-fill" style="width: 16px; height: 16px;"></b-icon></button>
     
     <b-modal id="notificacions" hide-footer hide-header>
     <div class="d-block text-center">
@@ -253,6 +253,7 @@ Vue.component("foot", {template: `<div class="footer bg-primary">
     <a href="https://www.linkedin.com/in/oscar-leal-garc%C3%ADa-6b366019b/" target="_blank"><button type="button" class="btn btn-secondary">Oscar Leal</button></a>
     <a href="https://www.linkedin.com/in/mart%C3%AD-p%C3%A9rez-ballester-236319256/" target="_blank"><button type="button" class="btn btn-secondary">Marti Sala</button> </a>
     <a href="https://www.linkedin.com/in/gurpreet-singh-0741021b2" target="_blank"><button type="button" class="btn btn-secondary">Gurpreet Singh</button></a>
+    <a href="https://the-trivia-api.com/" target="_blank"><button type="button" class="btn btn-secondary">Trivia API</button></a>
     
   </div>`});
 
@@ -266,7 +267,7 @@ const home = Vue.component("home", {
             <hr>
             <div class=" effect__neon__mix">
                 <b-tabs content-class="mt-3 " justified>
-                    <b-tab title="Global" class="titol__first__ranking" active><canvas class="ranking" id="ranking-global"></b-tab>
+                    <b-tab title="Global" class="titol__first__ranking" active><canvas class="ranking" id="ranking-global"></canvas></b-tab>
                     <b-tab title="Easy"><canvas class="ranking" id="ranking-facil"></canvas></b-tab>
                     <b-tab title="Medium"><canvas class="ranking" id="ranking-normal"></canvas></b-tab>
                     <b-tab title="Hard"><canvas class="ranking" id="ranking-dificil"></canvas></b-tab>
@@ -286,7 +287,12 @@ const home = Vue.component("home", {
                 <canvas class="ranking" id="ranking-diaria"></canvas>
             </div>
             <br>
-            <router-link to="/partida/daily"><a class="btn-game-day btn btn-outline-secondary">Game of the day</a></router-link>
+            <div v-if="!isdailyDone">
+                <router-link to="/partida/daily"><b-button @click="dailyDone" class="btn-game-day btn btn-outline-secondary">Game of the day</b-button></router-link>
+            </div>
+            <div v-else="isdailyDone">
+                <router-link to="/partida/daily"><b-button class="btn-game-day btn btn-outline-secondary" disabled>Game of the day</b-button></router-link>
+            </div>
         </div>
     </div>
     <foot></foot>
@@ -297,6 +303,12 @@ const home = Vue.component("home", {
     computed: {
         isLogged() {
             return userStore().logged;
+        },
+        dailyDone() {
+            userStore().daily == true;
+        },
+        isdailyDone() {
+            return userStore().daily;
         }
     },
     mounted() {
@@ -648,47 +660,60 @@ const partida = Vue.component("partida", {
                     break;
             }
 
-            enviarPartida.append("iduser", userStore().data.id);
-            enviarPartida.append("type", this.tipus);
-            enviarPartida.append("difficulty", numDificultat);
-            enviarPartida.append("category", this.preguntesRespostes[0].category);
-            enviarPartida.append("json", JSON.stringify(this.preguntesRespostes));
+            if (this.tipus != "daily") {
+                enviarPartida.append("iduser", userStore().data.id);
+                enviarPartida.append("type", this.tipus);
+                enviarPartida.append("difficulty", numDificultat);
+                enviarPartida.append("category", this.preguntesRespostes[0].category);
+                enviarPartida.append("json", JSON.stringify(this.preguntesRespostes));
 
-            fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
-                method: "POST",
-                body: enviarPartida
-            }).then((response) => response.json()).then((data) => {
-                if (this.tipus != "challenge") {
-                    this.idGame = data[0];
-                    this.idChallenger = data[1];
-                } else {
-                    this.idGame = data.idGame;
-                    this.idChallenger = data.idChallenger;
-                }
-            }).then(() => {
+                fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-game", {
+                    method: "POST",
+                    body: enviarPartida
+                }).then((response) => response.json()).then((data) => {
+                    if (this.tipus != "challenge") {
+                        this.idGame = data[0];
+                        this.idChallenger = data[1];
+                    } else {
+                        this.idGame = data.idGame;
+                        this.idChallenger = data.idChallenger;
+                    }
+                }).then(() => {
+                    const enviarPuntuacio = new FormData();
+                    enviarPuntuacio.append("puntuacio", (this.puntuacioTotal * numDificultat));
+                    enviarPuntuacio.append("idUser", userStore().data.id);
+
+                    fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
+                        method: "POST",
+                        body: enviarPuntuacio
+                    });
+
+                    if (this.tipus == "challenge") {
+                        const enviarGuanyador = new FormData();
+                        enviarGuanyador.append("idChallenger", this.idChallenger);
+                        enviarGuanyador.append("idChallenged", userStore().data.id);
+                        enviarGuanyador.append("idGame", this.idGame);
+
+                        fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/setWinner", {
+                            method: "POST",
+                            body: enviarGuanyador
+                        });
+                    }
+
+
+                });
+            } else {
                 const enviarPuntuacio = new FormData();
                 enviarPuntuacio.append("puntuacio", (this.puntuacioTotal * numDificultat));
                 enviarPuntuacio.append("idUser", userStore().data.id);
+                enviarPuntuacio.append("idGame", 0);
+                enviarPuntuacio.append("type", this.tipus);
 
                 fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/store-points", {
                     method: "POST",
                     body: enviarPuntuacio
                 });
-
-                if (this.tipus == "challenge") {
-                    const enviarGuanyador = new FormData();
-                    enviarGuanyador.append("idChallenger", this.idChallenger);
-                    enviarGuanyador.append("idChallenged", userStore().data.id);
-                    enviarGuanyador.append("idGame", this.idGame);
-
-                    fetch("http://trivial1.alumnes.inspedralbes.cat/transversal-2-lot-tr1/transversal_g1/public/api/setWinner", {
-                        method: "POST",
-                        body: enviarGuanyador
-                    });
-                }
-
-
-            });
+            }
         }
     }
 });
@@ -801,7 +826,7 @@ Vue.component("pregunta", {
                         this.$emit("sumarTemps", (this.segons - 20) * -1);
                     }
                     this.countDownTimer();
-                }, 1000);
+                }, 000);
             }
             if (this.segons == 0) {
                 this.$emit("sumaPunts", 0);
